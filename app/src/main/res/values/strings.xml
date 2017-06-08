@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FoodOnMyMind</string>
+    <string name="search_hint">Search pasta</string>
+    <string name="search_title">search item</string>
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--note for the longest time this wasn't working (ie not showing up as a search bar - it would
+just show up as @string/search_title under the normal menu 3 dot button but not as a proper
+search bar at the top like the BasicContactables androidStudio example. Needed to add another
+namespace that was res-auto and then use that to assign to the bottom two tags and then
+it showed it correctly. I think it is because I have imported searchView library in my
+app's package and thus it will assign this menu item to the correct SearchView class rather
+than just using the default android namespace definition of a single menu item.
+Note res-auto gets replaced by my app's package name at run time thus finding all packages that
+are linked to my specific project (ie the android.support.v7.widget.SearchView)
+
+Note: added the ic_search drawable by right clicking on the drawable directory and then going to
+new->image asset
+
+Also note: if don't have that code in the MainActivity associated the search view then the below
+will still work and show a search view just not the searchview defined in searchable.xml just will
+show some default one with a default hint-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/search"
+        android:title="@string/search_title"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+</menu>
