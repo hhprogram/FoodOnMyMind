@@ -2,4 +2,7 @@
     <string name="app_name">FoodOnMyMind</string>
     <string name="search_hint">Search pasta</string>
     <string name="search_title">search item</string>
+    <string name="custom_recipes">Custom Recipes</string>
+    <string name="preset_recipes">Online Recipes</string>
+    <string name="restaurants">Restaurants</string>
 </resources>

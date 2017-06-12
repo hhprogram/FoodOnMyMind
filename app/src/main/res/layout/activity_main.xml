@@ -10,9 +10,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.harrison.foodonmymind.MainActivity">
 
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:orientation="horizontal">
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/box_preset_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/preset_recipes"
+            android:onClick="onBoxOneChecked"/>
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/box_custom_recipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/custom_recipes"
+            android:onClick="onBoxTwoChecked"/>
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/box_restaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/restaurants"
+            android:onClick="onBoxThreeChecked"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+
 </RelativeLayout>
