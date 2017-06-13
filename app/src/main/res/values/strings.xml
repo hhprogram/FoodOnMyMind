@@ -5,4 +5,7 @@
     <string name="custom_recipes">Custom Recipes</string>
     <string name="preset_recipes">Online Recipes</string>
     <string name="restaurants">Restaurants</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

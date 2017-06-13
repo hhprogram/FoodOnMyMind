@@ -33,9 +33,19 @@
             android:text="@string/restaurants"
             android:onClick="onBoxThreeChecked"/>
 
-
-
     </android.support.v7.widget.LinearLayoutCompat>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize">
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
 
 
 </RelativeLayout>
