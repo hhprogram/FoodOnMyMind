@@ -8,18 +8,19 @@
         android:orientation="horizontal">
         <TextView
             android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:text="1.)"/>
+            android:layout_height="match_parent" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_search"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center_horizontal"
         android:text="Title"/>
 
 

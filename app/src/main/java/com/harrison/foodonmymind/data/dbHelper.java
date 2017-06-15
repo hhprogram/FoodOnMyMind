@@ -27,9 +27,9 @@ public class dbHelper extends SQLiteOpenHelper{
                 + " ("
                 + foodContract.CustomRecipes._ID + " integer PRIMARY KEY AUTOINCREMENT"
                 + foodContract.CustomRecipes.TITLE + " text NOT NULL"
-                + foodContract.CustomRecipes.DESC + " text NOT NULL"
                 + foodContract.CustomRecipes.IMG_KEY + " text NOT NULL"
                 + foodContract.CustomRecipes.INGREDIENTS + "text NOT NULL"
+                + foodContract.CustomRecipes.SRC + "text NOT NULL"
                 + " );";
 
         final String SQL_CREATE_FAV = "CREATE TABLE "
@@ -37,10 +37,12 @@ public class dbHelper extends SQLiteOpenHelper{
                 + " ("
                 + foodContract.Favorites._ID + " integer PRIMARY KEY AUTOINCREMENT"
                 + foodContract.Favorites.TITLE + " text NOT NULL"
-                + foodContract.Favorites.DESC + " text NOT NULL"
                 + foodContract.Favorites.IMG_KEY + " text NOT NULL"
                 + foodContract.Favorites.INGREDIENTS + " text NOT NULL"
                 + foodContract.Favorites.ADDR + " text NOT NULL"
+                + foodContract.Favorites.PRICE + " integer NOT NULL"
+                + foodContract.Favorites.RATING + " real NOT NULL"
+                + foodContract.Favorites.SRC + "text NOT NULL"
                 + " );";
 
         final String SQL_CREATE_REST = "CREATE TABLE "
@@ -48,9 +50,10 @@ public class dbHelper extends SQLiteOpenHelper{
                 + " ("
                 + foodContract.Restaurants._ID + " integer PRIMARY KEY AUTOINCREMENT"
                 + foodContract.Restaurants.TITLE + " text NOT NULL"
-                + foodContract.Restaurants.DESC + " text NOT NULL"
                 + foodContract.Restaurants.IMG_KEY + " text NOT NULL"
                 + foodContract.Restaurants.ADDR + " text NOT NULL"
+                + foodContract.Restaurants.PRICE + " integer NOT NULL"
+                + foodContract.Restaurants.RATING + " real NOT NULL"
                 + " );";
     }
 

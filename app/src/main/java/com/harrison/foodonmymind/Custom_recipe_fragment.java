@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class custom_recipe_fragment extends Fragment {
+public class Custom_recipe_fragment extends Fragment {
 
 
-    public custom_recipe_fragment() {
+    public Custom_recipe_fragment() {
         // Required empty public constructor
     }
 

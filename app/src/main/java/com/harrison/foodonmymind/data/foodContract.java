@@ -42,6 +42,8 @@ public class foodContract {
         public static final String INGREDIENTS = "ingredients";
         //  some short description of either the restaurant or recipe
         public static final String DESC = "description";
+//        url that links to the original source of this recipe
+        public static final String SRC = "source_url";
     }
 
 
@@ -61,6 +63,10 @@ public class foodContract {
         public static final String DESC = "description";
         //  the address of the restaurant
         public static final String ADDR = "address";
+        //  the rating of the restaurant
+        public static final String RATING = "rating";
+        //  the price level of the restaurant
+        public static final String PRICE = "price_level";
     }
 
     public static final class Favorites implements BaseColumns {
@@ -81,6 +87,12 @@ public class foodContract {
         public static final String ADDR = "address";
         //  this will be the column used to put the list of ingredients associated with the recipe.
         public static final String INGREDIENTS = "ingredients";
+        //  the rating of the restaurant
+        public static final String RATING = "rating";
+        //  the price level of the restaurant
+        public static final String PRICE = "price_level";
+        //        url that links to the original source of this recipe
+        public static final String SRC = "source_url";
     }
 
     public static Uri buildFoodUri(String table) {

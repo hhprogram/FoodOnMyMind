@@ -5,6 +5,59 @@
     <string name="custom_recipes">Custom Recipes</string>
     <string name="preset_recipes">Online Recipes</string>
     <string name="restaurants">Restaurants</string>
+    <string name="recipeSearchApi">http://food2fork.com/api/search</string>
+    <string name="recipeGetApi">http://food2fork.com/api/get</string>
+    <string name="restaurantSearchApi">https://maps.googleapis.com/maps/api/place/textsearch/json?</string>
+    <string name="restaurantGetApi">https://maps.googleapis.com/maps/api/place/details/json?</string>
+    <string name="googPhotoApi">https://maps.googleapis.com/maps/api/place/photo?</string>
+
+    <!--Search query string key for shared preferences-->
+    <string name="user_search">user_search</string>
+
+    <!--Column names for the SQLiteDatabase tables-->
+    <string name="col_title">title</string>
+    <string name="col_img">img_key</string>
+    <string name="col_desc">description</string>
+    <string name="col_addr">address</string>
+    <string name="col_ingr">ingredients</string>
+    <string name="col_rating">rating</string>
+    <string name="col_price">price_level</string>
+    <string name="col_src">source_url</string>
+
+    <!--API keys-->
+    <string name="googApiKey">AIzaSyDbz3k8gMyuEqrpgS0mCkjJ0Wv0BJ7LJ3w</string>
+    <string name="ffApiKey">777148f090899d798051ac7920fa3d32</string>
+
+    <!--API key string-->
+    <string name="api_key">key=</string>
+
+    <!--Google photo query parameters-->
+    <string name="goog_q_photo">photoreference=</string>
+    <string name="goog_q_maxh">maxheight=</string>
+    <string name="goog_q_maxw">maxwidth=</string>
+
+    <!--Food2Fork query parameters-->
+    <string name="ff_q_rId">rId=</string>
+
+    <!--Google place search API result keys-->
+    <string name="goog_results">results</string>
+    <string name="goog_addr">formatted_address</string>
+    <string name="goog_id">place_id</string>
+    <string name="goog_photos">photos</string>
+    <string name="goog_photo_ref">photo_reference</string>
+    <string name="goog_photo_width">width</string>
+    <string name="goog_price">price_level</string>
+    <string name="goog_rating">rating</string>
+    <string name="goog_title">name</string>
+
+    <!--Food2Fork search API result keys-->
+    <string name="f2f_recipes">recipes</string>
+    <string name="f2f_title">title</string>
+    <string name="f2f_source">source_url</string>
+    <string name="f2f_id">recipe_id</string>
+    <string name="f2f_img">image_url</string>
+    <string name="f2f_get_recipe">recipe</string>
+    <string name="f2f_get_ingr">ingredients</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

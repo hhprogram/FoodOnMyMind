@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         editor = pref.edit();
+//        taking out any previous search query that was stored in shared preferences
+        editor.remove(getString(R.string.user_search));
+        editor.commit();
 //        if the intent is a search intent then do something.
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
             handleSearchIntent(intent);
@@ -52,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
 //        SearchManager.QUERY is a special key that gets the string that was entered in the search
 //        dialog
         String query = intent.getStringExtra(SearchManager.QUERY);
+//        takes this query string and then put it in the shared preferences to be referenced later
+        editor.putString(getString(R.string.user_search), query);
+        editor.commit();
         Log.d(TAG, "handleSearchIntent: " + query);
 //        first get all the checkbox preferences. and use that to help me determine what to return
 //        as a search result
