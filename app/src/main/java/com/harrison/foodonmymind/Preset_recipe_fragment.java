@@ -1,47 +1,24 @@
 package com.harrison.foodonmymind;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.concurrent.ExecutionException;
+
+import static android.content.ContentValues.TAG;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Preset_recipe_fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Preset_recipe_fragment#newInstance} factory method to
- * create an instance of this fragment.
+
  */
-public class Preset_recipe_fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class Preset_recipe_fragment extends Fragment implements AsyncListener{
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public Preset_recipe_fragment() {
-        // Required empty public constructor
-        Bundle bundle = getArguments();
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    Info info;
+    WebAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,42 +26,40 @@ public class Preset_recipe_fragment extends Fragment {
         return inflater.inflate(R.layout.search_result, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+    public void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
+        WebTask task = new WebTask(this, getContext());
+        String query = getArguments().getString(getContext().getString(R.string.user_search), null);
+        String url = buildUrl(query);
+        Pair pair = new Pair(Info.RECIPE, url);
+        try {
+            info = task.execute(pair).get();
+        } catch (InterruptedException e) {
+            Log.d(TAG, "onCreate: task in preset recipe interrupted)");
+        } catch (ExecutionException e) {
+            Log.d(TAG, "onCreate: execution exception in preset recipe interrupted)");
         }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * helper function that builds actual api query url
+     * @return String representation of that url
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    private String buildUrl(String user_query) {
+        String base = getContext().getString(R.string.recipeSearchApi);
+        String query = getContext().getString(R.string.ff_q_search) + user_query;
+        String key = getContext().getString(R.string.api_key) + getContext().getString(R.string.ffApiKey);
+        String url = Utilities.createUrl(base, query, key);
+        return url;
+    }
+
+
+
+    @Override
+    public void onTaskCompletion() {
+        adapter = new WebAdapter(getContext(), info.getData());
+        ListView lstView = (ListView)getActivity().findViewById(R.id.search_lst);
+        lstView.setAdapter(adapter);
     }
 }

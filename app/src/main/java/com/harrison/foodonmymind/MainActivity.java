@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
             tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.restaurants)));
         }
         pager = (ViewPager) findViewById(R.id.pager);
-        PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount()
+                , this);
         pager.setAdapter(adapter);
         resetCheckBoxes();
     }

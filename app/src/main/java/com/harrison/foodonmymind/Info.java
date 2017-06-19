@@ -27,7 +27,7 @@ public class Info {
     private boolean restaurant;
     private Context mContext;
 //    an arraylist of hashmaps. each individual hashmap holds attributes on each result
-    private ArrayList<HashMap> data;
+    private ArrayList<InfoItem> data;
 //  array of Pair objects. Will populate these pairs with the first element being the column name
 //    in the db and the 2nd element will be the result JSON key from the API query. Did this as
 //    a way to more 'intelligently' populate the list DATA without having to copy a bunch of lines
@@ -37,6 +37,13 @@ public class Info {
 //    Info object holds recipes this string will be equal to 'recipes' which is the key for the
 //    food2fork api JSON response that holds the array of recipe results
     private String result_str;
+    private final String title_key = mContext.getString(R.string.col_title);
+    private final String img_key = mContext.getString(R.string.col_img);
+    private final String addr_key = mContext.getString(R.string.col_addr);
+    private final String rating_key = mContext.getString(R.string.col_rating);
+    private final String price_key = mContext.getString(R.string.col_price);
+    private final String source_key = mContext.getString(R.string.col_src);
+    private final String ingre_key = mContext.getString(R.string.col_ingr);
 
     /**
      * Constructor
@@ -51,15 +58,15 @@ public class Info {
             this.required_attrs = new Pair[R.integer.rest_attrs];
 //            don't need explicit type arguments here. Only need them when iterating through the
 //            array and looking at each Pair element
-            this.required_attrs[0] = new Pair<>(mContext.getString(R.string.col_title)
+            this.required_attrs[0] = new Pair<>(title_key
                     , mContext.getString(R.string.goog_title));
-            this.required_attrs[1] = new Pair<>(mContext.getString(R.string.col_img)
+            this.required_attrs[1] = new Pair<>(img_key
                     , mContext.getString(R.string.goog_photo_ref));
-            this.required_attrs[2] = new Pair<>(mContext.getString(R.string.col_addr)
+            this.required_attrs[2] = new Pair<>(addr_key
                     , mContext.getString(R.string.goog_addr));
-            this.required_attrs[3] = new Pair<>(mContext.getString(R.string.col_rating)
+            this.required_attrs[3] = new Pair<>(rating_key
                     , mContext.getString(R.string.goog_rating));
-            this.required_attrs[4] = new Pair<>(mContext.getString(R.string.col_price)
+            this.required_attrs[4] = new Pair<>(price_key
                     , mContext.getString(R.string.goog_price));
             this.result_str = mContext.getString(R.string.goog_results);
         } else {
@@ -67,9 +74,9 @@ public class Info {
             this.required_attrs = new Pair[R.integer.recipe_attrs];
             this.required_attrs[0] = new Pair<>(mContext.getString(R.string.col_title)
                     , mContext.getString(R.string.f2f_title));
-            this.required_attrs[1] = new Pair<>(mContext.getString(R.string.col_img)
+            this.required_attrs[1] = new Pair<>(img_key
                     , mContext.getString(R.string.f2f_img));
-            this.required_attrs[2] = new Pair<>(mContext.getString(R.string.col_src)
+            this.required_attrs[2] = new Pair<>(source_key
                     , mContext.getString(R.string.f2f_source));
             this.result_str = mContext.getString(R.string.f2f_recipes);
         }
@@ -86,7 +93,7 @@ public class Info {
         try {
             JSONArray results = obj.getJSONArray(result_str);
             for (int i = 0; i < results.length(); i++) {
-                HashMap<String, String> attrs = new HashMap<>();
+                InfoItem attrs = new InfoItem(this.result_str);
                 JSONObject result = results.getJSONObject(i);
 //                need the declaration of types for each element within the pair or else line
 //                result.getString(p.getSecond()) won't compile because p.getSecond() will just be
@@ -100,12 +107,12 @@ public class Info {
 //                key value pair where value was just the photo reference returned via google place
 //                api, the value is now the photo api url
                 if (this.restaurant) {
-                    String photoUrl = photo_url_helper(attrs.get(R.string.col_img)
+                    String photoUrl = photo_url_helper(attrs.get(mContext.getString(R.string.col_img))
                             ,result.getString(mContext.getString(R.string.goog_photo_width)));
-                    attrs.put(mContext.getString(R.string.col_img), photoUrl);
+                    attrs.put(img_key, photoUrl);
                 } else if (!this.restaurant) {
                     String ingredients = getIngredients(result.getString(mContext.getString(R.string.f2f_id)));
-                    attrs.put(mContext.getString(R.string.col_ingr), ingredients);
+                    attrs.put(ingre_key, ingredients);
                 }
                 data.add(attrs);
             }
@@ -174,6 +181,80 @@ public class Info {
 
     private void getFood2Fork(JSONObject obj) {
 
+    }
+
+    class InfoItem {
+//        Making a small inner class to abstract away the String keys and having to work with a
+//        Hashmap in order to extract attributes for each search result. Will be better if want to
+//        add more attributes per item.
+
+//        hashmap that holds the data for this particular search item
+        private HashMap<String, String> data;
+//        the string indicating what type of Info this item holds
+        private String itemType;
+
+        public InfoItem(String type) {
+            this.itemType = type;
+        }
+
+        /**
+         * just a wrapper method for the hashmap method put
+         * @param key
+         * @param Value
+         */
+        public void put(String key, String Value) {
+            data.put(key, Value);
+        }
+
+        /**
+         * just a wrapper method for the hashmap method get
+         * @param key
+         */
+        public String get(String key) {
+            return data.get(key);
+        }
+
+        //below are just a bunch of getter methods. Use this so that the user of these items don't
+        //need to know the key Strings used for returning the data within an InfoItem
+        public String getImgUrl() {
+            return data.get(img_key);
+        }
+
+        public String getTitle() {
+            return data.get(title_key);
+        }
+
+        public String getAddr() {
+            String result = null;
+            if (itemType == Info.RESTAURANT) {
+                result = data.get(addr_key);
+            }
+            return result;
+        }
+
+        public String getIngredients() {
+            String result = null;
+            if (itemType == Info.RECIPE) {
+                result = data.get(ingre_key);
+            }
+            return result;
+        }
+
+        public String getPriceLevel() {
+            String result = null;
+            if (itemType == Info.RESTAURANT) {
+                result = data.get(price_key);
+            }
+            return result;
+        }
+
+        public String getRating() {
+            String result = null;
+            if (itemType == Info.RESTAURANT) {
+                result = data.get(rating_key);
+            }
+            return result;
+        }
     }
 
 

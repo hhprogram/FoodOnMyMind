@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--this is the number of attrs we keep for restaurants-->
+    <integer name="rest_attrs">5</integer>
+    <!--this is the number of attrs we keep for restaurants-->
+    <integer name="recipe_attrs">3</integer>
+</resources>

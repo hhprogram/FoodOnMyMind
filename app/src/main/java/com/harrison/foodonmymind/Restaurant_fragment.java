@@ -1,22 +1,31 @@
 package com.harrison.foodonmymind;
 
 import android.content.Context;
-import android.net.Uri;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
+import static android.content.ContentValues.TAG;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Restaurant_fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+Restaurant fragment. Created when the user wants to search restaurants. From here is where we launch
+ a task to web query and find restaurants.
+ We build the necessary google place search api url in this fragment
  */
-public class Restaurant_fragment extends Fragment {
+public class Restaurant_fragment extends Fragment implements AsyncListener{
 
-    private OnFragmentInteractionListener mListener;
+    Info info;
+    WebAdapter adapter;
+
 
     public Restaurant_fragment() {
         // Required empty public constructor
@@ -26,45 +35,74 @@ public class Restaurant_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.search_result, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * creates a webTask (asyncTask) then gets the phones current location. Then builds the api
+     * query url. Then executes the asyncTask to obtain the results
+     * reference for how I am getting the location:
+     * https://stackoverflow.com/questions/2227292/how-to-get-latitude-and-longitude-of-the-mobile-device-in-android
+     *
+     * @param savedInstance
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
+        WebTask task = new WebTask(this, getContext());
+        String query = getArguments().getString(getContext().getString(R.string.user_search));
+        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        try {
+            Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc == null) {
+                Log.d(TAG, "onCreate: location not available");
+            }
+            double latitude = loc.getLatitude();
+            double longitude = loc.getLongitude();
+            String api_url = buildUrl(latitude, longitude, query);
+            Pair pair = new Pair(Info.RESTAURANT, api_url);
+            info = task.execute(pair).get();
+        } catch (SecurityException e) {
+            Log.d(TAG, "onCreate: Don't have relevant security permission");
+        } catch (InterruptedException e) {
+            Log.d(TAG, "onCreate: AsyncTask was interrupted when retrieving restaurant info");
+        } catch (ExecutionException e) {
+            Log.d(TAG, "onCreate: AsyncTask execution exception when retrieving restaurant info");
+        }
     }
+    
+    /**
+     * Helper method to make the appriorate url to request data
+     * @param lat - phone's current latitude
+     * @param lon - phone's current longitude
+     * @param query - search query
+     * @return a string url
+     */
+    private String buildUrl(double lat, double lon, String query) {
+        String lat_str = Double.toString(lat);
+        String lon_str = Double.toString(lon);
+        String loc = lat_str + "," + lon_str;
+        String base = getContext().getString(R.string.restaurantSearchApi);
+        String apiKey = getContext().getString(R.string.api_key)
+                + getContext().getString(R.string.googApiKey);
+        query = getContext().getString(R.string.goog_q_query) + query;
+        String url = Utilities.createUrl(base, loc, query, apiKey);
+        return url;
+    }
+
+    /**
+     * After the web query is completed we want to update the listview with the results
+     * implementing this method is what ensures that the layout shown will be synced once the
+     * task is completed
+     */
+    @Override
+    public void onTaskCompletion() {
+        ArrayList<Info.InfoItem> lst = info.getData();
+        adapter = new WebAdapter(getContext(), lst);
+        ListView lstView = (ListView)getActivity().findViewById(R.id.search_lst);
+        lstView.setAdapter(adapter);
+    }
+
 }
