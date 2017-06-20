@@ -37,6 +37,8 @@ public class Info {
 //    Info object holds recipes this string will be equal to 'recipes' which is the key for the
 //    food2fork api JSON response that holds the array of recipe results
     private String result_str;
+//    the string that the user typed in that spawned this Info object
+    private String query;
     private final String title_key = mContext.getString(R.string.col_title);
     private final String img_key = mContext.getString(R.string.col_img);
     private final String addr_key = mContext.getString(R.string.col_addr);
@@ -44,6 +46,7 @@ public class Info {
     private final String price_key = mContext.getString(R.string.col_price);
     private final String source_key = mContext.getString(R.string.col_src);
     private final String ingre_key = mContext.getString(R.string.col_ingr);
+
 
     /**
      * Constructor
@@ -172,6 +175,15 @@ public class Info {
     }
 
     /**
+     * function that adds a InfoItem to be used to show user that there were no results. Just adds
+     * an empty InfoItem
+     */
+    public void addNoResult() {
+        InfoItem item = new InfoItem(this.result_str);
+        data.add(item);
+    }
+
+    /**
      * Returns the arraylist data
      * @return
      */
@@ -255,6 +267,14 @@ public class Info {
             }
             return result;
         }
+
+        public String showEmpty() {
+            if (data == null) {
+                return mContext.getString(R.string.no_results);
+            }
+            return null;
+        }
+
     }
 
 

@@ -8,6 +8,7 @@
 
     <!--UI strings-->
     <string name="label_end">.)</string>
+    <string name="no_results">No results that matched your search: </string>
 
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search</string>
@@ -28,6 +29,13 @@
     <string name="col_rating">rating</string>
     <string name="col_price">price_level</string>
     <string name="col_src">source_url</string>
+
+
+    <!--DB query strings-->
+    <string name="db_or">OR</string>
+    <string name="db_var">?</string>
+    <string name="db_percent">%</string>
+    <string name="db_like">LIKE</string>
 
     <!--API keys-->
     <string name="googApiKey">AIzaSyDbz3k8gMyuEqrpgS0mCkjJ0Wv0BJ7LJ3w</string>

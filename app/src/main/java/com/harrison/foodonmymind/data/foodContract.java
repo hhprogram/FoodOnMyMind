@@ -40,10 +40,8 @@ public class foodContract {
         public static final String IMG_KEY = "img_key";
         //  this will be the column used to put the list of ingredients associated with the recipe.
         public static final String INGREDIENTS = "ingredients";
-        //  some short description of either the restaurant or recipe
+        //  directions for the recipe
         public static final String DESC = "description";
-//        url that links to the original source of this recipe
-        public static final String SRC = "source_url";
     }
 
 
