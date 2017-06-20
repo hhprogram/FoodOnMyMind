@@ -31,7 +31,7 @@ public class Custom_recipe_fragment extends Fragment
     String like = getString(R.string.db_like);
     String or = getString(R.string.db_or);
     String percent = getString(R.string.db_percent);
-    String db_var = getString(R.string.db_var);
+    String db_var = "?";
     String ingr_col = getString(R.string.col_ingr);
     String title_col = getString(R.string.col_title);
     String dir_col = getString(R.string.col_desc);

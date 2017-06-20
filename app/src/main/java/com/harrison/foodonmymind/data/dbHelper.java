@@ -29,7 +29,7 @@ public class dbHelper extends SQLiteOpenHelper{
                 + foodContract.CustomRecipes.TITLE + " text NOT NULL"
                 + foodContract.CustomRecipes.IMG_KEY + " text NOT NULL"
                 + foodContract.CustomRecipes.INGREDIENTS + "text NOT NULL"
-                + foodContract.CustomRecipes.SRC + "text NOT NULL"
+                + foodContract.CustomRecipes.DESC + "text NOT NULL"
                 + " );";
 
         final String SQL_CREATE_FAV = "CREATE TABLE "

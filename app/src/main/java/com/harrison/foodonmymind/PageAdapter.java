@@ -41,7 +41,7 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         user_query = prefs.getString(mContext.getString(R.string.user_search),null);
         bundle = new Bundle();
-        bundle.putString(mContext.getString(R.string.user_search), null);
+        bundle.putString(s/;
         custom_box = prefs.getBoolean(mContext.getString(R.string.custom_recipes), false);
         preset_box = prefs.getBoolean(mContext.getString(R.string.preset_recipes), false);
         rest_box = prefs.getBoolean(mContext.getString(R.string.restaurants), false);

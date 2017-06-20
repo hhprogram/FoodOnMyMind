@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -21,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    private TabLayout tabLayout;
-    private ViewPager pager;
+
 
 
     @Override
@@ -67,43 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 .getBoolean(getString(R.string.custom_recipes), false);
         boolean boxThree = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.restaurants), false);
+        Intent tabIntent = new Intent(this, TabsActivity.class);
+        tabIntent.putExtra(getString(R.string.preset_recipes), boxOne);
+        tabIntent.putExtra(getString(R.string.custom_recipes), boxTwo);
+        tabIntent.putExtra(getString(R.string.restaurants), boxThree);
+        startActivity(tabIntent);
         Log.d(TAG, "handleSearchIntent: Preset -" + boxOne + ", Custom -" + boxTwo + ", Rest.-"
                 + boxThree);
-//        below adding tabs only if the associated box is checked. i.e only create as many tabs
-//        as the user wants to search
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-//        is no check boxes are checked then assume the user wanted to search all three and thus
-//        want to create all tabs
-        if (!boxOne && !boxTwo && ! boxThree) {
-            boxOne = true;
-            boxTwo = true;
-            boxThree = true;
-        }
-        if (boxOne) {
-            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.preset_recipes)));
-        }
-        if (boxTwo) {
-            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.custom_recipes)));
-        }
-        if (boxThree) {
-            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.restaurants)));
-        }
-        pager = (ViewPager) findViewById(R.id.pager);
-        PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount()
-                , this);
-        pager.setAdapter(adapter);
-        resetCheckBoxes();
-    }
-
-    /**
-     * Helper method that resets the preferences to false. As we want them all to reset after every
-     * search is completed
-     */
-    private void resetCheckBoxes() {
-        editor.putBoolean(getString(R.string.preset_recipes), false);
-        editor.putBoolean(getString(R.string.custom_recipes), false);
-        editor.putBoolean(getString(R.string.restaurants), false);
-        editor.commit();
     }
 
     @Override
