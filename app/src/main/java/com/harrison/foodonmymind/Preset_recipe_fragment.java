@@ -32,9 +32,11 @@ public class Preset_recipe_fragment extends Fragment implements AsyncListener{
         WebTask task = new WebTask(this, getContext());
         String query = getArguments().getString(getContext().getString(R.string.user_search), null);
         String url = buildUrl(query);
+        Log.d(TAG, "onCreate: search query" + query);
         Pair pair = new Pair(Info.RECIPE, url);
         try {
             info = task.execute(pair).get();
+            Log.d(TAG, "onCreate: " + info.getData().size());
         } catch (InterruptedException e) {
             Log.d(TAG, "onCreate: task in preset recipe interrupted)");
         } catch (ExecutionException e) {

@@ -1,9 +1,8 @@
 package com.harrison.foodonmymind;
 
-import android.content.Context;
-import android.location.Location;
-import android.location.LocationManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ Restaurant fragment. Created when the user wants to search restaurants. From her
  a task to web query and find restaurants.
  We build the necessary google place search api url in this fragment
  */
-public class Restaurant_fragment extends Fragment implements AsyncListener{
+public class Restaurant_fragment extends Fragment implements AsyncListener {
 
     Info info;
     WebAdapter adapter;
@@ -53,14 +52,15 @@ public class Restaurant_fragment extends Fragment implements AsyncListener{
         super.onCreate(savedInstance);
         WebTask task = new WebTask(this, getContext());
         String query = getArguments().getString(getContext().getString(R.string.user_search));
-        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        String lat_key = getString(R.string.lat);
+        String lon_key = getString(R.string.lon);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         try {
-            Location loc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (loc == null) {
-                Log.d(TAG, "onCreate: location not available");
+            String latitude = pref.getString(lat_key, null);
+            String longitude = pref.getString(lat_key, null);
+            if (latitude == null || longitude == null) {
+                Log.d(TAG, "onCreate: latitude and/or longitude is null");
             }
-            double latitude = loc.getLatitude();
-            double longitude = loc.getLongitude();
             String api_url = buildUrl(latitude, longitude, query);
             Pair pair = new Pair(Info.RESTAURANT, api_url);
             info = task.execute(pair).get();
@@ -80,10 +80,8 @@ public class Restaurant_fragment extends Fragment implements AsyncListener{
      * @param query - search query
      * @return a string url
      */
-    private String buildUrl(double lat, double lon, String query) {
-        String lat_str = Double.toString(lat);
-        String lon_str = Double.toString(lon);
-        String loc = lat_str + "," + lon_str;
+    private String buildUrl(String lat, String lon, String query) {
+        String loc = lat + "," + lon;
         String base = getContext().getString(R.string.restaurantSearchApi);
         String apiKey = getContext().getString(R.string.api_key)
                 + getContext().getString(R.string.googApiKey);

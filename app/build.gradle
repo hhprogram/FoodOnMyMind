@@ -29,5 +29,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 //    needed to add the below dependency for TabLayouts to work
     compile 'com.android.support:design:25.1.1'
+//    required to use the FusedLocationProviderClient class
+    compile 'com.google.android.gms:play-services-location:11.0.0'
     testCompile 'junit:junit:4.12'
 }

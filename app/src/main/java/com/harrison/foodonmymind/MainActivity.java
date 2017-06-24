@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 //        takes this query string and then put it in the shared preferences to be referenced later
         editor.putString(getString(R.string.user_search), query);
         editor.commit();
-        Log.d(TAG, "handleSearchIntent: " + query);
+        Log.d(TAG, "handleSearchIntent: " + pref.getString(getString(R.string.user_search), null));
 //        first get all the checkbox preferences. and use that to help me determine what to return
 //        as a search result
         boolean boxOne = PreferenceManager.getDefaultSharedPreferences(this)

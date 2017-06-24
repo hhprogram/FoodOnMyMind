@@ -39,13 +39,13 @@ public class Info {
     private String result_str;
 //    the string that the user typed in that spawned this Info object
     private String query;
-    private final String title_key = mContext.getString(R.string.col_title);
-    private final String img_key = mContext.getString(R.string.col_img);
-    private final String addr_key = mContext.getString(R.string.col_addr);
-    private final String rating_key = mContext.getString(R.string.col_rating);
-    private final String price_key = mContext.getString(R.string.col_price);
-    private final String source_key = mContext.getString(R.string.col_src);
-    private final String ingre_key = mContext.getString(R.string.col_ingr);
+    private String title_key;
+    private String img_key;
+    private String addr_key;
+    private String rating_key;
+    private String price_key;
+    private String source_key;
+    private String ingre_key;
 
 
     /**
@@ -56,6 +56,13 @@ public class Info {
      */
     public Info(String type, Context context) {
         this.mContext = context;
+        title_key = mContext.getString(R.string.col_title);
+        img_key = mContext.getString(R.string.col_img);
+        addr_key = mContext.getString(R.string.col_addr);
+        rating_key = mContext.getString(R.string.col_rating);
+        price_key = mContext.getString(R.string.col_price);
+        source_key = mContext.getString(R.string.col_src);
+        ingre_key = mContext.getString(R.string.col_ingr);
         if (type == RESTAURANT) {
             this.restaurant = true;
             this.required_attrs = new Pair[R.integer.rest_attrs];
@@ -74,7 +81,7 @@ public class Info {
             this.result_str = mContext.getString(R.string.goog_results);
         } else {
             this.restaurant = false;
-            this.required_attrs = new Pair[R.integer.recipe_attrs];
+            this.required_attrs = new Pair[3];
             this.required_attrs[0] = new Pair<>(mContext.getString(R.string.col_title)
                     , mContext.getString(R.string.f2f_title));
             this.required_attrs[1] = new Pair<>(img_key
@@ -207,6 +214,7 @@ public class Info {
 
         public InfoItem(String type) {
             this.itemType = type;
+            this.data = new HashMap<>();
         }
 
         /**

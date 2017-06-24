@@ -11,16 +11,20 @@
     <string name="no_results">No results that matched your search: </string>
     <string name="food_gallery">Food Gallery</string>
     <string name="find_food">Find Me Food!</string>
+    <string name="permission_bar">FoodOnMyMind needs location to search for nearby restaurants</string>
+    <string name="snackBar_action">Ok, Allow FoodOnMyMind to access location</string>
 
     <!--Base api urls-->
-    <string name="recipeSearchApi">http://food2fork.com/api/search</string>
-    <string name="recipeGetApi">http://food2fork.com/api/get</string>
+    <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
+    <string name="recipeGetApi">http://food2fork.com/api/get?</string>
     <string name="restaurantSearchApi">https://maps.googleapis.com/maps/api/place/textsearch/json?</string>
     <string name="restaurantGetApi">https://maps.googleapis.com/maps/api/place/details/json?</string>
     <string name="googPhotoApi">https://maps.googleapis.com/maps/api/place/photo?</string>
 
     <!--Search query string key for shared preferences-->
     <string name="user_search">user_search</string>
+    <string name="lat">latitude</string>
+    <string name="lon">longitude</string>
 
     <!--Column names for the SQLiteDatabase tables-->
     <string name="col_title">title</string>

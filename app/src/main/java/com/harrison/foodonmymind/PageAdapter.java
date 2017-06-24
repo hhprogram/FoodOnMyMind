@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -21,7 +21,7 @@ import static android.content.ContentValues.TAG;
  * the setArguments() method
  */
 
-public class PageAdapter extends FragmentStatePagerAdapter {
+public class PageAdapter extends FragmentPagerAdapter {
 
     int tabCount;
     Custom_recipe_fragment custom;
@@ -40,8 +40,9 @@ public class PageAdapter extends FragmentStatePagerAdapter {
         this.mContext = context;
         prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         user_query = prefs.getString(mContext.getString(R.string.user_search),null);
+        Log.d(TAG, "Page Adapter query: " + user_query);
         bundle = new Bundle();
-        bundle.putString(s/;
+        bundle.putString(mContext.getString(R.string.user_search), user_query);
         custom_box = prefs.getBoolean(mContext.getString(R.string.custom_recipes), false);
         preset_box = prefs.getBoolean(mContext.getString(R.string.preset_recipes), false);
         rest_box = prefs.getBoolean(mContext.getString(R.string.restaurants), false);
@@ -56,28 +57,74 @@ public class PageAdapter extends FragmentStatePagerAdapter {
 //        queries)
         switch (tab) {
             case 0:
-                if (custom == null) {
-                    custom = new Custom_recipe_fragment();
-                    custom.setArguments(bundle);
+                if (custom_box) {
+                    if (custom == null) {
+                        custom = new Custom_recipe_fragment();
+                        custom.setArguments(bundle);
+                    }
                     return custom;
-                } else {
-
                 }
-            case 1:
-                if (preset == null) {
-                    preset = new Preset_recipe_fragment();
-                    preset.setArguments(bundle);
+                if (preset_box) {
+                    if (preset == null) {
+                        Log.d(TAG, "getItem: creating new preset fragment");
+                        Log.d(TAG, "getItem: bundle: "
+                                + bundle.getString(mContext.getString(R.string.user_search),null));
+                        preset = new Preset_recipe_fragment();
+                        preset.setArguments(bundle);
+                    }
                     return preset;
-                } else {
+                }
+                if (rest_box) {
+                    if (restaurant == null) {
+                        restaurant = new Restaurant_fragment();
+                        restaurant.setArguments(bundle);
+                    }
+                    return restaurant;
+                }
 
+            case 1:
+                if (custom_box) {
+                    if (custom == null) {
+                        custom = new Custom_recipe_fragment();
+                        custom.setArguments(bundle);
+                    }
+                    return custom;
+                }
+                if (preset_box) {
+                    if (preset == null) {
+                        preset = new Preset_recipe_fragment();
+                        preset.setArguments(bundle);
+                    }
+                    return preset;
+                }
+                if (rest_box) {
+                    if (restaurant == null) {
+                        restaurant = new Restaurant_fragment();
+                        restaurant.setArguments(bundle);
+                    }
+                    return restaurant;
                 }
             case 2:
-                if (restaurant == null) {
-                    restaurant = new Restaurant_fragment();
-                    restaurant.setArguments(bundle);
+                if (custom_box) {
+                    if (custom == null) {
+                        custom = new Custom_recipe_fragment();
+                        custom.setArguments(bundle);
+                    }
+                    return custom;
+                }
+                if (preset_box) {
+                    if (preset == null) {
+                        preset = new Preset_recipe_fragment();
+                        preset.setArguments(bundle);
+                    }
+                    return preset;
+                }
+                if (rest_box) {
+                    if (restaurant == null) {
+                        restaurant = new Restaurant_fragment();
+                        restaurant.setArguments(bundle);
+                    }
                     return restaurant;
-                } else {
-
                 }
             default:
                 Log.d(TAG, "getItem: Invalid tab ");

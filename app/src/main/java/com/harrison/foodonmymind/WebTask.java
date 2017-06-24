@@ -2,8 +2,11 @@ package com.harrison.foodonmymind;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by harrison on 6/14/17.
@@ -35,6 +38,8 @@ public class WebTask extends AsyncTask<Pair, Void, Info> {
         String info_type = (String) params[0].getFirst();
         JSONObject response = Utilities.getData(url);
         Info info = new Info(info_type, mContext);
+        Log.d(TAG, "doInBackground: url:" + url);
+        Log.d(TAG, "doInBackground: url:" + response.toString());
         info.populateData(response);
         return info;
     }

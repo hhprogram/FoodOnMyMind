@@ -1,6 +1,7 @@
 package com.harrison.foodonmymind;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by harrison on 6/13/17.
@@ -46,6 +49,7 @@ public class WebAdapter extends ArrayAdapter<Info.InfoItem>{
             Picasso.with(mContext)
                     .load(item.getImgUrl())
                     .into(img);
+            Log.d(TAG, "getView: " + this.results.size());
         }
         return convertView;
     }
