@@ -41,6 +41,9 @@ public class WebTask extends AsyncTask<Pair, Void, Info> {
         Log.d(TAG, "doInBackground: url:" + url);
         Log.d(TAG, "doInBackground: url:" + response.toString());
         info.populateData(response);
+        for (String name : info.getInfoNames()) {
+            Log.d(TAG, "doInBackground: item name: " + name);
+        }
         return info;
     }
 

@@ -3,6 +3,7 @@ package com.harrison.foodonmymind;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,8 @@ Restaurant fragment. Created when the user wants to search restaurants. From her
  a task to web query and find restaurants.
  We build the necessary google place search api url in this fragment
  */
-public class Restaurant_fragment extends Fragment implements AsyncListener {
+public class Restaurant_fragment extends Fragment implements AsyncListener
+        , FragmentCompat.OnRequestPermissionsResultCallback {
 
     Info info;
     WebAdapter adapter;
@@ -57,7 +59,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
         try {
             String latitude = pref.getString(lat_key, null);
-            String longitude = pref.getString(lat_key, null);
+            String longitude = pref.getString(lon_key, null);
             if (latitude == null || longitude == null) {
                 Log.d(TAG, "onCreate: latitude and/or longitude is null");
             }
@@ -99,7 +101,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener {
     public void onTaskCompletion() {
         ArrayList<Info.InfoItem> lst = info.getData();
         adapter = new WebAdapter(getContext(), lst);
-        ListView lstView = (ListView)getActivity().findViewById(R.id.search_lst);
+        ListView lstView = (ListView)getActivity().findViewById(R.id.search_result);
         lstView.setAdapter(adapter);
     }
 

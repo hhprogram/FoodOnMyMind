@@ -14,16 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 import static com.harrison.foodonmymind.R.string.lat;
 import static com.harrison.foodonmymind.R.string.lon;
 
 public class TabsActivity extends AppCompatActivity
-        implements ActivityCompat.OnRequestPermissionsResultCallback {
+        implements  {
 
     private SharedPreferences.Editor editor;
     private SharedPreferences pref;
@@ -158,6 +161,8 @@ public class TabsActivity extends AppCompatActivity
                     double lon = location.getLongitude();
                     editor.putString(getString(R.string.lat), Double.toString(lat));
                     editor.putString(getString(R.string.lon), Double.toString(lon));
+                    Log.d(TAG, "onSuccess: getLastLocation returned"
+                            + String.format(Locale.US, "Lat: %f , Lon: %f", lat, lon));
                 }
             }
         });

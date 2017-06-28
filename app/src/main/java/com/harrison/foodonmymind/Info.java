@@ -65,7 +65,11 @@ public class Info {
         ingre_key = mContext.getString(R.string.col_ingr);
         if (type == RESTAURANT) {
             this.restaurant = true;
-            this.required_attrs = new Pair[R.integer.rest_attrs];
+//            note: before I was just doing R.integer.rest_attrs and I was getting this overflow
+//            value because R.integer.rest_attrs is just some arbitrary large number that serves
+//            as a unique identifier to find the interger resource rest_attrs. in order to get
+//            actual integer value must do Context.getResources().getInteger()
+            this.required_attrs = new Pair[mContext.getResources().getInteger(R.integer.rest_attrs)];
 //            don't need explicit type arguments here. Only need them when iterating through the
 //            array and looking at each Pair element
             this.required_attrs[0] = new Pair<>(title_key
@@ -81,7 +85,7 @@ public class Info {
             this.result_str = mContext.getString(R.string.goog_results);
         } else {
             this.restaurant = false;
-            this.required_attrs = new Pair[3];
+            this.required_attrs = new Pair[mContext.getResources().getInteger(R.integer.recipe_attrs)];
             this.required_attrs[0] = new Pair<>(mContext.getString(R.string.col_title)
                     , mContext.getString(R.string.f2f_title));
             this.required_attrs[1] = new Pair<>(img_key
@@ -188,6 +192,14 @@ public class Info {
     public void addNoResult() {
         InfoItem item = new InfoItem(this.result_str);
         data.add(item);
+    }
+
+    public ArrayList<String> getInfoNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (InfoItem item : data) {
+            names.add(item.get(mContext.getString(R.string.col_title)));
+        }
+        return names;
     }
 
     /**

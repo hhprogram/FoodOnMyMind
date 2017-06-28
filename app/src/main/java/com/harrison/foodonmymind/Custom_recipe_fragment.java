@@ -56,7 +56,7 @@ public class Custom_recipe_fragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        ListView view = (ListView)getActivity().findViewById(R.id.search_lst);
+        ListView view = (ListView)getActivity().findViewById(R.id.search_result);
 //        if no cursor data then we just revert to the webAdapter and create an info object
 //        manually and just fill it with one infoItem that denotes that is empty (ie no results that
 //        match this query

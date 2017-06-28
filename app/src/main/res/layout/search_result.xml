@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<!--took out nestedScrollView...for some reason convention not to put a listView inside a
+NestedScrollView (it was only showing one item in the listView and cutting everything else off-->
+<ListView
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="7000dp"
+    android:layout_height="match_parent"
     android:id="@+id/search_result">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/search_lst"></ListView>
 
-</android.support.v4.widget.NestedScrollView>
+</ListView>

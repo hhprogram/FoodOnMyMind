@@ -10,30 +10,42 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.harrison.foodonmymind.MainActivity">
 
+    <!--note need to do wrap_content for the layout_height or else if you do match_parent and
+    the relative layout parent's layout height is just the whole screen then this layout will just
+    go on for the whole screen and the buttons below it will be 'below' this linear layout but
+    off the screen-->
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="horizontal"
+
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:id="@+id/check_boxes">
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/box_preset_recipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/preset_recipes"
-            android:onClick="onBoxOneChecked"/>
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/box_custom_recipe"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/custom_recipes"
-            android:onClick="onBoxTwoChecked"/>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:orientation="horizontal"
+            android:id="@+id/inner_boxes">
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/box_preset_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/preset_recipes"
+                android:onClick="onBoxOneChecked"/>
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/box_custom_recipe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_recipes"
+                android:onClick="onBoxTwoChecked"/>
+        </android.support.v7.widget.LinearLayoutCompat>
+
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/box_restaurant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/restaurants"
             android:onClick="onBoxThreeChecked"/>
-
     </android.support.v7.widget.LinearLayoutCompat>
 
 
