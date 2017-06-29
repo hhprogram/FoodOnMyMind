@@ -24,6 +24,7 @@ import java.util.Locale;
 import static android.content.ContentValues.TAG;
 import static com.harrison.foodonmymind.R.string.lat;
 import static com.harrison.foodonmymind.R.string.lon;
+import static com.harrison.foodonmymind.Utilities.REQUEST_PERMISSION_STATE;
 
 public class TabsActivity extends AppCompatActivity
         implements  {
@@ -32,7 +33,7 @@ public class TabsActivity extends AppCompatActivity
     private SharedPreferences pref;
     private TabLayout tabLayout;
     private ViewPager pager;
-    public static final int REQUEST_PERMISSION_STATE = 1;
+
 
     private FusedLocationProviderClient mFusedLocationClient;
 
@@ -112,7 +113,7 @@ public class TabsActivity extends AppCompatActivity
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(this
                 , new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
-                , REQUEST_PERMISSION_STATE);
+                , Utilities.REQUEST_PERMISSION_STATE);
     }
 
     /**

@@ -20,6 +20,9 @@ import static android.content.ContentValues.TAG;
 Restaurant fragment. Created when the user wants to search restaurants. From here is where we launch
  a task to web query and find restaurants.
  We build the necessary google place search api url in this fragment
+ Note need to extend android.app.Fragment as the FragmentCompat required this type of Fragment
+ object and note the default Fragment (which is the backwards compatible
+ android.support.v2.app.Fragment
  */
 public class Restaurant_fragment extends Fragment implements AsyncListener
         , FragmentCompat.OnRequestPermissionsResultCallback {
@@ -52,11 +55,15 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        WebTask task = new WebTask(this, getContext());
+//        use getActivity().getBaseContext() to get the context associated with the Activity
+//        returned by getActivity() - an Activity is subclass of ContextWrapper. Need to use
+//        this as getContext() from a fragment not possible unless increase the min SDK level
+        WebTask task = new WebTask(this, getActivity().getBaseContext());
         String query = getArguments().getString(getContext().getString(R.string.user_search));
         String lat_key = getString(R.string.lat);
         String lon_key = getString(R.string.lon);
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(getActivity().getBaseContext());
         try {
             String latitude = pref.getString(lat_key, null);
             String longitude = pref.getString(lon_key, null);
@@ -83,14 +90,16 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
      * @return a string url
      */
     private String buildUrl(String lat, String lon, String query) {
-        String loc = lat + "," + lon;
+        String loc = getString(R.string.goog_q_loc) + lat + "," + lon;
+        String radius = getString(R.string.goog_q_rad) + getString(R.string.goog_rad_def);
         String base = getContext().getString(R.string.restaurantSearchApi);
         String apiKey = getContext().getString(R.string.api_key)
                 + getContext().getString(R.string.googApiKey);
         query = getContext().getString(R.string.goog_q_query) + query;
-        String url = Utilities.createUrl(base, loc, query, apiKey);
+        String url = Utilities.createUrl(base, loc, query, apiKey, radius);
         return url;
     }
+
 
     /**
      * After the web query is completed we want to update the listview with the results
@@ -100,7 +109,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     @Override
     public void onTaskCompletion() {
         ArrayList<Info.InfoItem> lst = info.getData();
-        adapter = new WebAdapter(getContext(), lst);
+        adapter = new WebAdapter(getActivity().getBaseContext(), lst);
         ListView lstView = (ListView)getActivity().findViewById(R.id.search_result);
         lstView.setAdapter(adapter);
     }

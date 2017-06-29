@@ -12,7 +12,13 @@
     <string name="food_gallery">Food Gallery</string>
     <string name="find_food">Find Me Food!</string>
     <string name="permission_bar">FoodOnMyMind needs location to search for nearby restaurants</string>
-    <string name="snackBar_action">Ok, Allow FoodOnMyMind to access location</string>
+    <string name="gps_loc">Use GPS location to search for nearby restaurants</string>
+    <string name="manual_loc">Don't use location - enter location manually</string>
+    <string name="addr_hint">123 Fake Street, FakeTown, US</string>
+    <string name="manual_confirm">OK</string>
+    <string name="manual_cancel">Cancel</string>
+    <string name="invalid_addr">Couldn't find location - please enter with more detail or another nearby location</string>
+    <string name="toast_cancel">Cancelling...you must either allow gps location access or manually enter an address to proceed</string>
 
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
@@ -56,6 +62,11 @@
 
     <!--Google place search query parameters-->
     <string name="goog_q_query">query=</string>
+    <string name="goog_q_rad">radius=</string>
+    <string name="goog_q_loc">location=</string>
+    <!--below is the default radius we search in-->
+    <string name="goog_rad_def">15</string>
+
 
     <!--Food2Fork query parameters-->
     <string name="ff_q_rId">rId=</string>
