@@ -22,6 +22,9 @@ import static android.content.ContentValues.TAG;
 public class Utilities {
 
     public static final int REQUEST_PERMISSION_STATE = 1;
+    public static final int GEO_RESULT_SUCCESS = 10;
+    public static final int GEO_RESULT_FAIL = -10;
+
     /**
      * Creates a String representation of a url
      * @param base - the url base (authority, theme etc..) everything but the query parameters

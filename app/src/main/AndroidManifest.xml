@@ -28,7 +28,13 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".TabsActivity"></activity>
+        <activity android:name=".TabsActivity" />
+
+        <!--added the below service as we need an intent service to grab the GPS location, as
+        this is done through a service and not on main thread-->
+        <service
+            android:name=".GeoIntentService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

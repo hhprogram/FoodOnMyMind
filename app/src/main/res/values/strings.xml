@@ -27,10 +27,12 @@
     <string name="restaurantGetApi">https://maps.googleapis.com/maps/api/place/details/json?</string>
     <string name="googPhotoApi">https://maps.googleapis.com/maps/api/place/photo?</string>
 
-    <!--Search query string key for shared preferences-->
+    <!--Search query string key for shared preferences/intent data-->
     <string name="user_search">user_search</string>
     <string name="lat">latitude</string>
     <string name="lon">longitude</string>
+    <string name="loc_search">manual location</string>
+    <string name="receiver">GeoReceiver</string>
 
     <!--Column names for the SQLiteDatabase tables-->
     <string name="col_title">title</string>
