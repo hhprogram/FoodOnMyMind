@@ -13,11 +13,12 @@
     <string name="find_food">Find Me Food!</string>
     <string name="permission_bar">FoodOnMyMind needs location to search for nearby restaurants</string>
     <string name="gps_loc">Use GPS location to search for nearby restaurants</string>
-    <string name="manual_loc">Don't use location - enter location manually</string>
+    <string name="manual_loc">Don\'t use location - enter location manually</string>
     <string name="addr_hint">123 Fake Street, FakeTown, US</string>
+    <string name="snack_confirm">Allow FoodOnMyMind to use location</string>
     <string name="manual_confirm">OK</string>
     <string name="manual_cancel">Cancel</string>
-    <string name="invalid_addr">Couldn't find location - please enter with more detail or another nearby location</string>
+    <string name="invalid_addr">Couldn\'t find location - please enter with more detail or another nearby location</string>
     <string name="toast_cancel">Cancelling...you must either allow gps location access or manually enter an address to proceed</string>
 
     <!--Base api urls-->

@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity
                     startLocationPermissionRequest();
                 }
             };
-            showSnackBar(getString(R.string.permission_bar), R.string.snackBar_action, listener);
+            showSnackBar(getString(R.string.permission_bar), R.string.snack_confirm, listener);
         } else {
 //            if no rationale for permission required then we just kick off the permission sequence
 //            needed to access fine location

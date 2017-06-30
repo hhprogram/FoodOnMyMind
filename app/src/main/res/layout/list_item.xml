@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--decided just to do a simple linear layout then doing a layout within the linear layout to
+hold the number and the image as the centering of the image was getting too complicated. This works
+out fine - the number is technically higher up in the layout then the image but that doesn't
+matter-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/item_num"/>
+    android:layout_gravity="center_horizontal"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/item_num"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/item_num"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/item_img"
+        android:src="@drawable/ic_search"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/item_img"
-            android:src="@drawable/ic_search"/>
-    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
+        android:layout_below="@id/item_img"
         android:id="@+id/item_title"
+        android:textStyle="bold"
         android:text="Title"/>
-
 
 </LinearLayout>
