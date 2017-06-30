@@ -19,7 +19,6 @@ matter-->
         android:id="@+id/item_img"
         android:src="@drawable/ic_search"/>
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

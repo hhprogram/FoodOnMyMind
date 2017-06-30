@@ -1,6 +1,7 @@
 package com.harrison.foodonmymind;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -31,7 +33,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Locale;
 
+import static android.R.id.input;
 import static android.content.ContentValues.TAG;
+import static com.harrison.foodonmymind.R.string.addr_hint;
 import static com.harrison.foodonmymind.R.string.lat;
 import static com.harrison.foodonmymind.R.string.lon;
 import static com.harrison.foodonmymind.Utilities.REQUEST_PERMISSION_STATE;
@@ -48,6 +52,12 @@ import static com.harrison.foodonmymind.Utilities.REQUEST_PERMISSION_STATE;
  * addr then it will call the onTaskCompletion and we will have it implemented here to launch the
  * TabsActivity. Do it this way so that we don't launch the TabActivity until we have all the
  * necessary info to do a google search
+ *
+ * use AlertDialog.Builder class. Similar to Uri.Builder or StringBuilder. It just a helpful class
+ * to help 'build' and put together an AlertDialog. But then need to create() them to actually
+ * transform the builder object into a built AlertDialog that can then be shown (show() does both
+ * this creation and building of the object). But only after create() is called on an
+ * AlertDialog.Builder can you call methods that an AlertDialog object can
  */
 
 public class MainActivity extends AppCompatActivity
@@ -129,6 +139,9 @@ public class MainActivity extends AppCompatActivity
      * add an OnSuccessListener to this task object to execute code once the location task has
      * completed
      *
+     * gives a warning that shouldn't use the method getLastLocation() in a method that doesn't
+     * explicitly request location permission but it's ok because this only called after all
+     * permissions are granted
      * only called once confirmed permissions have been properly granted
      */
     private void getLastLocation() {
@@ -251,11 +264,15 @@ public class MainActivity extends AppCompatActivity
     /**
      * helper function that shows a Dialog in which user either chooses (1) to use fine location,
      * in which they allow app to use fine location (2) deny location and manually enter location
+     * Note: need to do .show() and not .create()...Because .create() just creates the dialog but
+     * doesn't display it at all. While, show() creates the AlertDialog but then also immediately
+     * displays it
      */
     private void decideDialog() {
         AlertDialog.Builder[] dialogs = setUpDialogs();
         AlertDialog.Builder home_dialog = dialogs[0];
-        home_dialog.create();
+        Log.d(TAG, "decideDialog: inside");
+        home_dialog.show();
     }
 
 
@@ -273,20 +290,19 @@ public class MainActivity extends AppCompatActivity
 //        it in an inner class
         final AlertDialog.Builder manual_input = new AlertDialog.Builder(this);
         final AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this);
-        final LayoutInflater inflater = this.getLayoutInflater();
-//        getting the main layout view to put in in the 2nd argument of inflate as I want the dialog
-//        view to be a child of the main activity view
-        RelativeLayout mainLayout = (RelativeLayout) findViewById(R.id.activity_main);
-//        this is inflating my dialog_layout to be the view in the MANUAL_INPUT dialog
-        manual_input.setView(inflater.inflate(R.layout.dialog_layout, mainLayout));
 //        make toast out here same rease as making manual_input dialog (context reason)
-        final Toast toast = Toast.makeText(this, getString(R.string.invalid_addr)
-                , Toast.LENGTH_LONG);
-        final Toast toast_canel = Toast.makeText(this, getString(R.string.toast_cancel)
+        final Toast toast_canel = Toast.makeText(this
+                , getString(R.string.toast_cancel)
                 , Toast.LENGTH_LONG);
 //        doing the intent for the same reason. So that 'this' refers to this activity vs. the
 //        dialogInterface OnClickListener
         final Intent intent = new Intent(this, GeoIntentService.class);
+//        getting an inflater that will be used to inflate my dialog_layout
+        LayoutInflater inflater = getLayoutInflater();
+//        inflate this view so i can (1) set it as the view for my alertDialog via my builder obj
+//        manual_input (2) refer to this view and call findViewById on it to find my EditText view
+//        that lives within dialog_layout
+        View dialog_home = inflater.inflate(R.layout.dialog_layout, null);
 //        now I am coding what will happen when the 'positive' action button is pressed in the
 //        dialog box. Below in the OnClick we get the EditText field. Then we use the Geocoder
 //        class to translate a string address or location name and it converts to an Address object
@@ -296,24 +312,32 @@ public class MainActivity extends AppCompatActivity
 //        then we assume that these objects have lat and lons and just go ahead with search. note
 //        the 2nd arg of setPositiveButton is a listener and we are doing an anonymous class
 //        declaration for ease
+//        just putting the id of the layout - because if I inflate it within the setView method then
+//        it will immediately inflate and display that layout when that line is executed not when
+//        I want it when the actual alert dialog is created
+        manual_input.setView(dialog_home);
+        final EditText input = (EditText) dialog_home.findViewById(R.id.addr_input);
+        Log.d(TAG, "setUpDialogs: " + input.toString());
         manual_input.setPositiveButton(getString(R.string.manual_confirm)
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        EditText input = (EditText)findViewById(R.id.addr_input);
-                        intent.putExtra(getString(R.string.manual_loc), input.getText().toString());
+                        intent.putExtra(getString(R.string.manual_loc)
+                                , input.getText().toString());
+                        Log.d(TAG, "onClick: input is : " + input.getText().toString());
                         intent.putExtra(getString(R.string.receiver), receiver);
                         startService(intent);
-                    }});
+                    }})
 //        if the user cancels then we want to dismuss the current dialog and go back one dialog
 //        and create the home_dialog again
-        manual_input.setNegativeButton(getString(R.string.manual_cancel)
+                .setNegativeButton(getString(R.string.manual_cancel)
                 , new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         toast_canel.show();
                         dialogInterface.cancel();
-                        dialog_builder.create();
+//                        see comments for decideDialog() for why i use show() and not create()
+                        dialog_builder.show();
             }
         });
         String[] choices = new String[]{getString(R.string.gps_loc)
@@ -331,7 +355,8 @@ public class MainActivity extends AppCompatActivity
 
                     case 1:
                         dialog.cancel();
-                        manual_input.create();
+//                        see comments for decideDialog() for why i use show() and not create()
+                        manual_input.show();
                 }
             }
         };
@@ -415,6 +440,7 @@ public class MainActivity extends AppCompatActivity
     public void onBoxTwoChecked (View view) {
         Log.d(TAG, "onBoxTwoChecked: Clicked");
         boolean box = ((CheckBox) view).isChecked();
+        Log.d(TAG, "onBoxTwoChecked: " + ((CheckBox) view).isChecked());
         editor.putBoolean(getString(R.string.custom_recipes), box);
         editor.commit();
     }
@@ -422,6 +448,7 @@ public class MainActivity extends AppCompatActivity
     public void onBoxThreeChecked (View view) {
         Log.d(TAG, "onBoxThreeChecked: Clicked");
         boolean box = ((CheckBox) view).isChecked();
+        Log.d(TAG, "onBoxThreeChecked: " + ((CheckBox) view).isChecked());
         editor.putBoolean(getString(R.string.restaurants), box);
         editor.commit();
     }

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.os.ResultReceiver;
 import android.util.Log;
+import android.widget.Toast;
 
 import static android.content.ContentValues.TAG;
 
@@ -50,6 +51,8 @@ public class GeoReceiver extends ResultReceiver {
                 Log.d(TAG, "onReceiveResult: Location result received...lat: " + lat
                         + ", lon:"+ lon);
             case Utilities.GEO_RESULT_FAIL:
+                Toast.makeText(mContext, mContext.getString(R.string.invalid_addr)
+                        , Toast.LENGTH_LONG).show();
                 Log.d(TAG, "onReceiveResult: Location result failed");
         }
         this.listener.onTaskCompletion();

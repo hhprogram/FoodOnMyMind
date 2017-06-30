@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.v4.os.ResultReceiver;
 import android.util.Log;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ import static android.content.ContentValues.TAG;
  */
 public class GeoIntentService extends IntentService {
 
-    GeoReceiver receiver;
+    ResultReceiver receiver;
 
     public GeoIntentService() {
         super("GeoIntentService");
