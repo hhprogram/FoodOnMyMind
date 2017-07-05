@@ -59,15 +59,15 @@ public class Utilities {
                 str.append(line);
             }
         } catch (MalformedURLException e) {
-            Log.d(TAG, "getGoogPlace: Malformed URL");
+            Log.d(TAG, "getData: getGoogPlace: Malformed URL");
         } catch (IOException e) {
-            Log.d(TAG, "getGoogPlace: IO exception");
+            Log.d(TAG, "getData: getGoogPlace: IO exception");
         }
         try {
             JSONObject obj = new JSONObject(str.toString());
             return obj;
         } catch (JSONException e) {
-            Log.d(TAG, "getGoogPlace: JSON exception error");
+            Log.d(TAG, "getData: getGoogPlace: JSON exception error");
         }
         return null;
     }

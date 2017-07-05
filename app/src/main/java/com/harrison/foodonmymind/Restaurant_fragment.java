@@ -63,7 +63,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
         String lat_key = getString(R.string.lat);
         String lon_key = getString(R.string.lon);
         SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(getActivity().getBaseContext());
+                .getDefaultSharedPreferences(getActivity());
         try {
             String latitude = pref.getString(lat_key, null);
             String longitude = pref.getString(lon_key, null);

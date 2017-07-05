@@ -24,11 +24,12 @@ public class GeoReceiver extends ResultReceiver {
     Context mContext;
     SharedPreferences.Editor editor;
     AsyncListener listener;
+    SharedPreferences pref;
 
     public GeoReceiver(Handler handler, Context context, AsyncListener listener) {
         super(handler);
         mContext = context;
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        pref = PreferenceManager.getDefaultSharedPreferences(mContext);
         editor = pref.edit();
         this.listener = listener;
     }
@@ -46,15 +47,22 @@ public class GeoReceiver extends ResultReceiver {
         String lon = resultData.getString(mContext.getString(R.string.lon));
         editor.putString(mContext.getString(R.string.lat), lat);
         editor.putString(mContext.getString(R.string.lon), lon);
+        Log.d(TAG, "onReceiveResult: lat - "
+                + pref.getString(mContext.getString(R.string.lat), null)
+                + "; lon - " + pref.getString(mContext.getString(R.string.lon), null));
         switch (resultCode) {
             case Utilities.GEO_RESULT_SUCCESS:
                 Log.d(TAG, "onReceiveResult: Location result received...lat: " + lat
                         + ", lon:"+ lon);
+                break;
             case Utilities.GEO_RESULT_FAIL:
                 Toast.makeText(mContext, mContext.getString(R.string.invalid_addr)
                         , Toast.LENGTH_LONG).show();
                 Log.d(TAG, "onReceiveResult: Location result failed");
         }
+//        forgot to put this in here and was causing problems as changes to the shared preferences
+//        would not be saved when I got out of this method
+        editor.commit();
         this.listener.onTaskCompletion();
     }
 }

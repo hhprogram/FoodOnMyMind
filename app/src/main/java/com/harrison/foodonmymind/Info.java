@@ -74,13 +74,11 @@ public class Info {
 //            array and looking at each Pair element
             this.required_attrs[0] = new Pair<>(title_key
                     , mContext.getString(R.string.goog_title));
-            this.required_attrs[1] = new Pair<>(img_key
-                    , mContext.getString(R.string.goog_photo_ref));
-            this.required_attrs[2] = new Pair<>(addr_key
+            this.required_attrs[1] = new Pair<>(addr_key
                     , mContext.getString(R.string.goog_addr));
-            this.required_attrs[3] = new Pair<>(rating_key
+            this.required_attrs[2] = new Pair<>(rating_key
                     , mContext.getString(R.string.goog_rating));
-            this.required_attrs[4] = new Pair<>(price_key
+            this.required_attrs[3] = new Pair<>(price_key
                     , mContext.getString(R.string.goog_price));
             this.result_str = mContext.getString(R.string.goog_results);
         } else {
@@ -106,6 +104,7 @@ public class Info {
     public void populateData(JSONObject obj) {
         try {
             JSONArray results = obj.getJSONArray(result_str);
+            Log.d(TAG, "populateData: length of JSON array:" + results.length());
             for (int i = 0; i < results.length(); i++) {
                 InfoItem attrs = new InfoItem(this.result_str);
                 JSONObject result = results.getJSONObject(i);
@@ -114,16 +113,42 @@ public class Info {
 //                of type Object and result.getString() requires a string as an arg. Populates
 //                some of the necessary data whether it be for recipes or restaurants
                 for (Pair<String, String> p : required_attrs) {
-                    attrs.put(p.getFirst(), result.getString(p.getSecond()));
+                    Log.d(TAG, "populateData: Looking up attribute: " + p.getSecond());
+//                    had to put this in as not all entries have all key values present even just
+//                    populated with a null value
+                    if (!result.has(p.getSecond())) {
+                        attrs.put(p.getFirst(), null);
+                        Log.d(TAG, "populateData: specific JSON object: key - "+ p.getSecond()
+                                + "; value - " + null);
+                    } else {
+                        attrs.put(p.getFirst(), result.getString(p.getSecond()));
+                        Log.d(TAG, "populateData: specific JSON object: key - "+ p.getSecond()
+                                + "; value - " + result.getString(p.getSecond()));
+                    }
+
                 }
 //                some restaurant / recipe specific tasks. Want the actual photo URL string in
 //                DB so need to do that via google photo api url. So replace the col_img initial
 //                key value pair where value was just the photo reference returned via google place
 //                api, the value is now the photo api url
                 if (this.restaurant) {
-                    String photoUrl = photo_url_helper(attrs.get(mContext.getString(R.string.col_img))
-                            ,result.getString(mContext.getString(R.string.goog_photo_width)));
-                    attrs.put(img_key, photoUrl);
+                    if (result.has(mContext.getString(R.string.goog_photos))) {
+                        JSONArray result_photos = result
+                                .getJSONArray(mContext.getString(R.string.goog_photos));
+                        Log.d(TAG, "populateData: photo array has size: " + result_photos.length());
+                        if (result_photos.length() > 0) {
+                            JSONObject photo_info = result_photos.getJSONObject(0);
+                            String photo_ref = photo_info
+                                    .getString(mContext.getString(R.string.goog_photo_ref));
+                            attrs.put(mContext.getString(R.string.col_img), photo_ref);
+                            Integer photo_width = photo_info
+                                    .getInt(mContext.getString(R.string.goog_photo_width));
+                            String photoUrl = photo_url_helper(attrs.get(mContext.getString(R.string.col_img))
+                                    , Integer.toString(photo_width));
+                            Log.d(TAG, "populateData: photourl: " + photoUrl);
+                            attrs.put(img_key, photoUrl);
+                        }
+                    }
                 } else if (!this.restaurant) {
                     String ingredients = getIngredients(result.getString(mContext.getString(R.string.f2f_id)));
                     attrs.put(ingre_key, ingredients);
@@ -131,9 +156,10 @@ public class Info {
                 data.add(attrs);
             }
         } catch (JSONException e) {
-            Log.d(TAG, "getGoogSearch: JSON exception");
+            Log.d(TAG, "populateData: getGoogSearch: JSON exception");
         }
     }
+
 
     /**
      * Helper method to build the google photo api url
@@ -141,7 +167,7 @@ public class Info {
      * @return - String representation of the google photo url required to obtain the photo
      */
     private String photo_url_helper(String ref, String width) {
-        String photoRef = mContext.getString(R.string.goog_photo_ref) + ref;
+        String photoRef = mContext.getString(R.string.goog_q_photo) + ref;
         String photoW = mContext.getString(R.string.goog_q_maxw) + width;
         String key = mContext.getString(R.string.api_key)
                 + mContext.getString(R.string.googApiKey);

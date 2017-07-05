@@ -1,7 +1,6 @@
 package com.harrison.foodonmymind;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,8 +22,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,10 +29,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Locale;
+import java.util.Map;
 
-import static android.R.id.input;
 import static android.content.ContentValues.TAG;
-import static com.harrison.foodonmymind.R.string.addr_hint;
 import static com.harrison.foodonmymind.R.string.lat;
 import static com.harrison.foodonmymind.R.string.lon;
 import static com.harrison.foodonmymind.Utilities.REQUEST_PERMISSION_STATE;
@@ -352,7 +348,7 @@ public class MainActivity extends AppCompatActivity
                         } else {
                             requestPermissions();
                         }
-
+                        break;
                     case 1:
                         dialog.cancel();
 //                        see comments for decideDialog() for why i use show() and not create()
@@ -421,6 +417,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTaskCompletion() {
+        Log.d(TAG, "MainActivity onTaskCompletion: lat: " + pref.getString(getString(R.string.lat), null)
+                + "; lon: " + pref.getString(getString(R.string.lon), null));
+        Map<String, ?> keys = pref.getAll();
+        for (Map.Entry<String, ?> entry : keys.entrySet()) {
+            Log.d(TAG, "MainActivity onTaskCompletion: key - " + entry.getKey() + "; value - "
+                    + entry.getValue().toString());
+        }
         launchTabs();
     }
 

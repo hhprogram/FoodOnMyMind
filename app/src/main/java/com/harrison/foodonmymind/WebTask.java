@@ -39,7 +39,6 @@ public class WebTask extends AsyncTask<Pair, Void, Info> {
         JSONObject response = Utilities.getData(url);
         Info info = new Info(info_type, mContext);
         Log.d(TAG, "doInBackground: url:" + url);
-        Log.d(TAG, "doInBackground: url:" + response.toString());
         info.populateData(response);
         for (String name : info.getInfoNames()) {
             Log.d(TAG, "doInBackground: item name: " + name);
