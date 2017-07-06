@@ -57,73 +57,28 @@ public class PageAdapter extends FragmentPagerAdapter {
 //        queries)
         switch (tab) {
             case 0:
+                Log.d(TAG, "getItem: 0");
                 if (custom_box) {
                     if (custom == null) {
                         custom = new Custom_recipe_fragment();
                         custom.setArguments(bundle);
                     }
                     return custom;
-                }
-                if (preset_box) {
-                    if (preset == null) {
-                        Log.d(TAG, "getItem: creating new preset fragment");
-                        Log.d(TAG, "getItem: bundle: "
-                                + bundle.getString(mContext.getString(R.string.user_search),null));
-                        preset = new Preset_recipe_fragment();
-                        preset.setArguments(bundle);
-                    }
-                    return preset;
-                }
-                if (rest_box) {
-                    if (restaurant == null) {
-                        restaurant = new Restaurant_fragment();
-                        restaurant.setArguments(bundle);
-                    }
-                    return restaurant;
                 }
 
             case 1:
-                if (custom_box) {
-                    if (custom == null) {
-                        custom = new Custom_recipe_fragment();
-                        custom.setArguments(bundle);
-                    }
-                    return custom;
-                }
+                Log.d(TAG, "getItem: 1");
                 if (preset_box) {
-                    if (preset == null) {
-                        preset = new Preset_recipe_fragment();
-                        preset.setArguments(bundle);
-                    }
+                    preset = new Preset_recipe_fragment();
+                    preset.setArguments(bundle);
+
                     return preset;
-                }
-                if (rest_box) {
-                    if (restaurant == null) {
-                        restaurant = new Restaurant_fragment();
-                        restaurant.setArguments(bundle);
-                    }
-                    return restaurant;
                 }
             case 2:
-                if (custom_box) {
-                    if (custom == null) {
-                        custom = new Custom_recipe_fragment();
-                        custom.setArguments(bundle);
-                    }
-                    return custom;
-                }
-                if (preset_box) {
-                    if (preset == null) {
-                        preset = new Preset_recipe_fragment();
-                        preset.setArguments(bundle);
-                    }
-                    return preset;
-                }
+                Log.d(TAG, "getItem: 2");
                 if (rest_box) {
-                    if (restaurant == null) {
-                        restaurant = new Restaurant_fragment();
-                        restaurant.setArguments(bundle);
-                    }
+                    restaurant = new Restaurant_fragment();
+                    restaurant.setArguments(bundle);
                     return restaurant;
                 }
             default:

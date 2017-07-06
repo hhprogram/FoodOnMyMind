@@ -456,4 +456,14 @@ public class MainActivity extends AppCompatActivity
         editor.commit();
     }
 
+    /**
+     * called when the Add Recipe button is clicked in Main Activity. Launches the Add Recipe
+     * Activity
+     * @param view
+     */
+    public void addRecipe(View view) {
+        Intent intent = new Intent(this, AddRecipeActivity.class);
+        startActivity(intent);
+    }
+
 }

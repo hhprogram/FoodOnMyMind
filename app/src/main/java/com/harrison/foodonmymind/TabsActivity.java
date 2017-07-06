@@ -10,6 +10,11 @@ import android.util.Log;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * This is the activity used to host the layout with the pageAdapter tabs. Created from the Main
+ * Activity after the MainActivity has processed the search intent
+ */
+
 public class TabsActivity extends AppCompatActivity {
 
     private SharedPreferences.Editor editor;

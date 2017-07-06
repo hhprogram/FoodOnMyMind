@@ -67,6 +67,13 @@
         android:text="@string/find_food"
         android:layout_below="@id/gallery_button"
         android:id="@+id/find_button"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="@string/add_recipe"
+        android:layout_below="@id/gallery_button"
+        android:onClick="addRecipe"
+        android:id="@+id/add_recipe_button"/>
 
 
 

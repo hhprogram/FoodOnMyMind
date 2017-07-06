@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -29,6 +30,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".TabsActivity" />
+        <!--remember need to add the activity to the manifest or trying to launch an intent that
+        launches the below activity will fail as the app will not know about the actiivty class-->
+        <activity android:name=".AddRecipeActivity" />
 
         <!--added the below service as we need an intent service to grab the GPS location, as
         this is done through a service and not on main thread-->
