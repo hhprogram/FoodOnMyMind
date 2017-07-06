@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,6 +28,9 @@ public class AddRecipeActivity extends AppCompatActivity {
     LinearLayout ingre_layout;
 //    will be used to refer to when we want to add another step
     LinearLayout dir_layout;
+//    int used to refer to the id of the new ingredient editText box. These don't need to be unique
+//    which is why i'm making it a final class variable.
+    private final int INGRE_ID = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +66,38 @@ public class AddRecipeActivity extends AppCompatActivity {
     public void addIngredient(View view) {
         RelativeLayout ingre_line = new RelativeLayout(this);
         RelativeLayout.LayoutParams relParams = new RelativeLayout
-                .LayoutParams((int) getResources().getDimension(R.dimen.ingredient)
+                .LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT
                 , RelativeLayout.LayoutParams.WRAP_CONTENT);
         EditText new_ingre = new EditText(this);
         RelativeLayout.LayoutParams ingreParams = new RelativeLayout
-                .LayoutParams((int) getResources().getDimension(R.dimen.quantity)
+                .LayoutParams((int) getResources().getDimension(R.dimen.ingredient)
                 , RelativeLayout.LayoutParams.WRAP_CONTENT);
         new_ingre.setHint(getString(R.string.ingre_hint));
         new_ingre.setLayoutParams(ingreParams);
+//        needed to add the first argument in setTextSize per the following article:
+//        https://stackoverflow.com/questions/6784353/inconsistency-when-setting-textview-font-size-in-code-and-in-resources
+//        or else the font size was being converted to different units or something and showing
+//        up way bigger than xml defined text size even though pointing to say dimen value
+        new_ingre.setTextSize(TypedValue.COMPLEX_UNIT_PX
+                , getResources().getDimension(R.dimen.hint_size));
+//        need to call setID and feed in any positive int into the arg so that we can refer to this
+//        view's id later in the addRule() for the new_quant editText. Unsure why it is giving me
+//        this warning
+        new_ingre.setId(INGRE_ID);
         EditText new_quant = new EditText(this);
         RelativeLayout.LayoutParams quantParams = new RelativeLayout
-                .LayoutParams((int) getResources().getDimension(R.dimen.ingredient)
+                .LayoutParams((int) getResources().getDimension(R.dimen.quantity)
                 , RelativeLayout.LayoutParams.WRAP_CONTENT);
 //        addRule is how i programatically align the editText view within this relativeLayout to be
 //        aligned to the right of its parent and to the right of the new_ingre view
         quantParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        this is where we refer to the ID used that we assigned a few lines above. Without doing
+//        setId() before this line, no ID is found and thus this rule did nothing and the format
+//        looked weird
         quantParams.addRule(RelativeLayout.RIGHT_OF, new_ingre.getId());
-        new_quant.setHint(getString(R.string.ingre_hint));
+        new_quant.setHint(getString(R.string.quantity_hint));
+        new_quant.setTextSize(TypedValue.COMPLEX_UNIT_PX
+                , getResources().getDimension(R.dimen.hint_size));
         new_quant.setLayoutParams(quantParams);
 //        then adding these views to the parent RelativeLayout view so that android knows these 2
 //        should be children of the relativeLayout

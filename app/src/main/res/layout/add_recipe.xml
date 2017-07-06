@@ -19,7 +19,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/ingredients"/>
+                android:text="@string/ingredients"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,13 +29,15 @@
                     android:layout_width="@dimen/ingredient"
                     android:layout_height="wrap_content"
                     android:hint="@string/ingre_hint"
-                    android:id="@+id/ingredient"/>
+                    android:id="@+id/ingredient"
+                    android:textSize="@dimen/hint_size"/>
                 <EditText
                     android:layout_width="@dimen/quantity"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ingredient"
                     android:layout_alignParentRight="true"
-                    android:hint="@string/quantity_hint"/>
+                    android:hint="@string/quantity_hint"
+                    android:textSize="@dimen/hint_size"/>
             </RelativeLayout>
         </LinearLayout>
         <Button
