@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--the below path is what is returned when getExternalFilesDir() is called with the argument
+    Environment.DIRECTORY_PICTURES. This is requred for setting up the fileProvider in the
+    Manifest file-->
+    <external-path name="my_images" path="Android/data/com.harrison.foodonmymind/files/Pictures" />
+</paths>

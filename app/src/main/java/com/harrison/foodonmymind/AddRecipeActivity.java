@@ -3,8 +3,11 @@ package com.harrison.foodonmymind;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by harrison on 7/6/17. Activity used to host the layout for adding a user's own
@@ -36,6 +45,9 @@ public class AddRecipeActivity extends AppCompatActivity {
     private final int INGRE_ID = 10;
 //    instance variable used to keep track of the number of steps
     private int num_steps;
+//    variable that will be used to be assigned the path of the image that was taken with the camera
+    String image_location;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +142,8 @@ public class AddRecipeActivity extends AppCompatActivity {
         new_step.setOrientation(LinearLayout.VERTICAL);
         new_step.setLayoutParams(step_params);
         step_num.setText(getString(R.string.step) + Integer.toString(num_steps));
+//        setting the layout params like this as don't need any relative layout referencing thus
+//        just need to define a width and height and thus just do it like this
         step_num.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , ViewGroup.LayoutParams.MATCH_PARENT));
         step_text.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
@@ -150,7 +164,14 @@ public class AddRecipeActivity extends AppCompatActivity {
      *
      * Basically, first need to make an intent. Then the setType is telling the intent only looking
      * for these type of data types that are allowed to be 'gotten' by the ACTION_GET_CONTENT.
-     * The setAction() tells android what it should be doing
+     * The setAction() tells android what it should be doing. This action is just getting any
+     * arbitrary file - thus this option will be used for obtaining an image from the gallery
+     *
+     * Then we need to make another intent that is used to activate the camera.
+     *
+     * Then we create last intent to hold both the get and camera intents and then make a chooser
+     * to allow the user to pick which intent to use. This is done by the putExtra() method and then
+     *
      *
      * Then we call startActivityForResult() and supply it with an intent (the one we created) plus
      * we call createChooser() on this intent which itself return an intent that gives the user a
@@ -159,11 +180,52 @@ public class AddRecipeActivity extends AppCompatActivity {
      * @param view
      */
     public void addPic(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent intent_get = new Intent();
+        intent_get.setType("image/*");
+        intent_get.setAction(Intent.ACTION_GET_CONTENT);
         String pic_chooser = getString(R.string.add_picture);
-        startActivityForResult(intent.createChooser(intent, pic_chooser), SELECT_PICTURE);
+        Intent chooser = Intent.createChooser(intent_get, pic_chooser);
+        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File photo_file = null;
+        try {
+            photo_file = createImageFile();
+        } catch (IOException e) {
+            Log.d(TAG, "addPic: IO Exception when trying to create file");
+        }
+        if (photo_file != null) {
+            Uri image_uri = FileProvider.getUriForFile(this, getString(R.string.authority), photo_file);
+            camera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        }
+        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS , new Intent[]{camera});
+        startActivityForResult(chooser, SELECT_PICTURE);
+    }
+
+    /**
+     * Helper function to create the file where the image is saved if user is taking a new picture
+     * to add to the recipe
+     *
+     * see below link for reference of how I'm saving files:
+     * https://developer.android.com/training/basics/data-storage/files.html
+     *
+     * Basically, I'm first creating a directory file in the new File() line. And I do it with the
+     * getExternalFilesDir(Environment.DIRECTORY_PICTURES) because this create a directory for
+     * photos (as noted by the DIRECTORY_PICTURES) and using that method to create the file creates
+     * it under a directory specifically related to my app and thus it is private to my app and
+     * will be deleted when my app is deleted.(also see my comment in the file_paths.xml file in the
+     * xml directory
+     * @return a file object that the image will be saved to
+     */
+    private File createImageFile() throws IOException{
+        String time_stamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        just use the same album name as don't need to distinguish within the private app pictures
+//        directory
+        String album_name = getString(R.string.app_name);
+        File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
+//        so this creates a file in which we will save the new image into. arguments are suffix,
+//        prefix and then the directory in which the file will belong
+        File image = File.createTempFile(time_stamp, getString(R.string.ftype), file);
+        image_location = image.getAbsolutePath();
+        return image;
     }
 
     /**

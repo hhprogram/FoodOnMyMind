@@ -58,6 +58,9 @@
     <string name="col_price">price_level</string>
     <string name="col_src">source_url</string>
 
+    <!--File saving related strings-->
+    <string name="ftype">.jpg</string>
+    <string name="authority">com.harrison.foodonmymind</string>
 
     <!--DB query strings-->
     <string name="db_or">OR</string>
