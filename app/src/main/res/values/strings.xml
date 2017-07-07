@@ -75,12 +75,18 @@
     <string name="goog_q_maxh">maxheight=</string>
     <string name="goog_q_maxw">maxwidth=</string>
 
-    <!--Google place search query parameters-->
+    <!--Google place search query parameters, set the default radius to search to be 15 miles,
+    the types query key will restrict the search to only restaurant / restaurant like places-->
     <string name="goog_q_query">query=</string>
     <string name="goog_q_rad">radius=</string>
     <string name="goog_q_loc">location=</string>
-    <!--below is the default radius we search in-->
     <string name="goog_rad_def">15</string>
+    <string name="goog_type">type=</string>
+    <string name="pl_bakery">bakery</string>
+    <string name="pl_cafe">cafe</string>
+    <string name="pl_delivery">meal_delivery</string>
+    <string name="pl_take">meal_takeaway</string>
+    <string name="pl_rest">restaurant</string>
 
 
     <!--Food2Fork query parameters-->

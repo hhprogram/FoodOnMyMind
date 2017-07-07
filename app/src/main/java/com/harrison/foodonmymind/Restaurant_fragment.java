@@ -83,7 +83,8 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     }
     
     /**
-     * Helper method to make the appriorate url to request data
+     * Helper method to make the appriorate url to request data. Also, restricts the type to
+     * be only food related places
      * @param lat - phone's current latitude
      * @param lon - phone's current longitude
      * @param query - search query
@@ -96,8 +97,20 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
         String apiKey = getContext().getString(R.string.api_key)
                 + getContext().getString(R.string.googApiKey);
         query = getContext().getString(R.string.goog_q_query) + query;
-        String url = Utilities.createUrl(base, loc, query, apiKey, radius);
+        String types = filterTypes();
+        String url = Utilities.createUrl(base, loc, query, apiKey, radius, types);
         return url;
+    }
+
+    /**
+     * helper function that builds the string for the type query key filter
+     * @return the string like types=restaurant,cafe
+     */
+    private String filterTypes() {
+        StringBuilder types = new StringBuilder();
+        types.append(getString(R.string.goog_type));
+        types.append(getString(R.string.pl_rest));
+        return types.toString();
     }
 
 
