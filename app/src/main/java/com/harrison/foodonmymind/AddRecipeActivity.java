@@ -3,12 +3,15 @@ package com.harrison.foodonmymind;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,8 @@ public class AddRecipeActivity extends AppCompatActivity {
 //    int used to refer to the id of the new ingredient editText box. These don't need to be unique
 //    which is why i'm making it a final class variable.
     private final int INGRE_ID = 10;
+//    instance variable used to keep track of the number of steps
+    private int num_steps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         photoPaths = new ArrayList<>();
         ingre_layout = (LinearLayout) findViewById(R.id.ingredient_list);
         dir_layout = (LinearLayout) findViewById(R.id.directions);
+        num_steps = 1;
     }
 
 //    called once the Activity started by startActivityForResult() method returns data
@@ -114,7 +120,24 @@ public class AddRecipeActivity extends AppCompatActivity {
      * @param view
      */
     public void addStep(View view) {
-
+        num_steps = num_steps + 1;
+        LinearLayout new_step = new LinearLayout(this);
+        TextView step_num = new TextView(this);
+        EditText step_text = new EditText(this);
+        LinearLayout.LayoutParams step_params = new LinearLayout
+                .LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
+                , LinearLayout.LayoutParams.WRAP_CONTENT);
+        new_step.setOrientation(LinearLayout.VERTICAL);
+        new_step.setLayoutParams(step_params);
+        step_num.setText(getString(R.string.step) + Integer.toString(num_steps));
+        step_num.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                , ViewGroup.LayoutParams.MATCH_PARENT));
+        step_text.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                , ViewGroup.LayoutParams.WRAP_CONTENT));
+        step_text.setHint(getString(R.string.step_hint));
+        new_step.addView(step_num);
+        new_step.addView(step_text);
+        dir_layout.addView(new_step);
     }
 
     /**

@@ -26,12 +26,13 @@
     <string name="quantity_hint">X ounces</string>
     <string name="recipe_steps">Directions:</string>
     <string name="step_hint">Stir the pot</string>
-    <string name="step_one">Step 1.)</string>
+    <string name="step_one">Step 1</string>
     <string name="add_ingre">Add Ingredient</string>
     <string name="add_step">Add Step</string>
     <string name="add_picture">Add Picture</string>
     <string name="save_recipe">Save Recipe</string>
     <string name="add_recipe">Add Recipe</string>
+    <string name="step">Step </string>
 
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
