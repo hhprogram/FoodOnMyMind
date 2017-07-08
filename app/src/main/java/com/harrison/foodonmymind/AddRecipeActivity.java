@@ -67,9 +67,17 @@ public class AddRecipeActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-                Uri imageUri = data.getData();
-                String imagePath = imageUri.toString();
-                photoPaths.add(imagePath);
+                Log.d(TAG, "onActivityResult: " + data.getScheme());
+//                i do data.getScheme() as the scheme for camera usage seems to be null and if I
+//                get an image from gallery or something then the scheme is non null
+                if (data.getScheme() == null) {
+                    Log.d(TAG, "onActivityResult: data scheme was null probably camera");
+//                    Uri imageUri = data.getData();
+//                    String imagePath = imageUri.toString();
+//                    photoPaths.add(imagePath);
+                } else {
+                    Log.d(TAG, "onActivityResult: data not null not using camera");
+                }
             }
         }
     }
@@ -223,6 +231,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
 //        so this creates a file in which we will save the new image into. arguments are suffix,
 //        prefix and then the directory in which the file will belong
+        Log.d(TAG, "createImageFile: " + this.getFilesDir() + ";" + file.getAbsolutePath());
         File image = File.createTempFile(time_stamp, getString(R.string.ftype), file);
         image_location = image.getAbsolutePath();
         return image;
