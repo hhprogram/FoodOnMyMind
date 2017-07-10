@@ -109,7 +109,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     private String filterTypes() {
         StringBuilder types = new StringBuilder();
         types.append(getString(R.string.goog_type));
-        types.append(getString(R.string.pl_rest));
+        types.append(getString(R.string.pl_food));
         return types.toString();
     }
 

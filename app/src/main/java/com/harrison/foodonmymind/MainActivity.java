@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        if (!checkPermission()) {
+                        if (checkPermission()) {
                             getLastLocation();
                         } else {
                             requestPermissions();

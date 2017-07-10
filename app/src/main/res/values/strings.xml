@@ -80,7 +80,10 @@
     <string name="goog_q_maxw">maxwidth=</string>
 
     <!--Google place search query parameters, set the default radius to search to be 15 miles,
-    the types query key will restrict the search to only restaurant / restaurant like places-->
+    the types query key will restrict the search to only restaurant / restaurant like places. note
+    the google place search API is confusing. says the type=restaurant should be a supported type
+    to filter on but to get it to work 'food' worked but not restaurant. Restaurant kept returning
+    zero results-->
     <string name="goog_q_query">query=</string>
     <string name="goog_q_rad">radius=</string>
     <string name="goog_q_loc">location=</string>
@@ -90,7 +93,7 @@
     <string name="pl_cafe">cafe</string>
     <string name="pl_delivery">meal_delivery</string>
     <string name="pl_take">meal_takeaway</string>
-    <string name="pl_rest">restaurant</string>
+    <string name="pl_food">food</string>
 
 
     <!--Food2Fork query parameters-->
