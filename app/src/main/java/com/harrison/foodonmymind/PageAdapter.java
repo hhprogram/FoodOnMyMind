@@ -65,13 +65,11 @@ public class PageAdapter extends FragmentPagerAdapter {
                     }
                     return custom;
                 }
-
             case 1:
                 Log.d(TAG, "getItem: 1");
                 if (preset_box) {
                     preset = new Preset_recipe_fragment();
                     preset.setArguments(bundle);
-
                     return preset;
                 }
             case 2:

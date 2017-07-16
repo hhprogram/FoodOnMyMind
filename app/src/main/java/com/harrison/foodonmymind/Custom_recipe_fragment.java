@@ -28,13 +28,13 @@ public class Custom_recipe_fragment extends Fragment
     DBAdapter adapter;
     int CURSOR_ID = 0;
     String query;
-    String like = getString(R.string.db_like);
-    String or = getString(R.string.db_or);
-    String percent = getString(R.string.db_percent);
+    String like;
+    String or;
+    String percent;
     String db_var = "?";
-    String ingr_col = getString(R.string.col_ingr);
-    String title_col = getString(R.string.col_title);
-    String dir_col = getString(R.string.col_desc);
+    String ingr_col;
+    String title_col;
+    String dir_col;
 
     public Custom_recipe_fragment() {
         // Required empty public constructor
@@ -51,6 +51,12 @@ public class Custom_recipe_fragment extends Fragment
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         query = getArguments().getString(getContext().getString(R.string.user_search), null);
+        like = getString(R.string.db_like);
+        or = getString(R.string.db_or);
+        percent = getString(R.string.db_percent);
+        ingr_col = getString(R.string.col_ingr);
+        title_col = getString(R.string.col_title);
+        dir_col = getString(R.string.col_desc);
         getLoaderManager().initLoader(CURSOR_ID, null, this);
     }
 

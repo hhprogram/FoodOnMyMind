@@ -67,17 +67,20 @@ public class AddRecipeActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-                Log.d(TAG, "onActivityResult: " + data.getScheme());
-//                i do data.getScheme() as the scheme for camera usage seems to be null and if I
-//                get an image from gallery or something then the scheme is non null
-                if (data.getScheme() == null) {
-                    Log.d(TAG, "onActivityResult: data scheme was null probably camera");
-//                    Uri imageUri = data.getData();
-//                    String imagePath = imageUri.toString();
-//                    photoPaths.add(imagePath);
+//                we do this check based on the stack over flow
+//                https://stackoverflow.com/questions/9890757/android-camera-data-intent-returns-null
+//                basically since we made the take picture intent and passed in the EXTRA_OUTPUT
+//                as an extra it defaults to returning null and just saving the media to a file
+//                location vs. if we hadn't entered that as an extra it would have returned something
+//                for DATA which would have been the thumbnail of the picture just taken. OR if we
+//                do an choose file intent and just grab an image from the gallery then it returns
+//                the file taken
+                if (data == null) {
+                    Log.d(TAG, "onActivityResult: data is null using camera");
                 } else {
+                    Log.d(TAG, "onActivityResult: " + data.getScheme());
                     Log.d(TAG, "onActivityResult: data not null not using camera");
-                }
+                    }
             }
         }
     }
@@ -229,6 +232,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 //        directory
         String album_name = getString(R.string.app_name);
         File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
+        file.mkdirs();
 //        so this creates a file in which we will save the new image into. arguments are suffix,
 //        prefix and then the directory in which the file will belong
         Log.d(TAG, "createImageFile: " + this.getFilesDir() + ";" + file.getAbsolutePath());

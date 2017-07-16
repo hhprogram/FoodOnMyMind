@@ -57,10 +57,13 @@ public class Preset_recipe_fragment extends Fragment implements AsyncListener{
     }
 
 
-
     @Override
     public void onTaskCompletion() {
-        adapter = new WebAdapter(getContext(), info.getData());
+        if (adapter == null) {
+            adapter = new WebAdapter(getContext(), info.getData());
+        } else {
+            adapter.notifyDataSetChanged();
+        }
         ListView lstView = (ListView)getActivity().findViewById(R.id.search_result);
         lstView.setAdapter(adapter);
     }
