@@ -51,6 +51,22 @@ public class TabsActivity extends AppCompatActivity {
             tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.restaurants)));
         }
         pager = (ViewPager) findViewById(R.id.pager);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pager.getChildAt(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount()
                 , this);
         pager.setAdapter(adapter);

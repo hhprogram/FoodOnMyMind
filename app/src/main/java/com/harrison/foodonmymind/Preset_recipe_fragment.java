@@ -19,11 +19,14 @@ public class Preset_recipe_fragment extends Fragment implements AsyncListener{
 
     Info info;
     WebAdapter adapter;
+    ListView listView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.search_result, container, false);
+        listView = (ListView) inflater.inflate(R.layout.search_result, container, false);
+        return listView;
     }
 
     @Override
@@ -64,7 +67,6 @@ public class Preset_recipe_fragment extends Fragment implements AsyncListener{
         } else {
             adapter.notifyDataSetChanged();
         }
-        ListView lstView = (ListView)getActivity().findViewById(R.id.search_result);
-        lstView.setAdapter(adapter);
+        listView.setAdapter(adapter);
     }
 }

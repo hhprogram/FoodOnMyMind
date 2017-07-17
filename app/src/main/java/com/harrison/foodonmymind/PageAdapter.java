@@ -33,6 +33,11 @@ public class PageAdapter extends FragmentPagerAdapter {
     Bundle bundle;
     String user_query;
     JSONObject recipe_obj, rest_obj;
+//    this used to record which fragments have gone where. First position denotes the index of which
+//    tab it has been created. And -1 if the fragment not needed. Need this so that we don't just
+//    create the same fragment over and over again
+//    ex) if we want the custom and restaurant fragments, positions = {0, -1, 1}
+    int[] positions;
 
     public PageAdapter(FragmentManager fm, int tabCount, Context context) {
         super(fm);
@@ -46,7 +51,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         custom_box = prefs.getBoolean(mContext.getString(R.string.custom_recipes), false);
         preset_box = prefs.getBoolean(mContext.getString(R.string.preset_recipes), false);
         rest_box = prefs.getBoolean(mContext.getString(R.string.restaurants), false);
-
+        positions = new int[]{-1, -1, -1};
     }
 
     @Override
@@ -58,25 +63,62 @@ public class PageAdapter extends FragmentPagerAdapter {
         switch (tab) {
             case 0:
                 Log.d(TAG, "getItem: 0");
-                if (custom_box) {
-                    if (custom == null) {
-                        custom = new Custom_recipe_fragment();
-                        custom.setArguments(bundle);
-                    }
+                if (custom_box && custom == null) {
+                    custom = new Custom_recipe_fragment();
+                    custom.setArguments(bundle);
+                    positions[0] = 0;
                     return custom;
+                }
+                if (preset_box && preset == null) {
+                    preset = new Preset_recipe_fragment();
+                    preset.setArguments(bundle);
+                    positions[1] = 0;
+                    return preset;
+                    }
+                if (rest_box && restaurant == null) {
+                    restaurant = new Restaurant_fragment();
+                    restaurant.setArguments(bundle);
+                    positions[2] = 0;
+                    return restaurant;
                 }
             case 1:
                 Log.d(TAG, "getItem: 1");
-                if (preset_box) {
+                if (custom_box && custom == null) {
+                    custom = new Custom_recipe_fragment();
+                    custom.setArguments(bundle);
+                    positions[0] = 1;
+                    return custom;
+                }
+                if (preset_box && preset == null) {
                     preset = new Preset_recipe_fragment();
                     preset.setArguments(bundle);
+                    positions[1] = 1;
                     return preset;
+                }
+                if (rest_box && restaurant == null) {
+                    restaurant = new Restaurant_fragment();
+                    restaurant.setArguments(bundle);
+                    positions[2] = 1;
+                    return restaurant;
                 }
             case 2:
                 Log.d(TAG, "getItem: 2");
-                if (rest_box) {
+                if (custom_box && custom == null) {
+                    custom = new Custom_recipe_fragment();
+                    custom.setArguments(bundle);
+                    positions[0] = 2;
+                    return custom;
+                }
+                if (preset_box && preset == null) {
+                    preset = new Preset_recipe_fragment();
+                    preset.setArguments(bundle);
+                    positions[1] = 2;
+                    return preset;
+                }
+                if (rest_box && restaurant == null) {
                     restaurant = new Restaurant_fragment();
                     restaurant.setArguments(bundle);
+                    positions[2] = 2;
                     return restaurant;
                 }
             default:

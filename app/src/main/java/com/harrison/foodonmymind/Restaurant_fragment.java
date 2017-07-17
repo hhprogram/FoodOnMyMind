@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
@@ -29,6 +28,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
 
     Info info;
     WebAdapter adapter;
+    ListView listView;
 
 
     public Restaurant_fragment() {
@@ -39,8 +39,8 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.search_result, container, false);
+        listView = (ListView) inflater.inflate(R.layout.search_result, container, false);
+        return listView;
 
     }
 
@@ -121,10 +121,12 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
      */
     @Override
     public void onTaskCompletion() {
-        ArrayList<Info.InfoItem> lst = info.getData();
-        adapter = new WebAdapter(getActivity().getBaseContext(), lst);
-        ListView lstView = (ListView)getActivity().findViewById(R.id.search_result);
-        lstView.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new WebAdapter(getContext(), info.getData());
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+        listView.setAdapter(adapter);
     }
 
 }
