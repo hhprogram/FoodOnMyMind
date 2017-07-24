@@ -1,20 +1,24 @@
 package com.harrison.foodonmymind;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,13 +50,17 @@ public class AddRecipeActivity extends AppCompatActivity {
 //    instance variable used to keep track of the number of steps
     private int num_steps;
 //    variable that will be used to be assigned the path of the image that was taken with the camera
+//    use a class variable as we want to refer back to it as we want to store the path in the
+//    sql database for easy reference later
     String image_location;
+    EditText recipe_title_box;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe);
+        recipe_title_box = (EditText) findViewById(R.id.recipe_title);
         photoPaths = new ArrayList<>();
         ingre_layout = (LinearLayout) findViewById(R.id.ingredient_list);
         dir_layout = (LinearLayout) findViewById(R.id.directions);
@@ -77,8 +85,12 @@ public class AddRecipeActivity extends AppCompatActivity {
 //                the file taken
                 if (data == null) {
                     Log.d(TAG, "onActivityResult: data is null using camera");
+                    photoPaths.add(image_location);
                 } else {
                     Log.d(TAG, "onActivityResult: " + data.getScheme());
+                    Uri selectedImage = data.getData();
+                    image_location = selectedImage.getPath();
+                    photoPaths.add(image_location);
                     Log.d(TAG, "onActivityResult: data not null not using camera");
                     }
             }
@@ -247,7 +259,53 @@ public class AddRecipeActivity extends AppCompatActivity {
      * @param view
      */
     public void saveRecipe(View view) {
+        String title = recipe_title_box.getText().toString();
+        if (title.matches("")) {
 
+        }
+        Log.d(TAG, "saveRecipe: Recipe Title" +   "recipe title"  );
+    }
+
+    /**
+     * helper function called when we are actually ready to save the recipe
+     */
+    private void saveHelper() {
+
+    }
+
+    /**
+     * helper function that displays a dialog to be used if user tries to save a recipe with no
+     * title
+     */
+    private void titleDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final Toast toast = Toast.makeText(this, getString(R.string.recipe_not_saved)
+                , Toast.LENGTH_LONG);
+//        see comments in the setUpDialogs() method in MainActivity to why I need to inflate layout
+        LayoutInflater inflater = getLayoutInflater();
+        LinearLayout title_layout = (LinearLayout) inflater.inflate(R.layout.add_title_dialog, null);
+        builder.setView(title_layout);
+//        see setUpDialogs() method in MainActivity again to why i need final
+        final EditText title_input = (EditText) title_layout.findViewById(R.id.recipe_title);
+        builder.setPositiveButton(getString(R.string.add_recipe)
+                , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String title = title_input.getText().toString();
+//                TBD NEED TO PUT CODE to save RECIPE
+            }
+        });
+//        cancelling just closes dialog and then doesn't save recipe and just goes back to my
+//        activity
+        builder.setNegativeButton(getString(R.string.manual_cancel)
+                , new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                toast.show();
+                dialogInterface.cancel();
+            }
+        });
+        builder.show();
     }
 
 }

@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "on create Main called");
         setContentView(R.layout.activity_main);
 //        this line get any intent that might have been used to start this activity. If just
 //        launching the app then this will be blank. But since we declared this activity as
@@ -91,8 +92,14 @@ public class MainActivity extends AppCompatActivity
 //        if the intent is a search intent then do something.
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
             handleSearchIntent(intent);
+//            resetCheckBoxes();
         }
+//        thus everytime we load the view for the mainActivity we reset all the booleans in the
+//        preferenceManager since we already reset all checkbox values already and don't want to
+//        confuse the user. AND WE CALL it here because basically
+
     }
+
 
     /**
      * Helper method that is only called when the intent action that starts this activity is a
@@ -148,14 +155,14 @@ public class MainActivity extends AppCompatActivity
 //               inside this method do whatever you want with the retrieved location data. Rare
 //                cases location arg will be null thus should deal with that case
                 if (location == null) {
-                    Log.d(TAG, "onSuccess: getLastLocation returned a null location");
+                    Log.d(TAG, "onSuccess GPS: getLastLocation returned a null location");
                     editor.putString(getString(lat), null);
                     editor.putString(getString(lon), null);
                 } else {
                     double lat = location.getLatitude();
                     double lon = location.getLongitude();
                     popLatLon(lat, lon);
-                    Log.d(TAG, "onSuccess: getLastLocation returned"
+                    Log.d(TAG, "onSuccess GPS: getLastLocation returned"
                             + String.format(Locale.US, "Lat: %f , Lon: %f", lat, lon));
 
                 }
@@ -324,7 +331,7 @@ public class MainActivity extends AppCompatActivity
                         intent.putExtra(getString(R.string.receiver), receiver);
                         startService(intent);
                     }})
-//        if the user cancels then we want to dismuss the current dialog and go back one dialog
+//        if the user cancels then we want to dismiss the current dialog and go back one dialog
 //        and create the home_dialog again
                 .setNegativeButton(getString(R.string.manual_cancel)
                 , new DialogInterface.OnClickListener() {
@@ -465,5 +472,18 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, AddRecipeActivity.class);
         startActivity(intent);
     }
+
+    /**
+     * Helper method that resets the preferences to false. As we want them all to reset after every
+     * search is completed
+     */
+    private void resetCheckBoxes() {
+        editor = pref.edit();
+        editor.putBoolean(getString(R.string.preset_recipes), false);
+        editor.putBoolean(getString(R.string.custom_recipes), false);
+        editor.putBoolean(getString(R.string.restaurants), false);
+        editor.commit();
+    }
+
 
 }

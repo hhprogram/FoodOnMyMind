@@ -33,6 +33,8 @@
     <string name="save_recipe">Save Recipe</string>
     <string name="add_recipe">Add Recipe</string>
     <string name="step">Step </string>
+    <string name="need_title">Recipe requires title, enter below:</string>
+    <string name="recipe_not_saved">Recipe not saved, recipes require a title to be saved</string>
 
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
