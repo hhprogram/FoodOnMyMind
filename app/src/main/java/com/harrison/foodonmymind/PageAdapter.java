@@ -70,12 +70,6 @@ public class PageAdapter extends FragmentPagerAdapter {
         if (rest_box) {
             titles[titlePosition] = mContext.getString(R.string.restaurants);
         }
-//        note: can't put the method resetCheckBoxes here because this would mean I would reset all
-//        the booleans that keep track of which check box was checked before getItem() cotould be
-//        called and thus none of the if statements would work which would be an error. Just going
-//        call resetCheckBoxes on the onCreate method of the MainActivity. thus everytime we load
-//        the view for the mainActivity we reset all the booleans in the preferenceManager
-//        resetCheckBoxes();
     }
 
 

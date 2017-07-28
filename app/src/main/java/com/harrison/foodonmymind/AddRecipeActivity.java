@@ -1,7 +1,9 @@
 package com.harrison.foodonmymind;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.harrison.foodonmymind.data.foodContract;
 
 import java.io.File;
 import java.io.IOException;
@@ -261,16 +265,11 @@ public class AddRecipeActivity extends AppCompatActivity {
     public void saveRecipe(View view) {
         String title = recipe_title_box.getText().toString();
         if (title.matches("")) {
-
+            titleDialog();
+        } else {
+            Log.d(TAG, "saveRecipe: Recipe Title" + title);
+            saveHelper(title);
         }
-        Log.d(TAG, "saveRecipe: Recipe Title" +   "recipe title"  );
-    }
-
-    /**
-     * helper function called when we are actually ready to save the recipe
-     */
-    private void saveHelper() {
-
     }
 
     /**
@@ -292,7 +291,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String title = title_input.getText().toString();
-//                TBD NEED TO PUT CODE to save RECIPE
+                saveHelper(title);
             }
         });
 //        cancelling just closes dialog and then doesn't save recipe and just goes back to my
@@ -307,5 +306,81 @@ public class AddRecipeActivity extends AppCompatActivity {
         });
         builder.show();
     }
+
+    /**
+     * helper that puts all necessary info from Add recipe activity into a content values to be
+     * then uploaded in the database
+     * @param title
+     * @return
+     */
+    public ContentValues packageRecipe(String title) {
+        ContentValues recipe = new ContentValues();
+        recipe.put(foodContract.CustomRecipes.TITLE, title);
+        recipe.put(foodContract.CustomRecipes.INGREDIENTS, combineIngredients());
+        recipe.put(foodContract.CustomRecipes.DESC, combineSteps());
+        recipe.put(foodContract.CustomRecipes.IMG_KEY, combineImagePaths());
+        return recipe;
+    }
+
+    /**
+     * helper function called when we are actually ready to save the recipe
+     * @param title - the string that will be used to save the recipe title
+     */
+    private void saveHelper(String title) {
+        ContentValues recipe = packageRecipe(title);
+        Uri customRecipeUri = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME);
+        Log.d(TAG, "saveHelper: " + customRecipeUri.toString());
+        Uri newRow = getContentResolver().insert(customRecipeUri, recipe);
+        if (newRow == null) {
+            Log.d(TAG, "saveHelper: problem inserting recipe");
+        } else {
+            Toast.makeText(this, getString(R.string.recipe_saved), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, CustomRecipeActivity.class);
+            intent.putExtra(getString(R.string.recipe_uri), newRow);
+            startActivity(intent);
+        }
+    }
+
+    /**
+     * Helper that returns a comma delimited string. Used to put all the steps and ingredients all
+     * in one string to be saved in one column of sql database
+     * @return
+     */
+    public String combineIngredients() {
+        StringBuilder combined = new StringBuilder();
+        for (int i = 1; i < ingre_layout.getChildCount(); i++) {
+            String ingredient = ingre_layout.getChildAt(i).toString();
+            Log.d(TAG, "combine: next ingredient:" + ingredient);
+            combined.append(ingredient);
+            combined.append(",");
+        }
+        return combined.toString();
+    }
+
+    public String combineSteps() {
+        StringBuilder combined = new StringBuilder();
+        for (int i = 1; i < dir_layout.getChildCount(); i=i+2) {
+            String step = ingre_layout.getChildAt(i).toString();
+            Log.d(TAG, "combine: next ingredient:" + step);
+            combined.append(step);
+            combined.append(",");
+        }
+        return combined.toString();
+    }
+
+    /**
+     * helper that takes all paths in PHOTOPATHS arrayList and puts them into one comma delimited
+     * string to be saved in sql database
+     * @return
+     */
+    public String combineImagePaths() {
+        StringBuilder combined = new StringBuilder();
+        for (String path : photoPaths) {
+            combined.append(path);
+            combined.append(",");
+        }
+        return combined.toString();
+    }
+
 
 }

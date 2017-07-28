@@ -9,8 +9,8 @@
     <!--UI strings-->
     <string name="label_end">.)</string>
     <string name="no_results">No results that matched your search: </string>
-    <string name="food_gallery">Food Gallery</string>
-    <string name="find_food">Find Me Food!</string>
+    <string name="food_gallery">Food Gallery (COMING SOON)</string>
+    <string name="find_food">Find Me Food! (COMING SOON)</string>
     <string name="permission_bar">FoodOnMyMind needs location to search for nearby restaurants</string>
     <string name="gps_loc">Use GPS location to search for nearby restaurants</string>
     <string name="manual_loc">Don\'t use location - enter location manually</string>
@@ -35,6 +35,7 @@
     <string name="step">Step </string>
     <string name="need_title">Recipe requires title, enter below:</string>
     <string name="recipe_not_saved">Recipe not saved, recipes require a title to be saved</string>
+    <string name="recipe_saved">Recipe saved!</string>
 
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
@@ -49,6 +50,9 @@
     <string name="lon">longitude</string>
     <string name="loc_search">manual location</string>
     <string name="receiver">GeoReceiver</string>
+    <string name="recipe_uri">Custom Recipe URI</string>
+    <string name="recipe_image_path">Custom Recipe Image Path</string>
+    <string name="image_index">Index for the image of custom image</string>
 
     <!--Column names for the SQLiteDatabase tables-->
     <string name="col_title">title</string>
@@ -81,7 +85,8 @@
     <string name="goog_q_maxh">maxheight=</string>
     <string name="goog_q_maxw">maxwidth=</string>
 
-    <!--Google place search query parameters, set the default radius to search to be 15 miles,
+    <!--Google place search query parameters,
+    set the default radius to search to be 15 miles,
     the types query key will restrict the search to only restaurant / restaurant like places. note
     the google place search API is confusing. says the type=restaurant should be a supported type
     to filter on but to get it to work 'food' worked but not restaurant. Restaurant kept returning

@@ -278,4 +278,8 @@ public class foodProvider extends ContentProvider {
         return pointer;
     }
 
+    public dbHelper getmDBhelperForTest() {
+        return  mDBhelper;
+    }
+
 }

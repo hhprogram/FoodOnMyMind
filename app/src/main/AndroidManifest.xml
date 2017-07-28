@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.harrison.foodonmymind">
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -31,18 +34,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".TabsActivity" />
-        <!--remember need to add the activity to the manifest or trying to launch an intent that
-        launches the below activity will fail as the app will not know about the actiivty class-->
+        <!--
+        remember need to add the activity to the manifest or trying to launch an intent that
+        launches the below activity will fail as the app will not know about the actiivty class
+        -->
         <activity android:name=".AddRecipeActivity" />
 
-        <!--added the below service as we need an intent service to grab the GPS location, as
-        this is done through a service and not on main thread-->
+        <!--
+        added the below service as we need an intent service to grab the GPS location, as
+        this is done through a service and not on main thread
+        -->
         <service
             android:name=".GeoIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
-        <!--this is required for me to save images taken by the camera as I use this to get the
-        URI of a file created for the new image-->
+        <!--
+        this is required for me to save images taken by the camera as I use this to get the
+        URI of a file created for the new image
+        -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="@string/authority"
@@ -50,8 +59,13 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
+        <provider
+            android:authorities="com.harrison.foodonmymind"
+            android:name=".data.foodProvider"/>
+
+        <activity android:name=".CustomRecipeActivity"></activity>
     </application>
 
 </manifest>

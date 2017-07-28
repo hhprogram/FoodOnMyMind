@@ -13,7 +13,10 @@ import static android.content.ContentValues.TAG;
 
 public class dbHelper extends SQLiteOpenHelper{
 
-    public static String DATABASE_NAME = "movies.db";
+    //just the name of the file where the database will be stored. So the SQLITE open helper knows
+    //where to access to go get the actual database. needs a .db extension or else onCreate not
+    //called
+    public static String DATABASE_NAME = "food.db";
     public static final int DATABASE_VERSION = 2;
 
     public dbHelper(Context context) {
