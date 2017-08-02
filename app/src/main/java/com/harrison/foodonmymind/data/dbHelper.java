@@ -23,41 +23,48 @@ public class dbHelper extends SQLiteOpenHelper{
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+//    note: when doing these SQL commands there needs to be a space between the column name
+//    foodContract.CustomRecipes.TITLE and the descriptors -> "text NOT NULL," hence the blank space
+//    right before each one " text NOT NULL," -> is the actual string
     @Override
     public void onCreate(SQLiteDatabase database) {
         final String SQL_CREATE_CUSTOM = "CREATE TABLE "
                 + foodContract.CustomRecipes.TABLE_NAME
                 + " ("
-                + foodContract.CustomRecipes._ID + " integer PRIMARY KEY AUTOINCREMENT"
-                + foodContract.CustomRecipes.TITLE + " text NOT NULL"
-                + foodContract.CustomRecipes.IMG_KEY + " text NOT NULL"
-                + foodContract.CustomRecipes.INGREDIENTS + "text NOT NULL"
-                + foodContract.CustomRecipes.DESC + "text NOT NULL"
+                + foodContract.CustomRecipes._ID + " integer PRIMARY KEY AUTOINCREMENT,"
+                + foodContract.CustomRecipes.TITLE + " text NOT NULL,"
+                + foodContract.CustomRecipes.IMG_KEY + " text NOT NULL,"
+                + foodContract.CustomRecipes.INGREDIENTS + " text NOT NULL,"
+                + foodContract.CustomRecipes.DESC + " text NOT NULL"
                 + " );";
 
         final String SQL_CREATE_FAV = "CREATE TABLE "
                 + foodContract.Favorites.TABLE_NAME
                 + " ("
-                + foodContract.Favorites._ID + " integer PRIMARY KEY AUTOINCREMENT"
-                + foodContract.Favorites.TITLE + " text NOT NULL"
-                + foodContract.Favorites.IMG_KEY + " text NOT NULL"
-                + foodContract.Favorites.INGREDIENTS + " text NOT NULL"
-                + foodContract.Favorites.ADDR + " text NOT NULL"
-                + foodContract.Favorites.PRICE + " integer NOT NULL"
-                + foodContract.Favorites.RATING + " real NOT NULL"
-                + foodContract.Favorites.SRC + "text NOT NULL"
+                + foodContract.Favorites._ID + " integer PRIMARY KEY AUTOINCREMENT,"
+                + foodContract.Favorites.TITLE + " text NOT NULL,"
+                + foodContract.Favorites.IMG_KEY + " text NOT NULL,"
+                + foodContract.Favorites.INGREDIENTS + " text NOT NULL,"
+                + foodContract.Favorites.ADDR + " text NOT NULL,"
+                + foodContract.Favorites.PRICE + " integer NOT NULL,"
+                + foodContract.Favorites.RATING + " real NOT NULL,"
+                + foodContract.Favorites.SRC + " text NOT NULL"
                 + " );";
 
         final String SQL_CREATE_REST = "CREATE TABLE "
                 + foodContract.Restaurants.TABLE_NAME
                 + " ("
-                + foodContract.Restaurants._ID + " integer PRIMARY KEY AUTOINCREMENT"
-                + foodContract.Restaurants.TITLE + " text NOT NULL"
-                + foodContract.Restaurants.IMG_KEY + " text NOT NULL"
-                + foodContract.Restaurants.ADDR + " text NOT NULL"
-                + foodContract.Restaurants.PRICE + " integer NOT NULL"
+                + foodContract.Restaurants._ID + " integer PRIMARY KEY AUTOINCREMENT,"
+                + foodContract.Restaurants.TITLE + " text NOT NULL,"
+                + foodContract.Restaurants.IMG_KEY + " text NOT NULL,"
+                + foodContract.Restaurants.ADDR + " text NOT NULL,"
+                + foodContract.Restaurants.PRICE + " integer NOT NULL,"
                 + foodContract.Restaurants.RATING + " real NOT NULL"
                 + " );";
+//        need to put these in or else the actual tables don't get created.
+        database.execSQL(SQL_CREATE_CUSTOM);
+        database.execSQL(SQL_CREATE_FAV);
+        database.execSQL(SQL_CREATE_REST);
     }
 
     /**

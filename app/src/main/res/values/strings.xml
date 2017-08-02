@@ -66,7 +66,8 @@
 
     <!--File saving related strings-->
     <string name="ftype">.jpg</string>
-    <string name="authority">com.harrison.foodonmymind</string>
+    <string name="file_provider_authority">com.harrison.foodonmymind.fileProvider</string>
+    <string name="food_provider_authority">com.harrison.foodonmymind.foodProvider</string>
 
     <!--DB query strings-->
     <string name="db_or">OR</string>

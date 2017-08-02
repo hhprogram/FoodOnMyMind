@@ -22,7 +22,7 @@ public class foodProvider extends ContentProvider {
 
     //When we create a content provider we need to create the associated DBhelper instance object
     //so we can interact with the underlying DB and make sure the table actually is created first
-    //if this is the first time creating it. Use this helper instance to get instance objects
+    //if this is the first time creating it. Use this helper insta+nce to get instance objects
     //of the database so we can actually interact with it via query, insert etc...
     @Override
     public boolean onCreate() {
@@ -30,11 +30,29 @@ public class foodProvider extends ContentProvider {
         return true;
     }
 
+    /**
+     * note: need to also add the URIs that are not just the table name URIs ie the addUri lines
+     * that have the table name and then any number. This is required because when I insert a row
+     * I get the new specific URI (ex. com.harrison.foodonmymind.foodProvider.custom_recipes/2
+     * where 2 is the row number where the entry was inserted. And then in the customRecipeActivity
+     * I query that row when I create a cursor loader so that essentially queries the provider
+     * with the URI being equal to com.harrison.foodonmymind.foodProvider.custom_recipes/2
+     * and before I didn't have any of those in buildMatcher it was breaking as it couldn't match
+     * the URI down in the query() method as the matcher didn't know what to do with /#
+     * @return a Uri matcher that will be used to match URI codes to be used to look up within the
+     * database
+     */
     static UriMatcher buildUriMatcher() {
         UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.CustomRecipes.TABLE_NAME, CUSTOM);
         matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.Favorites.TABLE_NAME, FAVORITES);
-        matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.Restaurants.TABLE_NAME, FAVORITES);
+        matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.Restaurants.TABLE_NAME, RESTAURANTS);
+        matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.CustomRecipes.TABLE_NAME + "/#",
+                CUSTOM);
+        matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.Favorites.TABLE_NAME + "/#",
+                FAVORITES);
+        matcher.addURI(foodContract.CONTENT_AUTHORITY, foodContract.Restaurants.TABLE_NAME + "/#",
+                RESTAURANTS);
         return matcher;
     }
 

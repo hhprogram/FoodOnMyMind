@@ -3,7 +3,6 @@ package com.harrison.foodonmymind;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -220,7 +219,7 @@ public class AddRecipeActivity extends AppCompatActivity {
             Log.d(TAG, "addPic: IO Exception when trying to create file");
         }
         if (photo_file != null) {
-            Uri image_uri = FileProvider.getUriForFile(this, getString(R.string.authority), photo_file);
+            Uri image_uri = FileProvider.getUriForFile(this, getString(R.string.file_provider_authority), photo_file);
             camera.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
         }
         chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS , new Intent[]{camera});
@@ -331,6 +330,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         Uri customRecipeUri = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME);
         Log.d(TAG, "saveHelper: " + customRecipeUri.toString());
         Uri newRow = getContentResolver().insert(customRecipeUri, recipe);
+//        Log.d(TAG, "saveHelper: " + newRow.toString());
         if (newRow == null) {
             Log.d(TAG, "saveHelper: problem inserting recipe");
         } else {

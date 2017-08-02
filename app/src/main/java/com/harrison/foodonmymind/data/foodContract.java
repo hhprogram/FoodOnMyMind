@@ -10,7 +10,7 @@ import android.provider.BaseColumns;
  */
 
 public class foodContract {
-    public static final String CONTENT_AUTHORITY = "com.harrison.foodonmymind";
+    public static final String CONTENT_AUTHORITY = "com.harrison.foodonmymind.foodProvider";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String CUSTOM_RECIPES = "custom_recipes";
     public static final String RESTAURANTS = "restaurants";
@@ -33,7 +33,7 @@ public class foodContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + CUSTOM_RECIPES;
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + CUSTOM_RECIPES;
-        public static final String TABLE_NAME = "custom_recipes";
+        public static final String TABLE_NAME = CUSTOM_RECIPES;
         //  this will be the column of either the recipe title or the restaurant name
         public static final String TITLE = "title";
         //  this will be used to find the image associated with the line item
@@ -52,7 +52,7 @@ public class foodContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + RESTAURANTS;
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + RESTAURANTS;
-        public static final String TABLE_NAME = "custom_recipes";
+        public static final String TABLE_NAME = RESTAURANTS;
         //  this will be the column of either the recipe title or the restaurant name
         public static final String TITLE = "title";
         //  this will be used to find the image associated with the line item
@@ -74,7 +74,7 @@ public class foodContract {
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + FAV;
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + FAV;
-        public static final String TABLE_NAME = "custom_recipes";
+        public static final String TABLE_NAME = FAV;
         //  this will be the column of either the recipe title or the restaurant name
         public static final String TITLE = "title";
         //  this will be used to find the image associated with the line item

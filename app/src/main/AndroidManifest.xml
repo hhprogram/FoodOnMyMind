@@ -54,7 +54,7 @@
         -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="@string/authority"
+            android:authorities="@string/file_provider_authority"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -62,7 +62,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:authorities="com.harrison.foodonmymind"
+            android:authorities="@string/food_provider_authority"
             android:name=".data.foodProvider"/>
 
         <activity android:name=".CustomRecipeActivity"></activity>
