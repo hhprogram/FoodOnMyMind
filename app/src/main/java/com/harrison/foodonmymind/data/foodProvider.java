@@ -145,11 +145,11 @@ public class foodProvider extends ContentProvider {
                 break;
             case CUSTOM:
                 rowId = db.insert(foodContract.CustomRecipes.TABLE_NAME, null, values);
-                insertedRow = foodContract.buildFoodUri(foodContract.Favorites.TABLE_NAME, rowId);
+                insertedRow = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME, rowId);
                 break;
             case RESTAURANTS:
                 rowId = db.insert(foodContract.Restaurants.TABLE_NAME, null, values);
-                insertedRow = foodContract.buildFoodUri(foodContract.Favorites.TABLE_NAME, rowId);
+                insertedRow = foodContract.buildFoodUri(foodContract.Restaurants.TABLE_NAME, rowId);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri:" + uri);

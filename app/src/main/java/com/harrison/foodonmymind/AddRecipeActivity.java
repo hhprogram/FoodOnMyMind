@@ -330,7 +330,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         Uri customRecipeUri = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME);
         Log.d(TAG, "saveHelper: " + customRecipeUri.toString());
         Uri newRow = getContentResolver().insert(customRecipeUri, recipe);
-//        Log.d(TAG, "saveHelper: " + newRow.toString());
+        Log.d(TAG, "saveHelper: " + newRow.toString());
         if (newRow == null) {
             Log.d(TAG, "saveHelper: problem inserting recipe");
         } else {

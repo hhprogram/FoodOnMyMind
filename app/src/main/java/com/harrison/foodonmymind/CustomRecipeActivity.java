@@ -61,26 +61,40 @@ public class CustomRecipeActivity extends AppCompatActivity
             String steps = data.getString(steps_col);
             String ingredients = data.getString(ingredients_col);
             String imagePaths = data.getString(image_col);
+            Log.d(TAG, "onLoadFinished: " + imagePaths + "stop");
+//            note: doing this it will at least add at least one empty string therefore it will add
+//            one thing even if there is nothing in that database column
             ArrayList<String> ingredientsList = new ArrayList<String>(Arrays.asList(ingredients.split(",")));
             ArrayList<String> stepsList = new ArrayList<String>(Arrays.asList(steps.split(",")));
             imageList = new ArrayList<String>(Arrays.asList(imagePaths.split(",")));
-            TextView titleView = (TextView) findViewById(R.id.recipe_title);
+            TextView titleView = (TextView) findViewById(R.id.custom_title);
             titleView.setText(title);
 //            note the secondn argument to arrayAdapter constructor is the layout to be used for
 //            each item in the list view. Thus easy to assign this adapter to a listView that is
 //            a child of some other view as just make the item view layout a separate xml and then
 //            get the listView using findViewById and set this adapter
-            ArrayAdapter ingredientsAdapter = new ArrayAdapter(this, R.layout.custom_list_item,
+//            note added the <> or else get an unchecked warning
+            ArrayAdapter ingredientsAdapter = new ArrayAdapter<>(this, R.layout.custom_list_item,
                     ingredientsList);
-            ArrayAdapter stepsAdapter = new ArrayAdapter(this, R.layout.custom_list_item,
+            ArrayAdapter stepsAdapter = new ArrayAdapter<>(this, R.layout.custom_list_item,
                     stepsList);
             ListView ingredientsView = (ListView) findViewById(R.id.custom_ingredients);
             ListView stepsView = (ListView) findViewById(R.id.custom_directions);
             ingredientsView.setAdapter(ingredientsAdapter);
             stepsView.setAdapter(stepsAdapter);
             numImages = imageList.size();
-            ViewPager pager = (ViewPager)findViewById(R.id.custom_pictures);
+            Log.d(TAG, "onLoadFinished: # ingredients:" + ingredientsList.size() + ";# steps: "
+                    + stepsList.size() + "; # of images: " + imageList.size());
+            if (numImages == 1 && imageList.get(0) == "") {
+                Log.d(TAG, "onLoadFinished: adding default image");
+                String default_recipe_icon = getString(R.string.mipmap_uri_base);
+//                because the arraylist will add an element for the empty string we need to just
+//                replace the empty string element with the actual default path
+                imageList.set(0, default_recipe_icon + getPackageName() +"/"+ R.mipmap.recipe_default);
+            }
+            ViewPager pager = (ViewPager) findViewById(R.id.custom_pictures);
             pager.setAdapter(adapter);
+
         } else {
             Log.d(TAG, "onLoadFinished: no data for some reason");
         }
@@ -89,6 +103,7 @@ public class CustomRecipeActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader: " + recipeLocation.toString());
         return new CursorLoader(this, recipeLocation, null, null, null, null);
     }
 
@@ -110,7 +125,8 @@ public class CustomRecipeActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             Custom_image_fragment fragment = new Custom_image_fragment();
             Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.image_index), imageList.get(position));
+            Log.d(TAG, "getItem: " + position + imageList.get(position));
+            bundle.putString(getString(R.string.recipe_image_path), imageList.get(position));
             fragment.setArguments(bundle);
             return fragment;
         }

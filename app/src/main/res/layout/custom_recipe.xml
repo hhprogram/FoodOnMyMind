@@ -8,6 +8,12 @@
         android:layout_height="wrap_content"
         android:id="@+id/custom_title"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/test_image"/>
+
+
     <android.support.v4.view.ViewPager
         android:id="@+id/custom_pictures"
         android:layout_width="match_parent"
