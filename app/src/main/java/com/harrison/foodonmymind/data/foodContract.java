@@ -121,11 +121,12 @@ public class foodContract {
 
     /**
      * helper function to return the rowID. Used for when we first insert a row of data and since
-     * the uri returned in insert method it returns a new URI of the newly inserted data
+     * the uri returned in insert method it returns a new URI of the newly inserted data. So we
+     * just use this int to use to query / filter on the _id column to find the specific row
      * @param uri
      * @return
      */
-    public static int getRowUri(Uri uri) {
+    public static int getRowUriNum(Uri uri) {
         return Integer.parseInt(uri.getPathSegments().get(1));
     }
 }

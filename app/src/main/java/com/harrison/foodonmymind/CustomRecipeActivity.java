@@ -114,9 +114,24 @@ public class CustomRecipeActivity extends AppCompatActivity
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "onCreateLoader: " + recipeLocation.toString());
         String selection = foodContract.ID + "= ?";
-        String[] selection_args = new String[]{Integer.toString(foodContract.getRowUri(recipeLocation))};
+        String[] selection_args = new String[]{Integer.toString(foodContract.getRowUriNum(recipeLocation))};
+//        note: need to create the CursorLoader in this way with proper selection and selection args
+//        vs the commented out version with just the recipeLocation with all nulls. Before when
+//        we used the commented out code it would just return a Cursor that pointed to the very
+//        first row of the sqlitedatabase even though I wanted to return the row that we just
+//        inserted through the AddRecipeActivity. This happens because even though we are putting
+//        in the row specific uri all it does is then call the contentResolver.query() and then
+//        the foodProvider.query() which will just take the uri and match to a table. and if you
+//        look at the provider code then it will just match with the custom recipes table and then
+//        since there are no restrictions then it will just get the very first entry.
+//        So, that's why I have to filter for columns via selection by filtering for the
+//        automatically created column _id that is unique identifier and then just use the
+//        method getRowUriNum which gets the number at the end of the specific row URI (which is
+//        just the unique id identifier in the _id column.
         return new CursorLoader(this, recipeLocation, null, selection, selection_args, null);
+//        return new CursorLoader(this, recipeLocation, null, null, null, null);
     }
+
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
