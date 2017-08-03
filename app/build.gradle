@@ -17,7 +17,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        free {
+            applicationId "com.harrison.foodonmymind.free"
+        }
+        paid {
+            applicationId "com.harrison.foodonmymind.paid"
+        }
+    }
 }
+
+
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -30,6 +41,8 @@ dependencies {
 //    interface for when we request permissions for GPS location
 //    note we need the 'com.android.support:support-v13:<the version of the library that we want
 //    to include...ie see above we wanted the 25.3.1 version of this library>
+    //    technically don't need google player services ads i think because to serve ads we use
+//    firebase ads dependency
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -37,4 +50,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.0.1'
     compile 'com.android.support:support-v13:25.3.1'
     testCompile 'junit:junit:4.12'
+    freeCompile 'com.google.android.gms:play-services-ads:11.0.1'
+    freeCompile 'com.google.firebase:firebase-ads:11.0.1'
 }

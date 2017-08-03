@@ -81,10 +81,14 @@ public class Custom_recipe_fragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 //        the selection clause (for WHERE clause). I.e ingredients=? or title=? or directinons=?
-        String select_clause = ingr_col + " " + like + " " + percent + db_var + percent
-                + or + " " + title_col + " " + like + " " + percent + db_var + percent
-                + or + " " + dir_col + " " + like + " " + percent + db_var + percent;
-        String[] select_args = {query};
+//        note: i changed this as putting '%' characters in the selection clause with the ? does
+//        not give a valid SQL statement. So just do normal statement with ?'s and then in the
+//        selection args array just tack on % characters before and after to get the LIKE
+//        anything that contains the QUERY string in there
+        String select_clause = ingr_col + " LIKE ? OR " + title_col + " LIKE ? OR " + dir_col +
+                " LIKE ?";
+//        need an entry for each ? in selection string
+        String[] select_args = {"%" + query + "%", "%" + query + "%", "%" + query + "%"};
         Uri custom = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME);
         return new CursorLoader(getContext(), custom, null, select_clause, select_args, null);
 //        this is creating a cursor that will point to a set of rows that satisfies:

@@ -131,6 +131,9 @@
     <string name="f2f_get_recipe">recipe</string>
     <string name="f2f_get_ingr">ingredients</string>
 
+    <!--google ad strings-->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
