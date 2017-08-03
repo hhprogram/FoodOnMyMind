@@ -6,5 +6,5 @@
     <dimen name="ingredient">300dp</dimen>
     <dimen name="quantity">80dp</dimen>
     <dimen name="hint_size">16sp</dimen>
-    <dimen name="recipe_image_height">1500dp</dimen>
+    <dimen name="recipe_image_height">200dp</dimen>
 </resources>

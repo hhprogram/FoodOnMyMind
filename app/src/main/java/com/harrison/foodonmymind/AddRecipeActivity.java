@@ -29,8 +29,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.R.attr.direction;
+import static android.R.attr.value;
 import static android.content.ContentValues.TAG;
 import static com.harrison.foodonmymind.R.dimen.quantity;
+import static com.harrison.foodonmymind.R.string.ingredients;
 import static com.harrison.foodonmymind.R.string.step;
 
 /**
@@ -94,7 +97,9 @@ public class AddRecipeActivity extends AppCompatActivity {
                 } else {
                     Log.d(TAG, "onActivityResult: " + data.getScheme());
                     Uri selectedImage = data.getData();
-                    image_location = selectedImage.getPath();
+                    Log.d(TAG, "onActivityResult: selected image uri:" + selectedImage.toString());
+//                    image_location = selectedImage.getPath();
+                    image_location = selectedImage.toString();
                     photoPaths.add(image_location);
                     Log.d(TAG, "onActivityResult: data not null not using camera");
                     }
@@ -153,10 +158,13 @@ public class AddRecipeActivity extends AppCompatActivity {
 //        then at very end we add this new relative layout to the existing linear layout that holds
 //        the ingredient lists
         ingre_layout.addView(ingre_line);
+        Log.d(TAG, "addIngredient: " + ingre_layout.getChildCount());
     }
 
     /**
      * method called when the add step button is clicked in the add recipe layout
+     * Note: i'm only adding one child view to DIR_LAYOUT as i'm putting the textview and the
+     * edittext view into one linear layout view
      * @param view
      */
     public void addStep(View view) {
@@ -180,6 +188,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         new_step.addView(step_num);
         new_step.addView(step_text);
         dir_layout.addView(new_step);
+        Log.d(TAG, "addStep: # step children:" + dir_layout.getChildCount());
     }
 
     /**
@@ -241,6 +250,9 @@ public class AddRecipeActivity extends AppCompatActivity {
      * it under a directory specifically related to my app and thus it is private to my app and
      * will be deleted when my app is deleted.(also see my comment in the file_paths.xml file in the
      * xml directory
+     *
+     * note if user just pics an existing image this File that is returned isn't used (should check
+     * if I need to delete this file or if camera action not taken then this file isn't saved)
      * @return a file object that the image will be saved to
      */
     private File createImageFile() throws IOException{
@@ -346,34 +358,64 @@ public class AddRecipeActivity extends AppCompatActivity {
     /**
      * Helper that returns a comma delimited string. Used to put all the steps and ingredients all
      * in one string to be saved in one column of sql database
+     * This works by taking the linear layout INGRE_LAYOUT and going through its 2nd children and
+     * all children after that. Works like this because the first child is a static textView and
+     * then when we 'add' an ingredient it adds a relativeLayout that has 2 child EditText views.
+     * Therefore, we first look through the relative layout children. Then for each relative
+     * layout child view we must go through the 2 EditText children it has (note no need for
+     * dynamic referencing as the first child is always the ingredient description and the 2nd
+     * is the quantity)
      * @return
      */
     public String combineIngredients() {
         StringBuilder combined = new StringBuilder();
-        RelativeLayout ingredients = (RelativeLayout) findViewById(R.id.ingredient_quantities);
-        for (int i = 0; i < ingredients.getChildCount(); i+= 2) {
-            EditText value = (EditText) ingredients.getChildAt(i);
+        Log.d(TAG, "combineIngredients: number of children" + ingre_layout.getChildCount());
+        for (int i = 1; i < ingre_layout.getChildCount(); i++) {
+            RelativeLayout r_layout = (RelativeLayout) ingre_layout.getChildAt(i);
+            EditText value = (EditText) r_layout.getChildAt(0);
             String ingredient = value.getText().toString();
-            EditText quantity = (EditText) ingredients.getChildAt(i+1);
-            String quantity_str = quantity.toString();
-            Log.d(TAG, "combine: next ingredient:" + ingredient + " " + quantity_str);
-            combined.append(ingredient);
-            combined.append(" - ");
-            combined.append(quantity_str);
+            Log.d(TAG, "combineIngredients: loop # " + i);
+            if (!ingredient.equals("")) {
+                EditText quantity = (EditText) r_layout.getChildAt(1);
+                String quantity_str = quantity.getText().toString();
+                Log.d(TAG, "combine: next ingredient:" + ingredient + " " + quantity_str);
+                combined.append(ingredient);
+                combined.append(" - ");
+                combined.append(quantity_str);
+                combined.append(",");
+            }
+        }
+        if (combined.toString().equals("")) {
+//        putting  a comma if ingredient is empty and thus
+//        we want to put no ingredients in the ingredients column and thus in CustomRecipeActivity
+//        we want the arrayLists that we build from separating the string by commas to be zero.
+//        thus if we put a leading comma this will happen. but if we don't populate the
+//        stringBuilder with anything then it will just be an empty string but when we parse out
+//        the string it will add the empty string and make the ingredientsList have length 1 with
+//        just an empty string which is not what i want
             combined.append(",");
         }
+        Log.d(TAG, "combineIngredients: " + combined.toString() + ":");
         return combined.toString();
     }
 
     public String combineSteps() {
+//        don't need a leading comma here since doing it a different way where I always add a
+//        comma since there will always at least be 2 children and go through thsi for loop at
+//        least once. And if step is empty it just adds the leading comma for me
         StringBuilder combined = new StringBuilder();
-        for (int i = 1; i < dir_layout.getChildCount(); i=i+2) {
-            EditText direction = (EditText)  dir_layout.getChildAt(i);
+        Log.d(TAG, "combineSteps: " + dir_layout.getChildCount());
+        for (int i = 0; i < dir_layout.getChildCount(); i++) {
+            LinearLayout l_layout = (LinearLayout)  dir_layout.getChildAt(i);
+//            always get the 2nd child as every linear layout only has 2 children (1) number label
+//            (2) the input text
+            EditText direction = (EditText) l_layout.getChildAt(1);
             String step = direction.getText().toString();
-            Log.d(TAG, "combine: next ingredient:" + step);
+            Log.d(TAG, "combine: step #" +  i + ":" + step);
             combined.append(step);
             combined.append(",");
         }
+        Log.d(TAG, "combineSteps: " + combined.toString() + ":");
         return combined.toString();
     }
 

@@ -6,25 +6,32 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/custom_title"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/test_image"/>
-
+        android:id="@+id/custom_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/custom_pictures"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/recipe_image_height"
         android:layout_height="@dimen/recipe_image_height"
         android:layout_below="@id/custom_title">
     </android.support.v4.view.ViewPager>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/ingredients_label"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/custom_ingredients"></ListView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/steps_label"/>
 
     <ListView
         android:layout_width="match_parent"

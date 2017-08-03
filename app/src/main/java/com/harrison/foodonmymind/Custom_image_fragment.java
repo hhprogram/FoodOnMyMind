@@ -39,8 +39,11 @@ public class Custom_image_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        RelativeLayout rootView = (RelativeLayout) inflater.inflate(
+//                R.layout.fragment_custom_image_fragment, container, false);
         imageView = (ImageView) inflater.inflate(R.layout.fragment_custom_image_fragment, container,
                 false);
+//        imageView = (ImageView) rootView.findViewById(R.id.single_custom_image);
         Log.d(TAG, "onCreateView custom image fragment: " + imagePath);
         imageView.setImageURI(Uri.parse(imagePath));
         return imageView;

@@ -36,6 +36,8 @@
     <string name="need_title">Recipe requires title, enter below:</string>
     <string name="recipe_not_saved">Recipe not saved, recipes require a title to be saved</string>
     <string name="recipe_saved">Recipe saved!</string>
+    <string name="ingredients_label">Ingredients:</string>
+    <string name="steps_label">Directions:</string>
 
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
