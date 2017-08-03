@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static android.content.ContentValues.TAG;
+import static com.harrison.foodonmymind.R.dimen.quantity;
+import static com.harrison.foodonmymind.R.string.step;
 
 /**
  * Created by harrison on 7/6/17. Activity used to host the layout for adding a user's own
@@ -130,7 +132,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         new_ingre.setId(INGRE_ID);
         EditText new_quant = new EditText(this);
         RelativeLayout.LayoutParams quantParams = new RelativeLayout
-                .LayoutParams((int) getResources().getDimension(R.dimen.quantity)
+                .LayoutParams((int) getResources().getDimension(quantity)
                 , RelativeLayout.LayoutParams.WRAP_CONTENT);
 //        addRule is how i programatically align the editText view within this relativeLayout to be
 //        aligned to the right of its parent and to the right of the new_ingre view
@@ -167,7 +169,7 @@ public class AddRecipeActivity extends AppCompatActivity {
                 , LinearLayout.LayoutParams.WRAP_CONTENT);
         new_step.setOrientation(LinearLayout.VERTICAL);
         new_step.setLayoutParams(step_params);
-        step_num.setText(getString(R.string.step) + Integer.toString(num_steps));
+        step_num.setText(getString(step) + Integer.toString(num_steps));
 //        setting the layout params like this as don't need any relative layout referencing thus
 //        just need to define a width and height and thus just do it like this
         step_num.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
@@ -348,10 +350,16 @@ public class AddRecipeActivity extends AppCompatActivity {
      */
     public String combineIngredients() {
         StringBuilder combined = new StringBuilder();
-        for (int i = 1; i < ingre_layout.getChildCount(); i++) {
-            String ingredient = ingre_layout.getChildAt(i).toString();
-            Log.d(TAG, "combine: next ingredient:" + ingredient);
+        RelativeLayout ingredients = (RelativeLayout) findViewById(R.id.ingredient_quantities);
+        for (int i = 0; i < ingredients.getChildCount(); i+= 2) {
+            EditText value = (EditText) ingredients.getChildAt(i);
+            String ingredient = value.getText().toString();
+            EditText quantity = (EditText) ingredients.getChildAt(i+1);
+            String quantity_str = quantity.toString();
+            Log.d(TAG, "combine: next ingredient:" + ingredient + " " + quantity_str);
             combined.append(ingredient);
+            combined.append(" - ");
+            combined.append(quantity_str);
             combined.append(",");
         }
         return combined.toString();
@@ -360,7 +368,8 @@ public class AddRecipeActivity extends AppCompatActivity {
     public String combineSteps() {
         StringBuilder combined = new StringBuilder();
         for (int i = 1; i < dir_layout.getChildCount(); i=i+2) {
-            String step = ingre_layout.getChildAt(i).toString();
+            EditText direction = (EditText)  dir_layout.getChildAt(i);
+            String step = direction.getText().toString();
             Log.d(TAG, "combine: next ingredient:" + step);
             combined.append(step);
             combined.append(",");

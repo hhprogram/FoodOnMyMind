@@ -40,6 +40,7 @@ public class CustomRecipeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_recipe);
         recipeLocation = getIntent().getParcelableExtra(getString(R.string.recipe_uri));
+        Log.d(TAG, "onCreate: uri: " + recipeLocation);
         inflater = getLayoutInflater();
         adapter = new CustomRecipeImageSlider(getSupportFragmentManager());
 //        note since this is an Activity class need to class getSupportLoaderManager vs just
@@ -53,6 +54,8 @@ public class CustomRecipeActivity extends AppCompatActivity
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.moveToFirst()) {
             Log.d(TAG, "Cursor has data");
+            int id = data.getColumnIndex(foodContract.CustomRecipes._ID);
+            Log.d(TAG, "onLoadFinished: rowid " + data.getString(id));
             int title_col = data.getColumnIndex(foodContract.CustomRecipes.TITLE);
             int steps_col = data.getColumnIndex(foodContract.CustomRecipes.DESC);
             int ingredients_col = data.getColumnIndex(foodContract.CustomRecipes.INGREDIENTS);
@@ -61,7 +64,7 @@ public class CustomRecipeActivity extends AppCompatActivity
             String steps = data.getString(steps_col);
             String ingredients = data.getString(ingredients_col);
             String imagePaths = data.getString(image_col);
-            Log.d(TAG, "onLoadFinished: " + imagePaths + "stop");
+            Log.d(TAG, "onLoadFinished: " + title + "-the recipe title");
 //            note: doing this it will at least add at least one empty string therefore it will add
 //            one thing even if there is nothing in that database column
             ArrayList<String> ingredientsList = new ArrayList<String>(Arrays.asList(ingredients.split(",")));
@@ -85,6 +88,9 @@ public class CustomRecipeActivity extends AppCompatActivity
             numImages = imageList.size();
             Log.d(TAG, "onLoadFinished: # ingredients:" + ingredientsList.size() + ";# steps: "
                     + stepsList.size() + "; # of images: " + imageList.size());
+            for (String i : ingredientsList) {
+                Log.d(TAG, "onLoadFinished: ingredient: " + i);
+            }
             if (numImages == 1 && imageList.get(0) == "") {
                 Log.d(TAG, "onLoadFinished: adding default image");
                 String default_recipe_icon = getString(R.string.mipmap_uri_base);
@@ -101,10 +107,15 @@ public class CustomRecipeActivity extends AppCompatActivity
 
     }
 
+//    FOR SOME REASON NOT GRABBING THE CORRECT DATABASE ROW - ex.) when I ENTER A NEW RECIPE IT
+//    IS SHOWING AN OLD ONE THAT ISN"T THE ONE I JUST ENTERED"
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "onCreateLoader: " + recipeLocation.toString());
-        return new CursorLoader(this, recipeLocation, null, null, null, null);
+        String selection = foodContract.ID + "= ?";
+        String[] selection_args = new String[]{Integer.toString(foodContract.getRowUri(recipeLocation))};
+        return new CursorLoader(this, recipeLocation, null, selection, selection_args, null);
     }
 
     @Override

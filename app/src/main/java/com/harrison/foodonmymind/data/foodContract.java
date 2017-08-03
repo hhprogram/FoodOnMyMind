@@ -25,6 +25,8 @@ public class foodContract {
     public static final String ADDR = "address";
 //  some short description of either the restaurant or recipe
     public static final String DESC = "description";
+//    the built in column that is the autoincremented unique id identifier
+    public static final String ID = "_id";
 
     public static final class CustomRecipes implements BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
@@ -115,5 +117,15 @@ public class foodContract {
 
     public static String getTableUri(Uri uri) {
         return uri.getPathSegments().get(0);
+    }
+
+    /**
+     * helper function to return the rowID. Used for when we first insert a row of data and since
+     * the uri returned in insert method it returns a new URI of the newly inserted data
+     * @param uri
+     * @return
+     */
+    public static int getRowUri(Uri uri) {
+        return Integer.parseInt(uri.getPathSegments().get(1));
     }
 }
