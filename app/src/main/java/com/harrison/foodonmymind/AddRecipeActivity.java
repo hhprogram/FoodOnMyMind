@@ -98,6 +98,11 @@ public class AddRecipeActivity extends AppCompatActivity {
                     Log.d(TAG, "onActivityResult: " + data.getScheme());
                     Uri selectedImage = data.getData();
                     Log.d(TAG, "onActivityResult: selected image uri:" + selectedImage.toString());
+//                    don't use the getPath because before I used it and it was just the relative
+//                    path and it didn't seem to be working as couldn't find the image using the
+//                    relative path. Therefore, selectedImage is just a URI of data. therefore this
+//                    is the full path to the image thus we can just convert this to a string a use
+//                    it later on to find the image and populate the viewPager
 //                    image_location = selectedImage.getPath();
                     image_location = selectedImage.toString();
                     photoPaths.add(image_location);
