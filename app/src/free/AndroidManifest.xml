@@ -1,0 +1,22 @@
+<!--note make the build work make sure the package name is just the name of the overall
+package ie - com.harrison.foodonmymind vs. it's own pacakge. thus the application will know
+which one to grab if we compile the free version-->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.harrison.foodonmymind">
+
+    <application>
+        <!-- This meta-data tag is required to use Google Play Services. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"   />
+
+        <!-- Include the AdActivity configChanges and theme. -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@android:style/Theme.Translucent" />
+
+    </application>
+
+</manifest>

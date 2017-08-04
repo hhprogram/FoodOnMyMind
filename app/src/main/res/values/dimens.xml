@@ -7,4 +7,5 @@
     <dimen name="quantity">80dp</dimen>
     <dimen name="hint_size">16sp</dimen>
     <dimen name="recipe_image_height">200dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

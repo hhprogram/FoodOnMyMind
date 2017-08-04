@@ -62,10 +62,11 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:authorities="@string/food_provider_authority"
-            android:name=".data.foodProvider"/>
+            android:name=".data.foodProvider"
+            android:authorities="@string/food_provider_authority" />
 
-        <activity android:name=".CustomRecipeActivity"></activity>
+        <activity android:name=".CustomRecipeActivity" />
+        <activity android:name=".CustomListActivity"></activity>
     </application>
 
 </manifest>

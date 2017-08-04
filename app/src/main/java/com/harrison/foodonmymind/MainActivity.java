@@ -1,6 +1,7 @@
 package com.harrison.foodonmymind;
 
 import android.Manifest;
+import android.support.v4.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -472,6 +473,25 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, AddRecipeActivity.class);
         startActivity(intent);
     }
+
+    /**
+     * function called when the Custom Recipes button is clicked
+     * @param view
+     */
+    public void showCustom(View view) {
+        Log.d(TAG, "showCustom: clicked");
+        Intent intent = new Intent(this, CustomListActivity.class);
+        startActivity(intent);
+    }
+    
+    public void foodGallery(View view) {
+        Log.d(TAG, "foodGallery: clicked");
+    }
+
+    public void findFood(View view) {
+        Log.d(TAG, "find Food: clicked");
+    }
+
 
     /**
      * Helper method that resets the preferences to false. As we want them all to reset after every
