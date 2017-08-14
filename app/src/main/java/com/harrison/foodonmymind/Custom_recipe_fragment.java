@@ -1,6 +1,7 @@
 package com.harrison.foodonmymind;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 
@@ -69,7 +71,7 @@ public class Custom_recipe_fragment extends Fragment
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, final Cursor data) {
 //        if no cursor data then we just revert to the webAdapter and create an info object
 //        manually and just fill it with one infoItem that denotes that is empty (ie no results that
 //        match this query
@@ -81,6 +83,17 @@ public class Custom_recipe_fragment extends Fragment
 //            custom_list.setAdapter(backupAdapter);
         } else {
             adapter = new DBAdapter(getContext(), data, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+            custom_list.setOnItemClickListener(new ListView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    data.moveToPosition(i);
+                    int rowId = data.getInt(0);
+                    Uri recipe = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME,
+                            rowId);
+                    Intent intent = new Intent(getActivity(), CustomRecipeActivity.class);
+                    getActivity().startActivity(intent);
+                }
+            });
             custom_list.setAdapter(adapter);
         }
     }

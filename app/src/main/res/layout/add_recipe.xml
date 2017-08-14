@@ -10,7 +10,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/recipe_hint"
-            android:id="@+id/recipe_title"/>
+            android:id="@+id/recipe_title"
+            android:contentDescription="@string/edit_title"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/ingredients"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:contentDescription="@string/ingre_title_desc"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,25 +32,29 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/ingre_hint"
                     android:id="@+id/ingredient"
-                    android:textSize="@dimen/hint_size"/>
+                    android:textSize="@dimen/hint_size"
+                    android:contentDescription="@string/first_ingre_desc"/>
                 <EditText
                     android:layout_width="@dimen/quantity"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ingredient"
                     android:layout_alignParentRight="true"
                     android:hint="@string/quantity_hint"
-                    android:textSize="@dimen/hint_size"/>
+                    android:textSize="@dimen/hint_size"
+                    android:contentDescription="@string/first_qty_desc"/>
             </RelativeLayout>
         </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add_ingre"
-            android:onClick="addIngredient"/>
+            android:onClick="addIngredient"
+            android:contentDescription="@string/add_ingr_desc"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/recipe_steps"/>
+            android:text="@string/recipe_steps"
+            android:contentDescription="@string/dir_desc"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,28 +67,32 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/step_one"/>
+                    android:text="@string/step_one" />
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/step_hint"/>
+                    android:hint="@string/step_hint"
+                    android:contentDescription="@string/step_one_desc"/>
             </LinearLayout>
         </LinearLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add_step"
-            android:onClick="addStep"/>
+            android:onClick="addStep"
+            android:contentDescription="@string/add_step_desc"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add_picture"
-            android:onClick="addPic"/>
+            android:onClick="addPic"
+            android:contentDescription="@string/add_pic_desc"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/save_recipe"
-            android:onClick="saveRecipe"/>
+            android:onClick="saveRecipe"
+            android:contentDescription="@string/save_desc"/>
 
     </LinearLayout>
 </ScrollView>

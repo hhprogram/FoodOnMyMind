@@ -56,7 +56,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 //    which is why i'm making it a final class variable.
     private final int INGRE_ID = 10;
 //    instance variable used to keep track of the number of steps
-    private int num_steps;
+    private int num_steps, num_ingredients;
 //    variable that will be used to be assigned the path of the image that was taken with the camera
 //    use a class variable as we want to refer back to it as we want to store the path in the
 //    sql database for easy reference later
@@ -73,6 +73,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         ingre_layout = (LinearLayout) findViewById(R.id.ingredient_list);
         dir_layout = (LinearLayout) findViewById(R.id.directions);
         num_steps = 1;
+        num_ingredients = 1;
     }
 
 //    called once the Activity started by startActivityForResult() method returns data
@@ -120,6 +121,7 @@ public class AddRecipeActivity extends AppCompatActivity {
      * @param view
      */
     public void addIngredient(View view) {
+        num_ingredients += 1;
         RelativeLayout ingre_line = new RelativeLayout(this);
         RelativeLayout.LayoutParams relParams = new RelativeLayout
                 .LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT
@@ -159,6 +161,10 @@ public class AddRecipeActivity extends AppCompatActivity {
 //        should be children of the relativeLayout
         ingre_line.addView(new_ingre);
         ingre_line.addView(new_quant);
+        new_ingre.setContentDescription(getString(R.string.ingre_input_desc) +
+                Integer.toString(num_ingredients));
+        new_quant.setContentDescription(getString(R.string.qty_input_desc) +
+                Integer.toString(num_ingredients));
         ingre_line.setLayoutParams(relParams);
 //        then at very end we add this new relative layout to the existing linear layout that holds
 //        the ingredient lists
@@ -190,6 +196,8 @@ public class AddRecipeActivity extends AppCompatActivity {
         step_text.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , ViewGroup.LayoutParams.WRAP_CONTENT));
         step_text.setHint(getString(R.string.step_hint));
+        step_text.setContentDescription(getString(R.string.step_input_desc)
+                + Integer.toString(num_steps));
         new_step.addView(step_num);
         new_step.addView(step_text);
         dir_layout.addView(new_step);

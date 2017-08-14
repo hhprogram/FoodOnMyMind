@@ -39,6 +39,23 @@
     <string name="ingredients_label">Ingredients:</string>
     <string name="steps_label">Directions:</string>
 
+    <!--Content Descriptors-->
+    <string name="edit_title">Recipe title input</string>
+    <string name="ingre_title_desc">Add Ingredients and their quantities below</string>
+    <string name="dir_desc">Add directions section below</string>
+    <string name="ingre_input_desc">Input box for description of an ingredient </string>
+    <string name="qty_input_desc">Quantity for ingredient </string>
+    <string name="step_input_desc">Step number </string>
+    <string name="add_ingr_desc">Add another ingredient input box</string>
+    <string name="add_step_desc">Add another step</string>
+    <string name="add_pic_desc">Add picture to recipe</string>
+    <string name="save_desc">Save your recipe</string>
+    <string name="first_ingre_desc">Input box for description of ingredient one</string>
+    <string name="first_qty_desc">Quantity for ingredient one</string>
+    <string name="step_one_desc">Input for step one</string>
+
+
+
     <!--Base api urls-->
     <string name="recipeSearchApi">http://food2fork.com/api/search?</string>
     <string name="recipeGetApi">http://food2fork.com/api/get?</string>
