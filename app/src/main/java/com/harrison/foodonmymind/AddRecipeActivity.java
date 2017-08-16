@@ -274,6 +274,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 //        directory
         String album_name = getString(R.string.app_name);
         File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
+        Log.d(TAG, "createImageFile: directory for pics" + Environment.DIRECTORY_PICTURES);
         file.mkdirs();
 //        so this creates a file in which we will save the new image into. arguments are suffix,
 //        prefix and then the directory in which the file will belong

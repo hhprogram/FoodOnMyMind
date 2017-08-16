@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -33,11 +34,11 @@ public class Custom_recipe_fragment extends Fragment
     String like;
     String or;
     String percent;
-    String db_var = "?";
     String ingr_col;
     String title_col;
     String dir_col;
     ListView custom_list;
+    CoordinatorLayout recipe_layout;
 
     public Custom_recipe_fragment() {
         // Required empty public constructor
@@ -47,8 +48,10 @@ public class Custom_recipe_fragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        custom_list = (ListView) inflater.inflate(R.layout.search_result, container, false);
-        return custom_list;
+        recipe_layout = (CoordinatorLayout) inflater.inflate(R.layout.search_result, container
+                , false);
+        custom_list = (ListView) recipe_layout.findViewById(R.id.custom_list);
+        return recipe_layout;
     }
 
     @Override

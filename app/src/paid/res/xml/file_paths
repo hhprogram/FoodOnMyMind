@@ -2,6 +2,8 @@
 <paths>
     <!--the below path is what is returned when getExternalFilesDir() is called with the argument
     Environment.DIRECTORY_PICTURES. This is requred for setting up the fileProvider in the
-    Manifest file-->
-    <external-path name="my_images" path="Android/data/com.harrison.foodonmymind/files/Pictures" />
+    Manifest file.. Need a separate one for the free version as it uses the application ID
+    to save the pictures-->
+    <external-path name="my_images" path="Android/data/com.harrison.foodonmymind.paid/files/Pictures" />>
+
 </paths>

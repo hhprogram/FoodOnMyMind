@@ -4,13 +4,15 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.compat.BuildConfig;
 
 /**
  * Created by harrison on 6/12/17.
  */
 
 public class foodContract {
-    public static final String CONTENT_AUTHORITY = "com.harrison.foodonmymind.foodProvider";
+//    public static final String CONTENT_AUTHORITY = "com.harrison.foodonmymind.foodProvider";
+    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID + ".foodProvider";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String CUSTOM_RECIPES = "custom_recipes";
     public static final String RESTAURANTS = "restaurants";
