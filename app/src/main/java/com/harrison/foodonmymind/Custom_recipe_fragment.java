@@ -94,6 +94,7 @@ public class Custom_recipe_fragment extends Fragment
                     Uri recipe = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME,
                             rowId);
                     Intent intent = new Intent(getActivity(), CustomRecipeActivity.class);
+                    intent.putExtra(getString(R.string.recipe_uri), recipe);
                     getActivity().startActivity(intent);
                 }
             });
