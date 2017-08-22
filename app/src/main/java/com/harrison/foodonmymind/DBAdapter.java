@@ -38,14 +38,20 @@ public class DBAdapter extends CursorAdapter {
         label.setText(Integer.toString(cursor.getPosition()+1)
                 + context.getString(R.string.label_end));
         ImageView img = (ImageView)view.findViewById(R.id.item_img);
+        String image_path = cursor.getString(img_col);
+        if (image_path.equals("")) {
+//            see CustomRecipeActivity around line 100 for logic behind this string. It is string of
+//            path to a  mipmap resource
+            image_path = mContext.getString(R.string.mipmap_uri_base) + mContext.getPackageName() +"/"+ R.mipmap.recipe_default;
+        }
         Picasso.with(context)
-                .load(cursor.getString(img_col))
+                .load(image_path)
                 .into(img);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.search_result, parent, false);
+        View view = inflater.inflate(R.layout.list_item, parent, false);
         return view;
     }
 }

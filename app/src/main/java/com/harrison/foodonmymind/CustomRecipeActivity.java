@@ -93,9 +93,11 @@ public class CustomRecipeActivity extends AppCompatActivity
             }
             if (numImages == 1 && imageList.get(0) == "") {
                 Log.d(TAG, "onLoadFinished: adding default image");
+//                below is the base URI for where resources are stored
                 String default_recipe_icon = getString(R.string.mipmap_uri_base);
 //                because the arraylist will add an element for the empty string we need to just
-//                replace the empty string element with the actual default path
+//                replace the empty string element with the actual default path. See:
+//                https://stackoverflow.com/questions/4896223/how-to-get-an-uri-of-an-image-resource-in-android
                 imageList.set(0, default_recipe_icon + getPackageName() +"/"+ R.mipmap.recipe_default);
             }
             ViewPager pager = (ViewPager) findViewById(R.id.custom_pictures);
