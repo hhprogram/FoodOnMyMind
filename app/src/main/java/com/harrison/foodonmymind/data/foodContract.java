@@ -4,7 +4,9 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.support.compat.BuildConfig;
+//make sure the import is com.harrison.foodonmymind.BuildConfig.As lots of BuildConfig libraries
+//and lots of times defaults to app.compat which isn't correct
+import com.harrison.foodonmymind.BuildConfig;
 
 /**
  * Created by harrison on 6/12/17.

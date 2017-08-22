@@ -122,6 +122,7 @@ public class Custom_recipe_fragment extends Fragment
             select_args[2] = "%" + query + "%";
         }
         Uri custom = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME);
+        Log.d(TAG, "onCreateLoader: custom uri" + custom);
         return new CursorLoader(getContext(), custom, null, select_clause, select_args, null);
 //        this is creating a cursor that will point to a set of rows that satisfies:
 //        SELECT * WHERE ingredients LIKE %<query>% OR title LIKE %<query>% OR

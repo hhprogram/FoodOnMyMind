@@ -261,7 +261,7 @@ public class AddRecipeActivity extends AppCompatActivity {
      * getExternalFilesDir(Environment.DIRECTORY_PICTURES) because this create a directory for
      * photos (as noted by the DIRECTORY_PICTURES) and using that method to create the file creates
      * it under a directory specifically related to my app and thus it is private to my app and
-     * will be deleted when my app is deleted.(also see my comment in the file_paths.xml file in the
+     * will be deleted when my app is deleted.(also see my comment in the file_paths. xml file in the
      * xml directory
      *
      * note if user just pics an existing image this File that is returned isn't used (should check
