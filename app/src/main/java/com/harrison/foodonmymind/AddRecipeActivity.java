@@ -24,7 +24,10 @@ import android.widget.Toast;
 import com.harrison.foodonmymind.data.foodContract;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,6 +65,13 @@ public class AddRecipeActivity extends AppCompatActivity {
 //    sql database for easy reference later
     String image_location;
     EditText recipe_title_box;
+//  just use the same album name as don't need to distinguish within the private app pictures
+//  directory
+    String album_name;
+    // if the space in this partition where the file is being saved is above this then throw an error
+    double spaceThreshold = .85;
+//    file object where all the app related pictures will be saved under
+    File image_dir;
 
 
     @Override
@@ -74,6 +84,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         dir_layout = (LinearLayout) findViewById(R.id.directions);
         num_steps = 1;
         num_ingredients = 1;
+        album_name = getString(R.string.app_name);
     }
 
 //    called once the Activity started by startActivityForResult() method returns data
@@ -106,7 +117,27 @@ public class AddRecipeActivity extends AppCompatActivity {
 //                    it later on to find the image and populate the viewPager
 //                    image_location = selectedImage.getPath();
                     image_location = selectedImage.toString();
-                    photoPaths.add(image_location);
+                    File external = new File(selectedImage.getPath());
+                    if (!external.exists()) {
+                        Log.d(TAG, "onActivityResult: external file doesn't exist");
+                    }
+                    File image_external = new File(image_location);
+                    Log.d(TAG, "onActivityResult: external image location: " + image_external);
+                    File image_local = null;
+                    File external_image_dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+//                    https://stackoverflow.com/questions/36467907/store-an-image-from-gallery-to-a-different-folder
+                    try {
+                        image_local = File.createTempFile("some prefix", getString(R.string.ftype), image_dir);
+                        Log.d(TAG, "onActivityResult: " + image_location);
+                        FileInputStream source = new FileInputStream(image_location);
+//                        FileChannel destination = new FileOutputStream(image_local).getChannel();
+//                        destination.transferFrom(source, 0, source.size());
+//                        source.close();
+//                        destination.close();
+                    } catch (IOException e) {
+                        Log.d(TAG, "onActivityResult: IO exception trying to copy image " + e.getMessage());
+                    }
+                    photoPaths.add(image_local.getAbsolutePath());
 //                    TBD: NEED TO SAVE IT LOCALLY (specific to APP) and then resize to avoid size
 //                    ERRORS
                     Log.d(TAG, "onActivityResult: data not null not using camera");
@@ -240,7 +271,12 @@ public class AddRecipeActivity extends AppCompatActivity {
         Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File photo_file = null;
         try {
+            image_dir = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
+            image_dir.mkdirs();
             photo_file = createImageFile();
+//      placeholder for checking total space available and if not pop up a dialog to remedy issue
+//      and don't allow user to even the camera app
+            checkSpace(photo_file);
         } catch (IOException e) {
             Log.d(TAG, "addPic: IO Exception when trying to create file");
         }
@@ -270,21 +306,13 @@ public class AddRecipeActivity extends AppCompatActivity {
      * if I need to delete this file or if camera action not taken then this file isn't saved)
      * @return a file object that the image will be saved to
      */
-    private File createImageFile() throws IOException{
+    private File createImageFile() throws IOException {
         String time_stamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        just use the same album name as don't need to distinguish within the private app pictures
-//        directory
-        String album_name = getString(R.string.app_name);
-        File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
-//        placeholder for checking total space available and if not pop up a dialog to remedy issue
-//        and don't allow user to even the camera app
-        if ()
         Log.d(TAG, "createImageFile: directory for pics" + Environment.DIRECTORY_PICTURES);
-        file.mkdirs();
 //        so this creates a file in which we will save the new image into. arguments are suffix,
 //        prefix and then the directory in which the file will belong
-        Log.d(TAG, "createImageFile: " + this.getFilesDir() + ";" + file.getAbsolutePath());
-        File image = File.createTempFile(time_stamp, getString(R.string.ftype), file);
+        Log.d(TAG, "createImageFile: " + this.getFilesDir() + ";" + image_dir.getAbsolutePath());
+        File image = File.createTempFile(time_stamp, getString(R.string.ftype), image_dir);
         image_location = image.getAbsolutePath();
         return image;
     }
@@ -450,6 +478,18 @@ public class AddRecipeActivity extends AppCompatActivity {
             combined.append(",");
         }
         return combined.toString();
+    }
+
+    /**
+     * helper function that takes a file and then checks if there is more than some defined
+     * threshold space available in that partition
+     * @param file
+     */
+    public void checkSpace(File file) {
+        double percent_full = file.getFreeSpace() / file.getTotalSpace();
+        if (percent_full > spaceThreshold) {
+            Toast.makeText(this, "Not enough space to save image", Toast.LENGTH_LONG);
+        }
     }
 
 
