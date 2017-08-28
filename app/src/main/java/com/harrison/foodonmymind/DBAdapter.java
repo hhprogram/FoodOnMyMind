@@ -38,7 +38,7 @@ public class DBAdapter extends CursorAdapter {
         label.setText(Integer.toString(cursor.getPosition()+1)
                 + context.getString(R.string.label_end));
         ImageView img = (ImageView)view.findViewById(R.id.item_img);
-        String image_path = cursor.getString(img_col);
+        String image_path = cursor.getString(img_col); //TBD try a URI instead y a string to load successfully using picasso
         if (image_path.equals("")) {
 //            see CustomRecipeActivity around line 100 for logic behind this string. It is string of
 //            path to a  mipmap resource

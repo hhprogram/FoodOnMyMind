@@ -149,6 +149,9 @@ public class MainActivity extends AppCompatActivity
      * only called once confirmed permissions have been properly granted
      */
     private void getLastLocation() {
+//        this method getLastLocation() uses the client to get the location and then assigns it a
+//        listener so once the location retrieval is successful then it can execute the below code
+//        which is to put the lat and lon in the editPreferences
         mFusedLocationClient.getLastLocation().addOnSuccessListener(this
                 , new OnSuccessListener<Location>() {
             @Override
@@ -344,6 +347,7 @@ public class MainActivity extends AppCompatActivity
                         dialog_builder.show();
             }
         });
+//        setting up listener if user is ok with using the GPS on the phone for location
         String[] choices = new String[]{getString(R.string.gps_loc)
                 , getString(R.string.manual_loc)};
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {

@@ -107,6 +107,8 @@ public class AddRecipeActivity extends AppCompatActivity {
 //                    image_location = selectedImage.getPath();
                     image_location = selectedImage.toString();
                     photoPaths.add(image_location);
+//                    TBD: NEED TO SAVE IT LOCALLY (specific to APP) and then resize to avoid size
+//                    ERRORS
                     Log.d(TAG, "onActivityResult: data not null not using camera");
                     }
             }
@@ -274,6 +276,9 @@ public class AddRecipeActivity extends AppCompatActivity {
 //        directory
         String album_name = getString(R.string.app_name);
         File file = new File(this.getExternalFilesDir(Environment.DIRECTORY_PICTURES), album_name);
+//        placeholder for checking total space available and if not pop up a dialog to remedy issue
+//        and don't allow user to even the camera app
+        if ()
         Log.d(TAG, "createImageFile: directory for pics" + Environment.DIRECTORY_PICTURES);
         file.mkdirs();
 //        so this creates a file in which we will save the new image into. arguments are suffix,

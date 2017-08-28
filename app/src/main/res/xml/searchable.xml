@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--required xml to implement a search interface in app. label is the name of the application that
+is the same as the android:label attribute of the activity or <application> manifest element-->
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:label="@string/app_name"
     android:hint="@string/search_hint">

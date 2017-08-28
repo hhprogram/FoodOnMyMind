@@ -11,8 +11,6 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 
-
-
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
