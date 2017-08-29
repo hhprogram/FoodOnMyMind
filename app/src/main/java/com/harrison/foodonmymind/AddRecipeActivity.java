@@ -115,19 +115,17 @@ public class AddRecipeActivity extends AppCompatActivity {
 //                    it later on to find the image and populate the viewPager
 //                    image_location = selectedImage.getPath();
                     image_location = selectedImage.toString();
-                    File external = new File(selectedImage.getPath());
-                    if (!external.exists()) {
+                    File image_external = new File(image_location);
+                    if (!image_external.exists()) {
                         Log.d(TAG, "onActivityResult: external file doesn't exist");
                     }
-                    File image_external = new File(image_location);
                     Log.d(TAG, "onActivityResult: external image location: " + image_external);
                     File image_local = null;
-                    File external_image_dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 //                    https://stackoverflow.com/questions/36467907/store-an-image-from-gallery-to-a-different-folder
                     try {
-                        image_local = File.createTempFile("some prefix", getString(R.string.ftype), image_dir);
-                        Log.d(TAG, "onActivityResult: " + image_location);
-                        FileInputStream source = new FileInputStream(image_location);
+//                        image_local = File.createTempFile("some prefix", getString(R.string.ftype), image_dir);
+                        Log.d(TAG, "onActivityResult: " + selectedImage.getPath());
+                        FileInputStream source = new FileInputStream(image_external);
 //                        FileChannel destination = new FileOutputStream(image_local).getChannel();
 //                        destination.transferFrom(source, 0, source.size());
 //                        source.close();
