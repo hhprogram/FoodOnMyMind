@@ -25,6 +25,9 @@ android {
 
 //    below is needed for the installRelease gradle tasks to show up for each flavor
 //    see https://developer.android.com/studio/publish/app-signing.html#secure-key
+//    see above java code for where i declare the variable keystoreProperties
+//    and then keystoreProperties is like a dict type object so that it assigns each variable
+//    keyAlias etc.. to the value associated with each key in keystoreProperties object
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -33,7 +36,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-//    need to add the signingConfig signingConfigs.release to then get the install release task
+//    need to add the signingConfig signingConfigs.release part to get the install release task
 //    to appear
     buildTypes {
         release {
