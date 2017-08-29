@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,11 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.harrison.foodonmymind.data.foodContract;
-import com.harrison.foodonmymind.data.foodProvider;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,28 +109,24 @@ public class AddRecipeActivity extends AppCompatActivity {
                     Log.d(TAG, "onActivityResult: " + data.getScheme());
                     Uri selectedImage = data.getData();
                     Log.d(TAG, "onActivityResult: selected image uri:" + selectedImage.toString());
-//                    don't use the getPath because before I used it and it was just the relative
-//                    path and it didn't seem to be working as couldn't find the image using the
-//                    relative path. Therefore, selectedImage is just a URI of data. therefore this
-//                    is the full path to the image thus we can just convert this to a string a use
-//                    it later on to find the image and populate the viewPager
-//                    image_location = selectedImage.getPath();
-                    image_location = selectedImage.toString();
-                    File image_external = new File(image_location);
-                    if (!image_external.exists()) {
-                        Log.d(TAG, "onActivityResult: external file doesn't exist");
-                    }
-                    Log.d(TAG, "onActivityResult: external image location: " + image_external);
                     File image_local = null;
 //                    https://stackoverflow.com/questions/36467907/store-an-image-from-gallery-to-a-different-folder
+//                    So didn't use this method because for some reason wasn't able to get the
+//                    FileInputStream to work for the 'source' (ie the externally saved image) - think
+//                    it's due to the fact that I was passing in a uri / string representation of a URI
+//                    vs. an actual absolute path (see udacity forum discussion related to "FileInputStream (doesn't exist)
+//                    in my Android profile.
                     try {
-//                        image_local = File.createTempFile("some prefix", getString(R.string.ftype), image_dir);
-                        Log.d(TAG, "onActivityResult: " + image_external.getAbsolutePath());
-                        FileInputStream source = new FileInputStream(image_external);
-//                        FileChannel destination = new FileOutputStream(image_local).getChannel();
-//                        destination.transferFrom(source, 0, source.size());
-//                        source.close();
-//                        destination.close();
+//                        note: createTempFile gurantees a unique file name, so means if args don't make  filename unique
+//                        it will add some characters to it to gurantee it
+                        image_local = File.createTempFile("some_prefix", getString(R.string.ftype), image_dir);
+//                        use the method of getting a bitmap from the URI and then saving that bitmap to another location:
+//                        combo of these 2 posts:
+//                        https://stackoverflow.com/questions/3879992/how-to-get-bitmap-from-an-uri
+//                        https://stackoverflow.com/questions/649154/save-bitmap-to-location
+                        Bitmap bmp_image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                        FileOutputStream destination = new FileOutputStream(image_local);
+                        bmp_image.compress(Bitmap.CompressFormat.PNG, 100, destination);
                     } catch (IOException e) {
                         Log.d(TAG, "onActivityResult: IO exception trying to copy image " + e.getMessage());
                     }
