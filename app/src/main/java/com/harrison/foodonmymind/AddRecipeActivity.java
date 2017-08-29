@@ -1,5 +1,7 @@
 package com.harrison.foodonmymind;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,21 +24,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.harrison.foodonmymind.data.foodContract;
+import com.harrison.foodonmymind.data.foodProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static android.R.attr.direction;
-import static android.R.attr.value;
 import static android.content.ContentValues.TAG;
 import static com.harrison.foodonmymind.R.dimen.quantity;
-import static com.harrison.foodonmymind.R.string.ingredients;
 import static com.harrison.foodonmymind.R.string.step;
 
 /**
@@ -396,6 +394,17 @@ public class AddRecipeActivity extends AppCompatActivity {
             Log.d(TAG, "saveHelper: problem inserting recipe");
         } else {
             Toast.makeText(this, getString(R.string.recipe_saved), Toast.LENGTH_LONG).show();
+            Intent widgetIntent = new Intent(this, FoodWidget.class);
+            widgetIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+//        componentname used to get a specific application component like a content provider or
+//        a broadcast receiver or service. App widget is a type of provider
+            ComponentName name = new ComponentName(this, FoodWidget.class);
+            int[] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(name);
+//            look at the docs but the EXTRA_APPWIDGET_IDS is just a predefined key so that when
+//            the broadcast is received by a widget provider it knows to look this key up as the
+//            default
+            widgetIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            sendBroadcast(widgetIntent);
             Intent intent = new Intent(this, CustomRecipeActivity.class);
             intent.putExtra(getString(R.string.recipe_uri), newRow);
             startActivity(intent);
