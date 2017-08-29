@@ -50,6 +50,7 @@ public class DBAdapter extends CursorAdapter {
         }
         Uri image = Uri.parse(image_path);
         Log.d(TAG, "bindView: " + image_path);
+        Picasso.with(context).setLoggingEnabled(true);
         Picasso.with(context)
                 .load(image)
                 .into(imageView);
