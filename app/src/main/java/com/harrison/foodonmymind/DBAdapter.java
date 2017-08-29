@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -39,14 +42,18 @@ public class DBAdapter extends CursorAdapter {
         TextView title = (TextView)view.findViewById(R.id.item_title);
         title.setText(cursor.getString(title_col));
         TextView label = (TextView)view.findViewById(R.id.item_num);
-        label.setText(Integer.toString(cursor.getPosition()+1)
-                + context.getString(R.string.label_end));
+        label.setText(Integer.toString(cursor.getPosition()+1) + context.getString(R.string.label_end));
         ImageView imageView = (ImageView)view.findViewById(R.id.item_img);
-        String image_path = cursor.getString(img_col); //TBD try a URI instead y a string to load successfully using picasso
-        if (image_path.equals("")) {
+        String image_paths = cursor.getString(img_col); //TBD try a URI instead y a string to load successfully using picasso
+        ArrayList<String> images = new ArrayList<>(Arrays.asList(image_paths.split(",")));
+        String image_path;
+//        need to do this check same reason as in CustomRecipeActivity.java (around line mid 90s)
+        if (images.size() == 1 && images.get(0) == "") {
 //            see CustomRecipeActivity around line 100 for logic behind this string. It is string of
 //            path to a  mipmap resource
             image_path = mContext.getString(R.string.mipmap_uri_base) + mContext.getPackageName() +"/"+ R.mipmap.recipe_default;
+        } else {
+            image_path = images.get(0);
         }
         Uri image = Uri.parse(image_path);
         Log.d(TAG, "bindView: " + image_path);
