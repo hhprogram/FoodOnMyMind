@@ -131,8 +131,6 @@ public class AddRecipeActivity extends AppCompatActivity {
                         Log.d(TAG, "onActivityResult: IO exception trying to copy image " + e.getMessage());
                     }
                     photoPaths.add(image_local.getAbsolutePath());
-//                    TBD: NEED TO SAVE IT LOCALLY (specific to APP) and then resize to avoid size
-//                    ERRORS
                     Log.d(TAG, "onActivityResult: data not null not using camera");
                     }
             }

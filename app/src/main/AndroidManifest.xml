@@ -74,7 +74,7 @@
             android:exported="true"/>
 
         <activity android:name=".CustomRecipeActivity"
-            android:parentActivityName=".MainActivity"/>/>
+            android:parentActivityName=".CustomListActivity"/>/>
         <activity android:name=".CustomListActivity"
             android:parentActivityName=".MainActivity"/>/>
 

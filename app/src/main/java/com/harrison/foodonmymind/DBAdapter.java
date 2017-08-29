@@ -2,6 +2,7 @@ package com.harrison.foodonmymind;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,17 +41,18 @@ public class DBAdapter extends CursorAdapter {
         TextView label = (TextView)view.findViewById(R.id.item_num);
         label.setText(Integer.toString(cursor.getPosition()+1)
                 + context.getString(R.string.label_end));
-        ImageView img = (ImageView)view.findViewById(R.id.item_img);
+        ImageView imageView = (ImageView)view.findViewById(R.id.item_img);
         String image_path = cursor.getString(img_col); //TBD try a URI instead y a string to load successfully using picasso
         if (image_path.equals("")) {
 //            see CustomRecipeActivity around line 100 for logic behind this string. It is string of
 //            path to a  mipmap resource
             image_path = mContext.getString(R.string.mipmap_uri_base) + mContext.getPackageName() +"/"+ R.mipmap.recipe_default;
         }
+        Uri image = Uri.parse(image_path);
         Log.d(TAG, "bindView: " + image_path);
         Picasso.with(context)
-                .load(image_path)
-                .into(img);
+                .load(image)
+                .into(imageView);
     }
 
     @Override
