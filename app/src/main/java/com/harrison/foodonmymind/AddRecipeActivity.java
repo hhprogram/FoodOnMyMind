@@ -124,7 +124,7 @@ public class AddRecipeActivity extends AppCompatActivity {
 //                    https://stackoverflow.com/questions/36467907/store-an-image-from-gallery-to-a-different-folder
                     try {
 //                        image_local = File.createTempFile("some prefix", getString(R.string.ftype), image_dir);
-                        Log.d(TAG, "onActivityResult: " + selectedImage.getPath());
+                        Log.d(TAG, "onActivityResult: " + image_external.getAbsolutePath());
                         FileInputStream source = new FileInputStream(image_external);
 //                        FileChannel destination = new FileOutputStream(image_local).getChannel();
 //                        destination.transferFrom(source, 0, source.size());

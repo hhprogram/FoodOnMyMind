@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
 
+    <!--note: need to put the parentActivityName tag in there in order to have the up toolbar
+    functionality work properly and easily-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,12 +36,14 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".TabsActivity" />
+        <activity android:name=".TabsActivity"
+            android:parentActivityName=".MainActivity"/>/>
         <!--
         remember need to add the activity to the manifest or trying to launch an intent that
         launches the below activity will fail as the app will not know about the actiivty class
         -->
-        <activity android:name=".AddRecipeActivity" />
+        <activity android:name=".AddRecipeActivity"
+            android:parentActivityName=".MainActivity"/>
 
         <!--
         added the below service as we need an intent service to grab the GPS location, as
@@ -69,8 +73,10 @@
             android:authorities="@string/food_provider_authority"
             android:exported="true"/>
 
-        <activity android:name=".CustomRecipeActivity" />
-        <activity android:name=".CustomListActivity" />
+        <activity android:name=".CustomRecipeActivity"
+            android:parentActivityName=".MainActivity"/>/>
+        <activity android:name=".CustomListActivity"
+            android:parentActivityName=".MainActivity"/>/>
 
         <!--note: IMPORTANT: there is a difference between BIND_REMOTEVIEW and BIND_REMOTEVIEWS
  since my widget REMOTEVIEWS objects need permission to be BIND_REMOTEVIEWS or else will not

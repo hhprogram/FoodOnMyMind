@@ -2,6 +2,7 @@ package com.harrison.foodonmymind;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by harrison on 6/19/17.
@@ -44,6 +47,7 @@ public class DBAdapter extends CursorAdapter {
 //            path to a  mipmap resource
             image_path = mContext.getString(R.string.mipmap_uri_base) + mContext.getPackageName() +"/"+ R.mipmap.recipe_default;
         }
+        Log.d(TAG, "bindView: " + image_path);
         Picasso.with(context)
                 .load(image_path)
                 .into(img);
