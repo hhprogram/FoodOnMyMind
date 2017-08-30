@@ -74,7 +74,7 @@ public class TabsActivity extends AppCompatActivity {
 //            tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.restaurants)));
 //
          **/
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager_tab);
 //        i'm using the setupWithViewPager as this is a much easier way to get the tab layout look
 //        i want but also have the pages / views change when I either swipe or click on the tab
 //        title.

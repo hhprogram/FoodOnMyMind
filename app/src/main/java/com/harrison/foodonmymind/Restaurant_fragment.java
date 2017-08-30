@@ -39,9 +39,8 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        listView = (ListView) inflater.inflate(R.layout.search_result, container, false);
+        listView = (ListView) inflater.inflate(R.layout.search_result, container);
         return listView;
-
     }
 
     /**

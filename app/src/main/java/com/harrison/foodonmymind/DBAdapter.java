@@ -42,7 +42,9 @@ public class DBAdapter extends CursorAdapter {
         TextView title = (TextView)view.findViewById(R.id.item_title);
         title.setText(cursor.getString(title_col));
         TextView label = (TextView)view.findViewById(R.id.item_num);
-        label.setText(Integer.toString(cursor.getPosition()+1) + context.getString(R.string.label_end));
+//        setting the text using this way as this will format strings correctly based on locale etc..
+//    https://developer.android.com/guide/topics/resources/string-resource.html#FormattingAndStyling
+        label.setText(context.getString(R.string.label_end, cursor.getPosition()+1));
         ImageView imageView = (ImageView)view.findViewById(R.id.item_img);
         String image_paths = cursor.getString(img_col); //TBD try a URI instead y a string to load successfully using picasso
         ArrayList<String> images = new ArrayList<>(Arrays.asList(image_paths.split(",")));
@@ -54,6 +56,7 @@ public class DBAdapter extends CursorAdapter {
             image_path = mContext.getString(R.string.mipmap_uri_base) + mContext.getPackageName() +"/"+ R.mipmap.recipe_default;
         } else {
             image_path = images.get(0);
+            image_path = context.getString(R.string.internal_image_base) + image_path;
         }
         Uri image = Uri.parse(image_path);
         Log.d(TAG, "bindView: " + image_path);

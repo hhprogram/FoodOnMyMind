@@ -19,6 +19,8 @@ import android.widget.ListView;
 
 import com.harrison.foodonmymind.data.foodContract;
 
+import java.util.ArrayList;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -104,7 +106,12 @@ public class Custom_recipe_fragment extends Fragment
 //        this fragment being launched via the button and thus no filtering and just should list
 //        all the custom recipes in the database
         String select_clause = null;
-        String[] select_args = null;
+//        note: changed from an array of fixed size because if i do a set array of size 3 and end up
+//        not filling them then I will have null values and these null values passed through
+//        the selection_args parameter in the db.query() function will cause an error. Therefore,
+//        first create an arraylist so if query == null then I can convert an empty arraylist
+//        just an empty array which will not cause any "bind value null" errors in the query 
+        ArrayList<String> select_args = new ArrayList<>();
         if (query != null) {
             //        the selection clause (for WHERE clause). I.e ingredients=? or title=? or directinons=?
             //        note: i changed this as putting '%' characters in the selection clause with the ? does
@@ -114,13 +121,14 @@ public class Custom_recipe_fragment extends Fragment
             select_clause = ingr_col + " LIKE ? OR " + title_col + " LIKE ? OR " + dir_col +
                     " LIKE ?";
             //        need an entry for each ? in selection string
-            select_args[0] = "%" + query + "%";
-            select_args[1] = "%" + query + "%";
-            select_args[2] = "%" + query + "%";
+            select_args.add("%" + query + "%");
+            select_args.add("%" + query + "%");
+            select_args.add("%" + query + "%");
         }
+        String[] select_args_array = select_args.toArray(new String[select_args.size()]);
         Uri custom = foodContract.buildFoodUri(foodContract.CustomRecipes.TABLE_NAME);
         Log.d(TAG, "onCreateLoader: custom uri" + custom);
-        return new CursorLoader(getContext(), custom, null, select_clause, select_args, null);
+        return new CursorLoader(getContext(), custom, null, select_clause, select_args_array, null);
 //        this is creating a cursor that will point to a set of rows that satisfies:
 //        SELECT * WHERE ingredients LIKE %<query>% OR title LIKE %<query>% OR
 //              directions LIKE %<query>%
