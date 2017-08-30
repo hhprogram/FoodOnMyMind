@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity
 //        if the intent is a search intent then do something.
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
             handleSearchIntent(intent);
-//            resetCheckBoxes();
         }
 //        thus everytime we load the view for the mainActivity we reset all the booleans in the
 //        preferenceManager since we already reset all checkbox values already and don't want to

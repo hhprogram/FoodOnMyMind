@@ -20,12 +20,21 @@ public class Preset_recipe_fragment extends Fragment implements AsyncListener{
     Info info;
     WebAdapter adapter;
     ListView listView;
+    View rootView;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        listView = (ListView) inflater.inflate(R.layout.search_result, container);
+//        note: I have to first inflate the whole view and then find the specific view that is the
+//        listView and return that. Before I was just trying to return the inflated layout but
+//        kept saying it couldn't cast a listView to a viewPager. And since we supply a 'root'
+//        because we are supplying the rootview as viewPager then the view returned is that rootview
+//        and if now rootview is supplied then the rootview of the xml file itself is used. therefore
+//        usually could jsut inflate and the rootview of the xml file would be returned but since we
+//        supply the view pager as a rootview then the view returned is the the supplied rootview
+        rootView = inflater.inflate(R.layout.search_result, container);
+        listView = (ListView) rootView.findViewById(R.id.custom_list);
         return listView;
     }
 

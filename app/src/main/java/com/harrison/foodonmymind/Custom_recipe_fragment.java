@@ -39,6 +39,7 @@ public class Custom_recipe_fragment extends Fragment
     String title_col;
     String dir_col;
     ListView custom_list;
+    View rootView;
 
     public Custom_recipe_fragment() {
         // Required empty public constructor
@@ -48,7 +49,15 @@ public class Custom_recipe_fragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        custom_list = (ListView) inflater.inflate(R.layout.search_result, container);
+//        note: I have to first inflate the whole view and then find the specific view that is the
+//        listView and return that. Before I was just trying to return the inflated layout but
+//        kept saying it couldn't cast a listView to a viewPager. And since we supply a 'root'
+//        because we are supplying the rootview as viewPager then the view returned is that rootview
+//        and if now rootview is supplied then the rootview of the xml file itself is used. therefore
+//        usually could jsut inflate and the rootview of the xml file would be returned but since we
+//        supply the view pager as a rootview then the view returned is the the supplied rootview
+        rootView = inflater.inflate(R.layout.search_result, container);
+        custom_list = (ListView) rootView.findViewById(R.id.custom_list);
         return custom_list;
     }
 
@@ -110,7 +119,7 @@ public class Custom_recipe_fragment extends Fragment
 //        not filling them then I will have null values and these null values passed through
 //        the selection_args parameter in the db.query() function will cause an error. Therefore,
 //        first create an arraylist so if query == null then I can convert an empty arraylist
-//        just an empty array which will not cause any "bind value null" errors in the query 
+//        just an empty array which will not cause any "bind value null" errors in the query
         ArrayList<String> select_args = new ArrayList<>();
         if (query != null) {
             //        the selection clause (for WHERE clause). I.e ingredients=? or title=? or directinons=?
