@@ -77,7 +77,9 @@ public class TabsActivity extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.pager_tab);
 //        i'm using the setupWithViewPager as this is a much easier way to get the tab layout look
 //        i want but also have the pages / views change when I either swipe or click on the tab
-//        title.
+//        title. Doing this also makes the root view for any layout return via the
+//        PageAdapter constructor is the ViewPager view pager_tab ->which cause the comment
+//        explanation in each of the onCreates of each fragment
         tabLayout.setupWithViewPager(pager);
 //        do i need this PageChangeListener??? (the swiping seems to work without it. Do i only need
 //        this if I want to do something extra when changing tabs?

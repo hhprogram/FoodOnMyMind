@@ -448,6 +448,7 @@ public class MainActivity extends AppCompatActivity
         boolean box = ((CheckBox) view).isChecked();
         Log.d(TAG, "onBoxOneChecked: " + ((CheckBox) view).isChecked());
         editor.putBoolean(getString(R.string.preset_recipes), box);
+        boxOne = box;
         editor.commit();
     }
 
@@ -456,6 +457,7 @@ public class MainActivity extends AppCompatActivity
         boolean box = ((CheckBox) view).isChecked();
         Log.d(TAG, "onBoxTwoChecked: " + ((CheckBox) view).isChecked());
         editor.putBoolean(getString(R.string.custom_recipes), box);
+        boxTwo = box;
         editor.commit();
     }
 
@@ -464,6 +466,7 @@ public class MainActivity extends AppCompatActivity
         boolean box = ((CheckBox) view).isChecked();
         Log.d(TAG, "onBoxThreeChecked: " + ((CheckBox) view).isChecked());
         editor.putBoolean(getString(R.string.restaurants), box);
+        boxThree = box;
         editor.commit();
     }
 

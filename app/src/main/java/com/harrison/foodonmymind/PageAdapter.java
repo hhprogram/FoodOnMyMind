@@ -52,6 +52,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         custom_box = prefs.getBoolean(mContext.getString(R.string.custom_recipes), false);
         preset_box = prefs.getBoolean(mContext.getString(R.string.preset_recipes), false);
         rest_box = prefs.getBoolean(mContext.getString(R.string.restaurants), false);
+        resetCheckBoxes();
         Log.d(TAG, "PageAdapter: custom boolean: " + custom_box);
         Log.d(TAG, "PageAdapter: preset boolean: " + preset_box);
         Log.d(TAG, "PageAdapter: rest boolean: " + rest_box);
@@ -157,5 +158,19 @@ public class PageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return titles[position];
+    }
+
+    /**
+     * Helper method that resets the preferences to false. As we want them all to reset after every
+     * search is completed
+     */
+    private void resetCheckBoxes() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor;
+        editor = pref.edit();
+        editor.putBoolean(mContext.getString(R.string.preset_recipes), false);
+        editor.putBoolean(mContext.getString(R.string.custom_recipes), false);
+        editor.putBoolean(mContext.getString(R.string.restaurants), false);
+        editor.commit();
     }
 }
