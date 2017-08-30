@@ -99,6 +99,7 @@ public class TabsActivity extends AppCompatActivity {
 //
 //            }
 //        });
+        Log.d(TAG, "onCreate: number of tabs to create: " + numTabs);
         PageAdapter adapter = new PageAdapter(getSupportFragmentManager(), numTabs, this);
         pager.setAdapter(adapter);
 //        then reset the checkboxes as if we go back to the mainActivity and then don't touch the

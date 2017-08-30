@@ -114,6 +114,7 @@ public class PageAdapter extends FragmentPagerAdapter {
                     return preset;
                 }
                 if (rest_box && restaurant == null) {
+                    Log.d(TAG, "getItem: restaurant frag");
                     restaurant = new Restaurant_fragment();
                     restaurant.setArguments(bundle);
                     return restaurant;
