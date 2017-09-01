@@ -2,5 +2,11 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!--need to define these separately in each flavor, free/paid as the manifest declares each
+    provider name to be this and to align I declare the URI in foodContract to be the applicationID
+    which will match the below strings for each flavor. I wonder if I can just declare in the
+    'shared' manifest the authority name to be flavorless (ie not contain free or paid) and then
+    just define it in foodContract as well and not have to do this?-->
+    <string name="file_provider_authority">com.harrison.foodonmymind.paid.fileProvider</string>
+    <string name="food_provider_authority">com.harrison.foodonmymind.paid.foodProvider</string>
 </resources>
