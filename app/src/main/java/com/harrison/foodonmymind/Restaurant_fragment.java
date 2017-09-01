@@ -47,8 +47,8 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
 //        and if now rootview is supplied then the rootview of the xml file itself is used. therefore
 //        usually could jsut inflate and the rootview of the xml file would be returned but since we
 //        supply the view pager as a rootview then the view returned is the the supplied rootview
-        rootView = inflater.inflate(R.layout.search_result, container);
-        listView = (ListView) rootView.findViewById(R.id.custom_list);
+        rootView = inflater.inflate(R.layout.search_result_restaurant, container);
+        listView = (ListView) rootView.findViewById(R.id.list_restaurant);
         return listView;
     }
 
