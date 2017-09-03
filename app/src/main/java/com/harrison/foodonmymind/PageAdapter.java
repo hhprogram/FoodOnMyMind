@@ -24,9 +24,9 @@ import static android.content.ContentValues.TAG;
 public class PageAdapter extends FragmentPagerAdapter {
 
     int tabCount;
-    Custom_recipe_fragment custom;
-    Preset_recipe_fragment preset;
-    Restaurant_fragment restaurant;
+    CustomRecipeFragment custom;
+    PresetRecipeFragment preset;
+    RestaurantFragment restaurant;
     Context mContext;
     boolean custom_box, preset_box, rest_box;
     SharedPreferences prefs;
@@ -87,52 +87,52 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 0:
                 Log.d(TAG, "getItem: 0");
                 if (custom_box && custom == null) {
-                    custom = new Custom_recipe_fragment();
+                    custom = new CustomRecipeFragment();
                     custom.setArguments(bundle);
                     return custom;
                 }
                 if (preset_box && preset == null) {
-                    preset = new Preset_recipe_fragment();
+                    preset = new PresetRecipeFragment();
                     preset.setArguments(bundle);
                     return preset;
                     }
                 if (rest_box && restaurant == null) {
-                    restaurant = new Restaurant_fragment();
+                    restaurant = new RestaurantFragment();
                     restaurant.setArguments(bundle);
                     return restaurant;
                 }
             case 1:
                 Log.d(TAG, "getItem: 1");
                 if (custom_box && custom == null) {
-                    custom = new Custom_recipe_fragment();
+                    custom = new CustomRecipeFragment();
                     custom.setArguments(bundle);
                     return custom;
                 }
                 if (preset_box && preset == null) {
-                    preset = new Preset_recipe_fragment();
+                    preset = new PresetRecipeFragment();
                     preset.setArguments(bundle);
                     return preset;
                 }
                 if (rest_box && restaurant == null) {
                     Log.d(TAG, "getItem: restaurant frag");
-                    restaurant = new Restaurant_fragment();
+                    restaurant = new RestaurantFragment();
                     restaurant.setArguments(bundle);
                     return restaurant;
                 }
             case 2:
                 Log.d(TAG, "getItem: 2");
                 if (custom_box && custom == null) {
-                    custom = new Custom_recipe_fragment();
+                    custom = new CustomRecipeFragment();
                     custom.setArguments(bundle);
                     return custom;
                 }
                 if (preset_box && preset == null) {
-                    preset = new Preset_recipe_fragment();
+                    preset = new PresetRecipeFragment();
                     preset.setArguments(bundle);
                     return preset;
                 }
                 if (rest_box && restaurant == null) {
-                    restaurant = new Restaurant_fragment();
+                    restaurant = new RestaurantFragment();
                     restaurant.setArguments(bundle);
                     return restaurant;
                 }

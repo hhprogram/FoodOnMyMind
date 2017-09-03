@@ -23,7 +23,7 @@ Restaurant fragment. Created when the user wants to search restaurants. From her
  object and note the default Fragment (which is the backwards compatible
  android.support.v2.app.Fragment
  */
-public class Restaurant_fragment extends Fragment implements AsyncListener
+public class RestaurantFragment extends Fragment implements AsyncListener
         , FragmentCompat.OnRequestPermissionsResultCallback {
 
     Info info;
@@ -32,7 +32,7 @@ public class Restaurant_fragment extends Fragment implements AsyncListener
     View rootView;
 
 
-    public Restaurant_fragment() {
+    public RestaurantFragment() {
         // Required empty public constructor
     }
 

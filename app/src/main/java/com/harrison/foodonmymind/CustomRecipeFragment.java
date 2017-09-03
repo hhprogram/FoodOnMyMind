@@ -26,7 +26,7 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Custom_recipe_fragment extends Fragment
+public class CustomRecipeFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor>{
 
     DBAdapter adapter;
@@ -41,7 +41,7 @@ public class Custom_recipe_fragment extends Fragment
     ListView custom_list;
     View rootView;
 
-    public Custom_recipe_fragment() {
+    public CustomRecipeFragment() {
         // Required empty public constructor
     }
 

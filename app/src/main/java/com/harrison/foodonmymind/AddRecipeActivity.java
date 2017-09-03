@@ -29,7 +29,6 @@ import com.harrison.foodonmymind.data.foodContract;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,6 +70,15 @@ public class AddRecipeActivity extends AppCompatActivity {
     double spaceThreshold = .85;
 //    file object where all the app related pictures will be saved under
     File image_dir;
+    ArrayList<String> ingredients;
+    ArrayList<String> ingredient_quantities;
+    ArrayList<String> steps;
+    String recipe_title;
+    final String steps_key = "edit text step values";
+    final String ingredients_key = "edit text ingredient values";
+    final String quantities_key = "edit text quantity values";
+    final String title_key = "recipe title";
+    final String photos_key = "photos key";
 
 
     @Override
@@ -84,6 +92,86 @@ public class AddRecipeActivity extends AppCompatActivity {
         num_steps = 1;
         num_ingredients = 1;
         album_name = getString(R.string.app_name);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        combineIngredients();
+        combineSteps();
+        String title = recipe_title_box.getText().toString();
+        savedInstanceState.putStringArrayList(steps_key, steps);
+        savedInstanceState.putStringArrayList(ingredients_key, ingredients);
+        savedInstanceState.putStringArrayList(quantities_key, ingredient_quantities);
+        savedInstanceState.putString(title_key, recipe_title);
+        savedInstanceState.putStringArrayList(photos_key, photoPaths);
+        Log.d(TAG, "onSaveInstanceState: " + title);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        steps = savedInstanceState.getStringArrayList(steps_key);
+        ingredients = savedInstanceState.getStringArrayList(ingredients_key);
+        ingredient_quantities = savedInstanceState.getStringArrayList(quantities_key);
+        recipe_title = savedInstanceState.getString(title_key);
+        photoPaths = savedInstanceState.getStringArrayList(photos_key);
+        repopulateIngredients();
+        repopulateSteps();
+    }
+
+    /**
+     * helper function that restores the state of all the step edit texts. First check if there are
+     * any 'steps' that have been saved (ie if in the previous state there were any values in the
+     * edittexts. If so, then we first populate the first editText (since that is just statically
+     * defined in the layout) then if there are any more steps that need populating then we need
+     * to recreate those edit text views and add them back and populate them
+     */
+    private void repopulateSteps() {
+        Log.d(TAG, "repopulateSteps: steps length: " + steps.size());
+        if (steps.size() > 0) {
+            LinearLayout step_layout = (LinearLayout) dir_layout.getChildAt(0);
+            EditText step = (EditText) step_layout.getChildAt(1);
+            step.setText(steps.get(0));
+            for (int i = 1; i < steps.size(); i++) {
+//                just pass in a null object since addStep() must always take a view arugment since
+//                it is attached to the layout button but can just pass null since we don't do
+//                anything with that argument anyways
+                addStep(null);
+                step_layout = (LinearLayout) dir_layout.getChildAt(i);
+                step = (EditText) step_layout.getChildAt(1);
+                step.setText(steps.get(i));
+            }
+        }
+
+    }
+
+    /**
+     * helper function that restores the state of all the ingredient edit texts and their values
+     * same as repopulatesteps.
+     */
+    private void repopulateIngredients() {
+        if (ingredients.size() > 0) {
+            RelativeLayout ingredient_layout = (RelativeLayout) ingre_layout.getChildAt(1);
+            EditText ingredient = (EditText) ingredient_layout.getChildAt(0);
+            EditText quantity = (EditText) ingredient_layout.getChildAt(1);
+            ingredient.setText(ingredients.get(0));
+            quantity.setText(ingredient_quantities.get(0));
+            Log.d(TAG, "repopulateIngredients: size of ingredients list: " + ingredients.size());
+            for (int i = 1; i < ingredients.size(); i++) {
+//                see comment in repopulateSteps
+                addIngredient(null);
+//                need to do a +1 because the ingredients layout always has a textview as its
+//                first child and the first relative layout that holds the edittexts are until
+//                position 1
+                ingredient_layout = (RelativeLayout) ingre_layout.getChildAt(i+1);
+                Log.d(TAG, "repopulateIngredients: getting child:" + i);
+                ingredient = (EditText) ingredient_layout.getChildAt(0);
+                quantity = (EditText) ingredient_layout.getChildAt(1);
+                ingredient.setText(ingredients.get(i));
+                quantity.setText(ingredient_quantities.get(i));
+            }
+        }
     }
 
 //    called once the Activity started by startActivityForResult() method returns data
@@ -168,7 +256,7 @@ public class AddRecipeActivity extends AppCompatActivity {
         new_ingre.setId(INGRE_ID);
         EditText new_quant = new EditText(this);
         RelativeLayout.LayoutParams quantParams = new RelativeLayout
-                .LayoutParams((int) getResources().getDimension(quantity)
+               .LayoutParams((int) getResources().getDimension(quantity)
                 , RelativeLayout.LayoutParams.WRAP_CONTENT);
 //        addRule is how i programatically align the editText view within this relativeLayout to be
 //        aligned to the right of its parent and to the right of the new_ingre view
@@ -418,6 +506,8 @@ public class AddRecipeActivity extends AppCompatActivity {
      */
     public String combineIngredients() {
         StringBuilder combined = new StringBuilder();
+        ingredients = new ArrayList<>();
+        ingredient_quantities = new ArrayList<>();
         Log.d(TAG, "combineIngredients: number of children" + ingre_layout.getChildCount());
         for (int i = 1; i < ingre_layout.getChildCount(); i++) {
             RelativeLayout r_layout = (RelativeLayout) ingre_layout.getChildAt(i);
@@ -432,6 +522,8 @@ public class AddRecipeActivity extends AppCompatActivity {
                 combined.append(" - ");
                 combined.append(quantity_str);
                 combined.append(",");
+                ingredients.add(ingredient);
+                ingredient_quantities.add(quantity_str);
             }
         }
         if (combined.toString().equals("")) {
@@ -449,6 +541,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     }
 
     public String combineSteps() {
+        steps = new ArrayList<>();
 //        don't need a leading comma here since doing it a different way where I always add a
 //        comma since there will always at least be 2 children and go through thsi for loop at
 //        least once. And if step is empty it just adds the leading comma for me
@@ -461,8 +554,11 @@ public class AddRecipeActivity extends AppCompatActivity {
             EditText direction = (EditText) l_layout.getChildAt(1);
             String step = direction.getText().toString();
             Log.d(TAG, "combine: step #" +  i + ":" + step);
-            combined.append(step);
-            combined.append(",");
+            if (!step.equals("")) {
+                combined.append(step);
+                combined.append(",");
+                steps.add(step);
+            }
         }
         Log.d(TAG, "combineSteps: " + combined.toString() + ":");
         return combined.toString();

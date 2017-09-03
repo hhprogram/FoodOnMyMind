@@ -15,7 +15,7 @@ import static android.content.ContentValues.TAG;
 /**
 
  */
-public class Preset_recipe_fragment extends Fragment implements AsyncListener{
+public class PresetRecipeFragment extends Fragment implements AsyncListener{
 
     Info info;
     WebAdapter adapter;

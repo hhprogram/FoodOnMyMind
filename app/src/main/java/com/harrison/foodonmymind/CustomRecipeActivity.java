@@ -151,7 +151,7 @@ public class CustomRecipeActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
-            Custom_image_fragment fragment = new Custom_image_fragment();
+            CustomImageFragment fragment = new CustomImageFragment();
             Bundle bundle = new Bundle();
             Log.d(TAG, "getItem: " + position + imageList.get(position));
             bundle.putString(getString(R.string.recipe_image_path), imageList.get(position));

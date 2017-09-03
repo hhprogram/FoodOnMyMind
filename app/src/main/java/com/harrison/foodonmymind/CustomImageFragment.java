@@ -16,12 +16,12 @@ import static android.content.ContentValues.TAG;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Custom_image_fragment extends Fragment {
+public class CustomImageFragment extends Fragment {
     ImageView imageView;
     String imagePath;
 
 
-    public Custom_image_fragment() {
+    public CustomImageFragment() {
         // Required empty public constructor
     }
 
