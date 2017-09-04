@@ -33,9 +33,11 @@ public class PresetRecipeFragment extends Fragment implements AsyncListener{
 //        and if now rootview is supplied then the rootview of the xml file itself is used. therefore
 //        usually could jsut inflate and the rootview of the xml file would be returned but since we
 //        supply the view pager as a rootview then the view returned is the the supplied rootview
-        rootView = inflater.inflate(R.layout.search_result_online_recipe, container);
+        rootView = inflater.inflate(R.layout.search_result_online_recipe, container, false);
         listView = (ListView) rootView.findViewById(R.id.list_online_recipe);
-        return listView;
+//        note: had to return the rootView as it would give me errors if I returned the view that I
+//        didn't inflate within the onCreateView.
+        return rootView;
     }
 
     @Override

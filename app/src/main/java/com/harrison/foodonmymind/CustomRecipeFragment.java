@@ -56,9 +56,14 @@ public class CustomRecipeFragment extends Fragment
 //        and if now rootview is supplied then the rootview of the xml file itself is used. therefore
 //        usually could jsut inflate and the rootview of the xml file would be returned but since we
 //        supply the view pager as a rootview then the view returned is the the supplied rootview
-        rootView = inflater.inflate(R.layout.search_result, container);
+//        also needed to add the argument as false - I think because I don't want to add this layout
+//        to the hiearchy but rather I'm only using this rootView to get to the rootview of the
+//        xml which is the listview (?? need to confirm)
+        rootView = inflater.inflate(R.layout.search_result, container, false);
         custom_list = (ListView) rootView.findViewById(R.id.custom_list);
-        return custom_list;
+//        note: had to return the rootView as it would give me errors if I returned the view that I
+//        didn't inflate within the onCreateView.
+        return rootView;
     }
 
     @Override

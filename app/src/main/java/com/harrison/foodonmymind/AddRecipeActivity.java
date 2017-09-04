@@ -94,6 +94,9 @@ public class AddRecipeActivity extends AppCompatActivity {
         album_name = getString(R.string.app_name);
     }
 
+//    needed to implmenet code in these overridden methods because state was being saved when I was
+//    rotating the screens. Basically, I just save the info that has been typed in all edit texts
+//    and put it into the bundle to be used to repopulated in the onRestore method
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -108,6 +111,9 @@ public class AddRecipeActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState: " + title);
     }
 
+//    needed to implmenet code in these overridden methods because state was being saved when I was
+//    rotating the screens. Takes all the info saved and uses it to restores views and their typed
+//    in values
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -207,7 +213,8 @@ public class AddRecipeActivity extends AppCompatActivity {
                     try {
 //                        note: createTempFile gurantees a unique file name, so means if args don't make  filename unique
 //                        it will add some characters to it to gurantee it
-                        image_local = File.createTempFile("some_prefix", getString(R.string.ftype), image_dir);
+                        image_local = File.createTempFile(getString(R.string.local_image_prefix),
+                                getString(R.string.ftype), image_dir);
 //                        use the method of getting a bitmap from the URI and then saving that bitmap to another location:
 //                        combo of these 2 posts:
 //                        https://stackoverflow.com/questions/3879992/how-to-get-bitmap-from-an-uri
@@ -343,7 +350,7 @@ public class AddRecipeActivity extends AppCompatActivity {
      */
     public void addPic(View view) {
         Intent intent_get = new Intent();
-        intent_get.setType("image/*");
+        intent_get.setType(getString(R.string.file_types));
         intent_get.setAction(Intent.ACTION_GET_CONTENT);
         String pic_chooser = getString(R.string.add_picture);
         Intent chooser = Intent.createChooser(intent_get, pic_chooser);
@@ -386,7 +393,7 @@ public class AddRecipeActivity extends AppCompatActivity {
      * @return a file object that the image will be saved to
      */
     private File createImageFile() throws IOException {
-        String time_stamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String time_stamp = new SimpleDateFormat(getString(R.string.timestampe_fmt)).format(new Date());
         Log.d(TAG, "createImageFile: directory for pics" + Environment.DIRECTORY_PICTURES);
 //        so this creates a file in which we will save the new image into. arguments are suffix,
 //        prefix and then the directory in which the file will belong
@@ -586,7 +593,7 @@ public class AddRecipeActivity extends AppCompatActivity {
     public void checkSpace(File file) {
         double percent_full = file.getFreeSpace() / file.getTotalSpace();
         if (percent_full > spaceThreshold) {
-            Toast.makeText(this, "Not enough space to save image", Toast.LENGTH_LONG);
+            Toast.makeText(this, getString(R.string.insufficient_space), Toast.LENGTH_LONG);
         }
     }
 

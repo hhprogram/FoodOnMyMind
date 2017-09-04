@@ -38,6 +38,7 @@
     <string name="recipe_saved">Recipe saved!</string>
     <string name="ingredients_label">Ingredients:</string>
     <string name="steps_label">Directions:</string>
+    <string name="insufficient_space">Not enough space to save image</string>
 
     <!--Content Descriptors-->
     <string name="edit_title">Recipe title input</string>
@@ -88,6 +89,9 @@
     <string name="food_provider_authority">com.harrison.foodonmymind.foodProvider</string>
     <string name="mipmap_uri_base">android.resource://</string>
     <string name="internal_image_base">file://</string>
+    <string name="local_image_prefix">local_app_version</string>
+    <string name="file_types">image/*</string>
+    <string name="timestampe_fmt">yyyyMMdd_HHmmss</string>
 
     <!--DB query strings-->
     <string name="db_or">OR</string>

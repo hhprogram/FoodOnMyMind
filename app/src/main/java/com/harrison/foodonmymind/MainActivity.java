@@ -499,17 +499,4 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    /**
-     * Helper method that resets the preferences to false. As we want them all to reset after every
-     * search is completed
-     */
-    private void resetCheckBoxes() {
-        editor = pref.edit();
-        editor.putBoolean(getString(R.string.preset_recipes), false);
-        editor.putBoolean(getString(R.string.custom_recipes), false);
-        editor.putBoolean(getString(R.string.restaurants), false);
-        editor.commit();
-    }
-
-
 }
